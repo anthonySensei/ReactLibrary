@@ -15,6 +15,7 @@ const express = require('express');
 const sequelize = require('./config/database');
 
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const passport = require('passport');
 
@@ -33,6 +34,7 @@ const genreRoutes = require('./routes/genre');
 const periodRoutes = require('./routes/period');
 const scheduleRoutes = require('./routes/schedule');
 
+const User = require('./models/user');
 const Student = require('./models/student');
 const Librarian = require('./models/librarian');
 const Role = require('./models/role');
@@ -164,41 +166,12 @@ Order.belongsTo(Student);
 Order.belongsTo(Book);
 Order.belongsTo(Department);
 
-sequelize
-    .sync()
+mongoose
+    .connect(
+        `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@reactlibrary-geibi.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
+        { useNewUrlParser: true, useUnifiedTopology: true }
+    )
     .then(result => {
-        return Librarian.findOne({ where: { name: managerName } });
-    })
-    .then(user => {
-        if (!user) {
-            Department.findOne({ where: { address: departmentAddress } })
-                .then(depart => {
-                    if (!depart) {
-                        const department = new Department({
-                            address: departmentAddress
-                        });
-                        department
-                            .save()
-                            .then(dep => {
-                                helper.createManager(
-                                    managerName,
-                                    managerEmail,
-                                    managerPassword,
-                                    dep.get().id
-                                );
-                            })
-                            .catch();
-                    } else {
-                        helper.createManager(
-                            managerName,
-                            managerEmail,
-                            managerPassword,
-                            depart.get().id
-                        );
-                    }
-                })
-                .catch();
-        }
         app.listen(port);
     })
     .catch();
