@@ -13,3 +13,10 @@ export const setLoginError = (result: boolean) => {
         result: result
     };
 };
+
+
+export const logout = () => {
+    return {
+        type: actionTypes.INITIATE_LOGOUT_USER
+    };
+};

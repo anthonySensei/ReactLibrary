@@ -1,4 +1,18 @@
-.navbar-link {
-  color: #fff;
-  text-decoration: none;
+.navbar.main-navbar {
+    align-items: center;
+    justify-content: space-between;
+    .header-block {
+        display: flex;
+        .navbar-link {
+            margin-right: 10px;
+            color: #fff;
+            text-decoration: none;
+            order: 1;
+
+            &:hover {
+                cursor: pointer;
+                color: #ffa500;
+            }
+        }
+    }
 }

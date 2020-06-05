@@ -1,1 +1,1 @@
-export { loginUser, setLoginError } from './auth';
+export { loginUser, setLoginError, logout } from './auth';
