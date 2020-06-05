@@ -22,74 +22,31 @@ const studentController = require('./student');
 
 const sessionDuration = 3600 * 12;
 
-exports.postLoginUser = (req, res, next) => {
+exports.postLoginUser = (req, res) => {
     passport.authenticate('local', async (err, user) => {
-        if (err) {
-            return helper.responseErrorHandle(res, 401, err);
-        }
-        if (!user) {
-            return helper.responseErrorHandle(
-                res,
-                401,
-                errorMessages.WRONG_PASSWORD_OR_EMAIL
-            );
+        if (err || !user) {
+            return helper.responseErrorHandle(res, 403, err);
         } else {
-            let profileImage;
-            if (!user.role) {
-                try {
-                    const role = await Role.findOne({
-                        where: { librarian_id: user.id }
-                    });
-                    profileImage = imageHandle.convertToBase64(
-                        user.profile_image
-                    );
-                    handleAuth(profileImage, req, user, res, role.get().role);
-                } catch (err) {
-                    return helper.responseErrorHandle(
-                        res,
-                        401,
-                        errorMessages.SOMETHING_WENT_WRONG
-                    );
-                }
-            } else {
-                profileImage = imageHandle.convertToBase64(user.profile_image);
-                handleAuth(profileImage, req, user, res, user.role);
-            }
+            user.image = imageHandle.convertToBase64(user.image);
+            const userJWT = {
+                id: user.id,
+                email: user.email,
+                role: user.role
+            };
+            const token = jwt.sign(userJWT, secret_key, {
+                expiresIn: sessionDuration
+            });
+            jwt.verify(token, secret_key);
+            const data = {
+                isSuccessful: true,
+                message: successMessages.SUCCESSFULLY_LOGGED_IN,
+                user: user,
+                token: 'Bearer ' + token,
+                tokenExpiresIn: sessionDuration
+            };
+            res.send(data);
         }
-    })(req, res, next);
-};
-
-const handleAuth = (profileImage, req, user, res, role) => {
-    const userData = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        profileImage: profileImage,
-        role: { role: role }
-    };
-
-    req.login(user, { session: false }, err => {
-        if (err) {
-            helper.responseErrorHandle(res, 401, err);
-        }
-        const userJWT = {
-            id: user.id,
-            email: user.email,
-            role: role
-        };
-        const token = jwt.sign(userJWT, secret_key, {
-            expiresIn: sessionDuration
-        });
-        jwt.verify(token, secret_key);
-        const data = {
-            isSuccessful: true,
-            message: successMessages.SUCCESSFULLY_LOGGED_IN,
-            user: userData,
-            token: 'Bearer ' + token,
-            tokenExpiresIn: sessionDuration
-        };
-        return helper.responseHandle(res, 200, data);
-    });
+    })(req, res);
 };
 
 exports.getLogout = (req, res) => {

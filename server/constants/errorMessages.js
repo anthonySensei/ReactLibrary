@@ -1,5 +1,6 @@
 module.exports = {
     INCORRECT_LOGIN_DATA: 'Incorrect login data',
+    NOT_ACTIVE: 'You are not active',
     SOMETHING_WENT_WRONG: 'Something went wrong',
     WRONG_PASSWORD_OR_EMAIL: 'Wrong password or email',
     EMPTY_FIELDS: 'Please fill in form',

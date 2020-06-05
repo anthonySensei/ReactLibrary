@@ -2,10 +2,6 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
-const managerName = 'admin';
-const managerEmail = 'admin@gmail.com';
-const managerPassword = 'Admin123_';
-
 const departmentAddress = 'Main address';
 
 const path = require('path');
@@ -70,7 +66,7 @@ const uuidv4 = require('uuid/v4');
 app.use(passport.initialize());
 app.use(passport.session());
 
-require('./config/passport')(passport, Student, Librarian);
+require('./config/passport')(passport, User);
 
 const imageStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -171,7 +167,15 @@ mongoose
         `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@reactlibrary-geibi.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
         { useNewUrlParser: true, useUnifiedTopology: true }
     )
-    .then(result => {
-        app.listen(port);
+    .then(async result => {
+        try {
+            const manager = await User.findOne({
+                email: process.env.MANAGER_EMAIL
+            });
+            if (!manager) {
+                await helper.createManager();
+            }
+            app.listen(port);
+        } catch (err) {}
     })
     .catch();
