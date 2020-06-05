@@ -5,15 +5,10 @@ const passportJWT = require('passport-jwt');
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 
-const status = require('../constants/userStatuses');
-const roles = require('../constants/roles');
 const errorMessages = require('../constants/errorMessages');
 const fields = require('../constants/fields');
 
-module.exports = (passport, student, librarian) => {
-    let Student = student;
-    let Librarian = librarian;
-
+module.exports = (passport, User) => {
     const LocalStrategy = require('passport-local').Strategy;
 
     passport.use(
@@ -27,49 +22,22 @@ module.exports = (passport, student, librarian) => {
                 const isValidPassword = (userPass, password) => {
                     return bCrypt.compareSync(password, userPass);
                 };
-
                 try {
-                    const librarian = await Librarian.findOne({
-                        where: {
-                            email: email
-                        }
-                    });
-                    if (!librarian) {
-                        const student = await Student.findOne({
-                            where: {
-                                email: email,
-                                status: status.ACTIVATED
-                            }
-                        });
-                        if (!student) {
-                            return done(null, false, {
-                                message: errorMessages.INCORRECT_LOGIN_DATA
-                            });
-                        }
-
-                        if (!isValidPassword(student.password, password)) {
-                            return done(null, false, {
-                                message: errorMessages.INCORRECT_LOGIN_DATA
-                            });
-                        }
-                        const studentInfo = student.get();
-                        return done(null, {
-                            ...studentInfo,
-                            role: roles.STUDENT
-                        });
+                    const user = await User.findOne({ email: email });
+                    if (!user || !isValidPassword(user.password, password)) {
+                        return done(
+                            errorMessages.WRONG_PASSWORD_OR_EMAIL,
+                            false
+                        );
+                    } else if (!user.active) {
+                        return done(errorMessages.NOT_ACTIVE, false);
+                    } else if (isValidPassword(user.password, password)) {
+                        return done(null, user);
                     } else {
-                        if (!isValidPassword(librarian.password, password)) {
-                            return done(null, false, {
-                                message: errorMessages.INCORRECT_LOGIN_DATA
-                            });
-                        }
-                        const librarianInfo = librarian.get();
-                        return done(null, librarianInfo);
+                        return done(errorMessages.SOMETHING_WENT_WRONG, false);
                     }
-                } catch (error) {
-                    return done(null, false, {
-                        message: errorMessages.SOMETHING_WENT_WRONG
-                    });
+                } catch (err) {
+                    return done(errorMessages.SOMETHING_WENT_WRONG, false);
                 }
             }
         )

@@ -2,10 +2,6 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
-const managerName = 'admin';
-const managerEmail = 'admin@gmail.com';
-const managerPassword = 'Admin123_';
-
 const departmentAddress = 'Main address';
 
 const path = require('path');
@@ -15,6 +11,7 @@ const express = require('express');
 const sequelize = require('./config/database');
 
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const passport = require('passport');
 
@@ -33,6 +30,7 @@ const genreRoutes = require('./routes/genre');
 const periodRoutes = require('./routes/period');
 const scheduleRoutes = require('./routes/schedule');
 
+const User = require('./models/user');
 const Student = require('./models/student');
 const Librarian = require('./models/librarian');
 const Role = require('./models/role');
@@ -68,7 +66,7 @@ const uuidv4 = require('uuid/v4');
 app.use(passport.initialize());
 app.use(passport.session());
 
-require('./config/passport')(passport, Student, Librarian);
+require('./config/passport')(passport, User);
 
 const imageStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -164,41 +162,20 @@ Order.belongsTo(Student);
 Order.belongsTo(Book);
 Order.belongsTo(Department);
 
-sequelize
-    .sync()
-    .then(result => {
-        return Librarian.findOne({ where: { name: managerName } });
-    })
-    .then(user => {
-        if (!user) {
-            Department.findOne({ where: { address: departmentAddress } })
-                .then(depart => {
-                    if (!depart) {
-                        const department = new Department({
-                            address: departmentAddress
-                        });
-                        department
-                            .save()
-                            .then(dep => {
-                                helper.createManager(
-                                    managerName,
-                                    managerEmail,
-                                    managerPassword,
-                                    dep.get().id
-                                );
-                            })
-                            .catch();
-                    } else {
-                        helper.createManager(
-                            managerName,
-                            managerEmail,
-                            managerPassword,
-                            depart.get().id
-                        );
-                    }
-                })
-                .catch();
-        }
-        app.listen(port);
+mongoose
+    .connect(
+        `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@reactlibrary-geibi.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
+        { useNewUrlParser: true, useUnifiedTopology: true }
+    )
+    .then(async result => {
+        try {
+            const manager = await User.findOne({
+                email: process.env.MANAGER_EMAIL
+            });
+            if (!manager) {
+                await helper.createManager();
+            }
+            app.listen(port);
+        } catch (err) {}
     })
     .catch();

@@ -1,31 +1,16 @@
-const Librarian = require('../models/librarian');
-const Role = require('../models/role');
-
+const User = require('../models/user');
 const roles = require('../constants/roles');
 
-const bcrypt = require('bcryptjs');
+const passwordGenerator = require('./generatePassword');
 
-exports.createManager = (name, email, password, departmentId) => {
-    const manager = new Librarian({
-        name: name,
-        email: email,
-        password: password,
-        departmentId: departmentId
+exports.createManager = () => {
+    const manager = new User({
+        email: process.env.MANAGER_EMAIL,
+        password: passwordGenerator.cryptPassword(
+            process.env.MANAGER_PASSWORD
+        ),
+        role: roles.MANAGER,
+        active: true
     });
-    bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(manager.password, salt, (err, hash) => {
-            manager.password = hash;
-            manager
-                .save()
-                .then(manager => {
-                    Role.create({
-                        librarian_id: manager.dataValues.id,
-                        role: roles.MANAGER
-                    })
-                        .then()
-                        .catch();
-                })
-                .catch();
-        });
-    });
+    return manager.save();
 };
