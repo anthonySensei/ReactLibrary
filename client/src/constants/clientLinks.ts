@@ -1,4 +1,5 @@
 export enum ClientLinks {
     HOME_PAGE = '/',
-    LOGIN = '/login'
+    LOGIN = '/login',
+    LOGOUT = '/logout'
 }

@@ -1,10 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Auth from '../containers/Auth/Auth';
+
 import { ClientLinks } from '../constants/clientLinks';
+
 import Header from '../components/Header/Header';
-import { connect } from 'react-redux';
+import Logout from "../components/Auth/Logout/Logout";
 
 const Routers = (props: any) => {
     return (
@@ -12,6 +15,11 @@ const Routers = (props: any) => {
             <Header {...props} />
             <Switch>
                 <Route path={ClientLinks.LOGIN} component={Auth} />
+                {props.isLoggedIn ? (
+                    <Route path={ClientLinks.LOGOUT} component={Logout} />
+                ) : (
+                    ''
+                )}
             </Switch>
         </Router>
     );

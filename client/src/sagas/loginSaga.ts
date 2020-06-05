@@ -1,13 +1,13 @@
 import { call, put } from 'redux-saga/effects';
 import * as actionTypes from '../redux/actions/actionTypes';
 
-import { authUserService } from '../services/authService';
+import { loginUserService } from '../services/authService';
 
 import axios from '../helper/axios';
 
 export function* authSaga(payload: any) {
     try {
-        const response = yield call(authUserService, payload);
+        const response = yield call(loginUserService, payload);
         const token: string = response.data.token;
         const tokenExpiresIn: number = response.data.tokenExpiresIn;
         const user = response.data.user;

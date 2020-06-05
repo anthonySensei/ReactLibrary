@@ -55,10 +55,10 @@ exports.getLogout = (req, res) => {
         isSuccessful: true,
         message: successMessages.SUCCESSFULLY_LOGGED_OUT
     };
-    return helper.responseHandle(res, 200, data);
+    return res.send(data);
 };
 
-exports.postCreateUser = async (req, res, next) => {
+exports.postCreateUser = async (req, res) => {
     const email = req.body.email;
     const readerTicket = req.body.readerTicket.toString();
     const name = req.body.name;
