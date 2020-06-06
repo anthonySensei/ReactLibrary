@@ -8,7 +8,7 @@ import { Card } from '@material-ui/core';
 
 import LoginForm from '../../components/Auth/LoginForm/LoginForm';
 
-import LoginData from '../../interfaces/login';
+import LoginData from '../../interfaces/Login';
 
 import { ClientLinks } from '../../constants/clientLinks';
 

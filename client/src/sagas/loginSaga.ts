@@ -28,6 +28,11 @@ export function* authSaga(payload: any) {
             type: actionTypes.LOGIN_USER_SUCCESS,
             response: { user, token }
         });
+
+        yield put({
+            type: actionTypes.AUTO_LOGOUT,
+            expirationTime: tokenExpiresIn * 1000 - new Date().getTime()
+        });
     } catch (err) {
         yield put({
             type: actionTypes.LOGIN_USER_ERROR,

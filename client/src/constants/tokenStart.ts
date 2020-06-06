@@ -1,3 +1,3 @@
-export const TOKEN_START = 'Bearer_';
+export const TOKEN_START = 'Bearer ';
 
 

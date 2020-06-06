@@ -32,7 +32,12 @@ module.exports = (passport, User) => {
                     } else if (!user.active) {
                         return done(errorMessages.NOT_ACTIVE, false);
                     } else if (isValidPassword(user.password, password)) {
-                        return done(null, user);
+                        return done(null, {
+                            _id: user._id,
+                            email: user.email,
+                            image: user.image,
+                            role: user.role
+                        });
                     } else {
                         return done(errorMessages.SOMETHING_WENT_WRONG, false);
                     }
