@@ -1,4 +1,6 @@
 import * as actionTypes from './actionTypes';
+import { TOKEN_START } from '../../constants/tokenStart';
+import User from '../../interfaces/User';
 
 export const loginUser = (res: any) => {
     return {
@@ -14,9 +16,27 @@ export const setLoginError = (result: boolean) => {
     };
 };
 
-
 export const logout = () => {
     return {
         type: actionTypes.INITIATE_LOGOUT_USER
+    };
+};
+
+export const checkState = () => {
+    const token: string | null = localStorage.getItem('token');
+    if (token && !token.includes(TOKEN_START)) {
+        return {
+            type: actionTypes.LOGOUT_USER
+        };
+    }
+    let user: User | null = null;
+    const localStorageUser = localStorage.getItem('user');
+    if (localStorageUser) {
+        user = JSON.parse(localStorageUser);
+    }
+    return {
+        type: actionTypes.CHECK_STATE,
+        token,
+        user
     };
 };
