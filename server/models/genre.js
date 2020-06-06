@@ -1,18 +1,13 @@
-const Sequelize = require('sequelize');
+const mongoose = require('mongoose');
 
-const sequelize = require('../config/database');
+const Schema = mongoose.Schema;
 
-const Genre = sequelize.define('genre_', {
-    id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
-    },
+const genreSchema = new Schema({
     name: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: String,
+        required: true
     }
 });
 
-module.exports = Genre;
+module.exports = mongoose.model('Genre', genreSchema);
+

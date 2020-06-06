@@ -2,13 +2,12 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
-const departmentAddress = 'Main address';
+const departmentName = 'Main';
+const departmentAddress = 'Centre Street';
 
 const path = require('path');
 
 const express = require('express');
-
-const sequelize = require('./config/database');
 
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
@@ -31,13 +30,10 @@ const periodRoutes = require('./routes/period');
 const scheduleRoutes = require('./routes/schedule');
 
 const User = require('./models/user');
+const Department = require('./models/department');
 const Student = require('./models/student');
 const Librarian = require('./models/librarian');
 const Role = require('./models/role');
-const Department = require('./models/department');
-const Book = require('./models/book');
-const Genre = require('./models/genre');
-const Author = require('./models/author');
 const Loan = require('./models/loan');
 const Order = require('./models/order');
 const Schedule = require('./models/schedule');
@@ -130,19 +126,11 @@ app.use(myAccountUrl, userRoutes);
 app.use(periodsUrl, periodRoutes);
 app.use(schedulesUrl, scheduleRoutes);
 
-Book.belongsTo(Department, { foreignKey: { allowNull: false } });
-Book.belongsTo(Author);
-Book.belongsTo(Genre);
-Book.hasMany(Loan);
-
-Department.hasMany(Book);
-
 Student.hasMany(Loan);
 Student.hasMany(Order);
 
 Schedule.belongsTo(Librarian);
 
-Librarian.belongsTo(Department, { foreignKey: { allowNull: true } });
 Librarian.hasMany(Loan);
 Librarian.hasMany(Schedule);
 
@@ -150,25 +138,28 @@ Schedule.belongsTo(Period);
 
 Role.belongsTo(Librarian, { foreignKey: 'librarian_id' });
 
-Department.hasMany(Librarian);
-Department.hasMany(Loan);
-
 Loan.belongsTo(Student);
 Loan.belongsTo(Librarian);
-Loan.belongsTo(Book);
-Loan.belongsTo(Department);
 
 Order.belongsTo(Student);
-Order.belongsTo(Book);
-Order.belongsTo(Department);
 
 mongoose
     .connect(
         `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@reactlibrary-geibi.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
         { useNewUrlParser: true, useUnifiedTopology: true }
     )
-    .then(async result => {
+    .then(async () => {
         try {
+            const department = await Department.findOne({
+                name: departmentName
+            });
+            if (!department) {
+                const mainDepartment = new Department({
+                    name: departmentName,
+                    address: departmentAddress
+                });
+                await mainDepartment.save();
+            }
             const manager = await User.findOne({
                 email: process.env.MANAGER_EMAIL
             });

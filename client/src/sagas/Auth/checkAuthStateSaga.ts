@@ -1,6 +1,6 @@
 import { put } from 'redux-saga/effects';
 
-import * as actionTypes from '../redux/actions/actionTypes';
+import * as actionTypes from '../../redux/actions/actionTypes';
 
 export function* checkAuthStateSaga(payload: any) {
     if (!payload.token) {

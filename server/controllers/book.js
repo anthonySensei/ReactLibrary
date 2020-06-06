@@ -13,7 +13,6 @@ const errorMessages = require('../constants/errorMessages');
 
 const ITEMS_PER_PAGE = 8;
 
-const helper = require('../helper/responseHandle');
 const imageHandler = require('../helper/imageHandle');
 
 const getCondition = (
@@ -75,44 +74,33 @@ exports.getBooks = async (req, res) => {
             department,
             toYear,
             fromYear
-        ),
-        quantity: {
-            [Op.gte]: 0
-        }
+        )
     };
 
     try {
-        const totalBooks = await Book.count({
-            where: condition
-        });
-        const books = await Book.findAll({
-            include: [
-                {
-                    model: Department
-                },
-                {
-                    model: Author
-                },
-                { model: Genre }
-            ],
-            order: [['year', 'DESC']],
-            where: condition,
-            limit: ITEMS_PER_PAGE,
-            offset: (page - 1) * ITEMS_PER_PAGE
-        });
+        const totalBooks = await Book.countDocuments(condition);
+        const books = await Book.find(condition)
+            .sort([['year', -1]])
+            .limit(ITEMS_PER_PAGE)
+            .populate('author')
+            .populate('genres.genre');
         const booksArr = [];
         books.forEach(book => {
-            const bookValues = book.get();
-            bookValues.image = imageHandler.convertToBase64(bookValues.image);
+            let genres = [];
+            book.genres.forEach(genreCollection => {
+                genres.push(genreCollection.genre.name);
+            });
+            genres = genres.join(', ');
+            book.image = imageHandler.convertToBase64(book.image);
             booksArr.push({
-                id: bookValues.id,
-                name: bookValues.name,
-                year: bookValues.year,
-                author: bookValues.author_.get(),
-                genre: bookValues.genre_.get(),
-                image: bookValues.image,
-                description: bookValues.description,
-                department: bookValues.department_.get()
+                id: book._id,
+                title: book.title,
+                author: book.author.name,
+                quantity: book.quantity,
+                genres: genres,
+                year: book.year,
+                image: book.image,
+                description: book.description
             });
         });
         const data = {
@@ -127,7 +115,7 @@ exports.getBooks = async (req, res) => {
                 lastPage: Math.ceil(totalBooks / ITEMS_PER_PAGE)
             }
         };
-        return helper.responseHandle(res, 200, data);
+        return res.send(data);
     } catch (err) {
         return helper.responseErrorHandle(
             res,
@@ -368,7 +356,9 @@ exports.moveBook = async (req, res) => {
                 quantity: isNotUnique.get().quantity + quantity
             });
             const bookInDb = await Book.findOne({ where: { id: book.id } });
-            await bookInDb.update({ quantity: bookInDb.get().quantity - quantity });
+            await bookInDb.update({
+                quantity: bookInDb.get().quantity - quantity
+            });
             const data = {
                 isSuccessful: true,
                 message: successMessages.BOOK_SUCCESSFULLY_MOVED

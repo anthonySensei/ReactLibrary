@@ -1,21 +1,16 @@
-const Sequelize = require('sequelize');
+const mongoose = require('mongoose');
 
-const sequelize = require('../config/database');
+const Schema = mongoose.Schema;
 
-const Department = sequelize.define('department_', {
-    id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
+const departmentSchema = new Schema({
+    name: {
+        type: String,
+        required: true
     },
     address: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-            notNull: { args: true, msg: 'You must enter department address' }
-        }
+        type: String,
+        required: true
     }
 });
 
-module.exports = Department;
+module.exports = mongoose.model('Department', departmentSchema);
