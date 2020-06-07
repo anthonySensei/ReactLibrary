@@ -2,7 +2,7 @@ import React from 'react';
 
 import TextField from '@material-ui/core/TextField';
 
-const renderTextField = ({
+const renderedTextField = ({
     label,
     input,
     meta: { touched, invalid, error },
@@ -20,4 +20,4 @@ const renderTextField = ({
     );
 };
 
-export default renderTextField;
+export default renderedTextField;

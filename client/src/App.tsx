@@ -1,15 +1,25 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import './App.scss';
 
 import Routers from './router/Routers';
 
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { checkState } from './redux/actions';
+import {connect} from 'react-redux';
+import {Dispatch} from 'redux';
+import {checkState} from './redux/actions';
 
 import SnackbarComponent from './share/snackbar/Snackbar';
 
-import { handleSnackbarCloseService } from './services/snackbar';
+import {handleSnackbarCloseService} from './services/snackbar';
+
+import {createMuiTheme, ThemeProvider} from '@material-ui/core';
+import {blue, lightBlue} from '@material-ui/core/colors';
+
+const theme = createMuiTheme({
+    palette: {
+        primary: blue,
+        secondary: lightBlue
+    }
+});
 
 const App = (props: any) => {
     const { isSnackbarOpen, snackbarType, snackbarMessage } = props;
@@ -21,7 +31,7 @@ const App = (props: any) => {
         props.onTryAutoLogin();
     }, [props]);
     return (
-        <>
+        <ThemeProvider theme={theme}>
             <Routers />
             <SnackbarComponent
                 message={snackbarMessage}
@@ -29,7 +39,7 @@ const App = (props: any) => {
                 isOpen={isSnackbarOpen}
                 handleSnackbarClose={handleSnackbarClose}
             />
-        </>
+        </ThemeProvider>
     );
 };
 

@@ -2,7 +2,13 @@ import axios from '../helper/axios';
 
 import { BOOKS_URL } from '../constants/serverLinks';
 
-export const getBooksService = () => {
-    return axios.get(BOOKS_URL).then(response => response);
+export const getBooksService = (filterObj: any, departmentId: string) => {
+    return axios
+        .get(BOOKS_URL, {
+            params: {
+                ...filterObj,
+                departmentId
+            }
+        })
+        .then(response => response);
 };
-

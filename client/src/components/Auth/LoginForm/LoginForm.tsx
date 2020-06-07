@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 
 import { Button, Divider } from '@material-ui/core';
 
-import renderTextField from '../../../share/renderedFields/input';
+import renderedTextField from '../../../share/renderedFields/input';
 
 import { LOGIN_FORM } from '../../../constants/reduxForms';
 
@@ -34,7 +34,7 @@ let LoginForm: any = (props: any) => {
                     type="text"
                     label="Email"
                     {...(!loginError ? emailValidate : emailAdvancedValidate)}
-                    component={renderTextField}
+                    component={renderedTextField}
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                         props.setLoginError(false)
                     }
@@ -47,7 +47,7 @@ let LoginForm: any = (props: any) => {
                     {...(!loginError
                         ? passwordValidate
                         : passwordValidateAdvanced)}
-                    component={renderTextField}
+                    component={renderedTextField}
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                         props.setLoginError(false)
                     }

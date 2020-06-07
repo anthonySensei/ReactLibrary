@@ -2,14 +2,19 @@ import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../helper/updateObj';
 
 const initialState = {
-    books: []
+    department: 'all',
+    departments: []
 };
 
 const reducer = (state = initialState, action: any) => {
     switch (action.type) {
-        case actionTypes.GET_BOOKS_SUCCESS:
+        case actionTypes.SET_SELECTED_DEPARTMENT:
             return updateObject(state, {
-                books: action.books
+                department: action.department
+            });
+        case actionTypes.GET_DEPARTMENTS_SUCCESS:
+            return updateObject(state, {
+                departments: action.departments
             });
         default:
             return state;

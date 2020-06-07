@@ -19,10 +19,10 @@ const getCondition = (
     filterName,
     filterValue,
     author,
-    genre,
-    department,
+    fromYear,
     toYear,
-    fromYear
+    department,
+    genres
 ) => {
     let authorCondition = {};
     let genreCondition = {};
@@ -32,19 +32,36 @@ const getCondition = (
 
     if (filterName && filterValue) {
         if (filterName === filters.TITLE)
-            filterCondition = { name: { [Op.iLike]: `%${filterValue}%` } };
+            filterCondition = {
+                title: {
+                    $regex: new RegExp(filterValue, 'i')
+                }
+            };
         else if (filterName === filters.ISBN)
             filterCondition = { isbn: filterValue };
     }
 
-    if (author) authorCondition = { authorId: author };
-    if (genre) genreCondition = { genreId: genre };
-    if (department) departmentCondition = { departmentId: department };
+    if (author) authorCondition = { author: author };
+    if (department && department !== 'all')
+        departmentCondition = { department: department };
 
     if (toYear && fromYear)
-        yearCondition = { year: { [Op.between]: [fromYear, toYear] } };
-    else if (fromYear) yearCondition = { year: { [Op.gte]: fromYear } };
-    else if (toYear) yearCondition = { year: { [Op.lte]: toYear } };
+        yearCondition = {
+            year: {
+                $gte: fromYear,
+                $lte: toYear
+            }
+        };
+    else if (fromYear) yearCondition = { year: { $gt: fromYear } };
+    else if (toYear) yearCondition = { year: { $lt: toYear } };
+
+    const genresId = [];
+    genres.map(genre => {
+        genresId.push(genre._id);
+    });
+
+    if (genres.length > 0)
+        genreCondition = { 'genres.genre': { $in: genresId } };
 
     return {
         ...authorCondition,
@@ -57,32 +74,33 @@ const getCondition = (
 
 exports.getBooks = async (req, res) => {
     const page = +req.query.page || 1;
-    const fromYear = +req.query.yFrom;
-    const toYear = +req.query.yTo;
-    const author = +req.query.author;
-    const genre = +req.query.genre;
-    const department = +req.query.department;
-    const filterName = req.query.filterName;
-    const filterValue = req.query.filterValue;
+    const filterName = req.query.filter;
+    const filterValue = req.query.value;
+    const authorId = req.query.authorId;
+    const fromYear = +req.query.fYear;
+    const toYear = +req.query.tYear;
+    const departmentId = req.query.departmentId;
+    const genres = req.query.genres ? JSON.parse(req.query.genres) : [];
 
-    const condition = {
-        ...getCondition(
-            filterName,
-            filterValue,
-            author,
-            genre,
-            department,
-            toYear,
-            fromYear
-        )
-    };
+    const condition = getCondition(
+        filterName,
+        filterValue,
+        authorId,
+        fromYear,
+        toYear,
+        departmentId,
+        genres
+    );
 
     try {
-        const totalBooks = await Book.countDocuments(condition);
-        const books = await Book.find(condition)
+        const totalBooks = await Book.countDocuments();
+        const books = await Book.find()
             .sort([['year', -1]])
             .limit(ITEMS_PER_PAGE)
+            .skip((page - 1) * ITEMS_PER_PAGE)
+            .where(condition)
             .populate('author')
+            .populate('department')
             .populate('genres.genre');
         const booksArr = [];
         books.forEach(book => {
@@ -95,11 +113,12 @@ exports.getBooks = async (req, res) => {
             booksArr.push({
                 id: book._id,
                 title: book.title,
-                author: book.author.name,
+                author: book.author,
                 quantity: book.quantity,
                 genres: genres,
                 year: book.year,
                 image: book.image,
+                department: book.department,
                 description: book.description
             });
         });

@@ -1,25 +1,23 @@
 import { call, put } from 'redux-saga/effects';
+
 import * as actionTypes from '../../redux/actions/actionTypes';
 
-import Book from '../../interfaces/Book';
-
-import { getBooksService } from '../../services/bookService';
 import { setLoadingService } from '../../services/loadingIndicator';
 import { handleSnackbarOpenService } from '../../services/snackbar';
+import { getDepartmentsService } from '../../services/departmentService';
+
 import { SnackbarTypes } from '../../constants/snackbarTypes';
 
-export function* getBooksSaga(payload: any) {
+import Department from '../../interfaces/Department';
+
+export function* getDepartmentsSaga() {
     try {
         setLoadingService(true);
-        const response = yield call(
-            getBooksService,
-            payload.filterObj,
-            payload.departmentId
-        );
-        const books: Book[] = response.data.books;
+        const response = yield call(getDepartmentsService);
+        const departments: Department[] = response.data.departments;
         yield put({
-            type: actionTypes.GET_BOOKS_SUCCESS,
-            books
+            type: actionTypes.GET_DEPARTMENTS_SUCCESS,
+            departments
         });
         setLoadingService(false);
     } catch (err) {
