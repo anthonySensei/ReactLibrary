@@ -13,13 +13,16 @@ export function* getBooksSaga(payload: any) {
         setLoadingService(true);
         const response = yield call(
             getBooksService,
+            payload.page,
             payload.filterObj,
             payload.departmentId
         );
         const books: Book[] = response.data.books;
+        const paginationData = response.data.paginationData;
         yield put({
             type: actionTypes.GET_BOOKS_SUCCESS,
-            books
+            books,
+            paginationData
         });
         setLoadingService(false);
     } catch (err) {

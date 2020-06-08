@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { FiFilter } from 'react-icons/all';
-import { connect } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {useHistory} from 'react-router-dom';
+import {FiFilter} from 'react-icons/all';
+import {connect} from 'react-redux';
 
-import { Dispatch } from 'redux';
+import {Dispatch} from 'redux';
 import {
     getAuthors,
     getBooks,
@@ -14,7 +15,6 @@ import {
 
 import {
     Button,
-    ButtonGroup,
     Card,
     CircularProgress,
     Container,
@@ -25,14 +25,17 @@ import {
     MenuItem,
     Select
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 
 import BooksList from '../../components/Books/BooksList/BooksList';
+import FilterForm from '../../components/Books/FilterForm/FilterForm';
+import PaginationContainer
+    from '../../components/Books/PaginationContainer/PaginationContainer';
+
+import Department from '../../interfaces/Department';
+import Genre from '../../interfaces/Genre';
 
 import './Home.scss';
-import Department from '../../interfaces/Department';
-import FilterForm from '../../components/Books/FilterForm/FilterForm';
-import Genre from '../../interfaces/Genre';
 
 const useStyles = makeStyles({
     pageTitle: {
@@ -61,17 +64,24 @@ const useStyles = makeStyles({
 const Home = (props: any) => {
     document.title = 'Home';
     const classes = useStyles();
+    const history = useHistory();
     const department = props.department;
     const departments = props.departments;
     const [isOpenFilter, setIsOpenFilter] = useState(false);
     const shortId = require('shortid');
+    const page: string | number =
+        new URLSearchParams(props.location.search).get('page') || 1;
 
     useEffect(() => {
-        props.onGetBooks({}, department);
+        props.onGetBooks(page, {}, department);
         props.onGetDepartments();
         props.onGetGenres();
         props.onGetAuthors();
     }, []);
+
+    useEffect(() => {
+        props.onGetBooks(page, {}, department);
+    }, [page]);
 
     const toggleDrawer = (isOpen: boolean) => () => {
         setIsOpenFilter(isOpen);
@@ -80,7 +90,7 @@ const Home = (props: any) => {
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         const departmentId: string = event.target.value as string;
         props.onSetDepartment(departmentId);
-        props.onGetBooks({}, departmentId);
+        props.onGetBooks(page, {}, departmentId);
     };
 
     const filterBooks = (filterObj: any) => {
@@ -90,6 +100,10 @@ const Home = (props: any) => {
             { ...filterObj, genres: JSON.stringify(props.selectedGenres) },
             filterObj.departmentId
         );
+    };
+
+    const handlePagination = (page: string | number) => {
+        history.push('/?page=' + page);
     };
 
     return (
@@ -145,21 +159,16 @@ const Home = (props: any) => {
                     />
                 )}
             </Card>
-            {props.isLoading ? (
-                <CircularProgress />
+            {props.isLoading ||
+            !props.paginationData.hasPreviousPage ||
+            !props.paginationData.hasNextPage ? (
+                ''
             ) : (
                 <Card className={classes.paginationContainer}>
-                    <ButtonGroup
-                        variant="contained"
-                        color="primary"
-                        aria-label="contained primary button group"
-                    >
-                        <Button>Previous page</Button>
-                        <Button>1</Button>
-                        <Button>2</Button>
-                        <Button>3</Button>
-                        <Button>Next page</Button>
-                    </ButtonGroup>
+                    <PaginationContainer
+                        paginationData={props.paginationData}
+                        onHandlePagination={handlePagination}
+                    />
                 </Card>
             )}
         </Container>
@@ -168,6 +177,7 @@ const Home = (props: any) => {
 
 const mapStateToProps = (state: any) => ({
     books: state.book.books,
+    paginationData: state.book.paginationData,
     isLoading: state.loading.loading,
     department: state.department.department,
     departments: state.department.departments,
@@ -178,8 +188,11 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        onGetBooks: (filterObj: any, departmentId: string) =>
-            dispatch(getBooks(filterObj, departmentId)),
+        onGetBooks: (
+            page: string | number,
+            filterObj: any,
+            departmentId: string
+        ) => dispatch(getBooks(page, filterObj, departmentId)),
         onGetDepartments: () => dispatch(getDepartments()),
         onGetAuthors: () => dispatch(getAuthors()),
         onGetGenres: () => dispatch(getGenres()),

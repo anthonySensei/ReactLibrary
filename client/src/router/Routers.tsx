@@ -15,7 +15,7 @@ const Routers = (props: any) => {
         <Router>
             <Header {...props} />
             <Switch>
-                <Route path={ClientLinks.HOME_PAGE} component={Home} />
+                <Route path={ClientLinks.HOME_PAGE} exact component={Home} />
                 <Route path={ClientLinks.LOGIN} component={Auth} />
                 {props.isLoggedIn ? (
                     <Route path={ClientLinks.LOGOUT} component={Logout} />
