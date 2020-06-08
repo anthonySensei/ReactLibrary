@@ -52,8 +52,8 @@ const getCondition = (
                 $lte: toYear
             }
         };
-    else if (fromYear) yearCondition = { year: { $gt: fromYear } };
-    else if (toYear) yearCondition = { year: { $lt: toYear } };
+    else if (fromYear) yearCondition = { year: { $gte: fromYear } };
+    else if (toYear) yearCondition = { year: { $lte: toYear } };
 
     const genresId = [];
     genres.map(genre => {

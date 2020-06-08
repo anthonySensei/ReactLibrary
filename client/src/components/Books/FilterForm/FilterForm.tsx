@@ -1,5 +1,6 @@
-import React, { ChangeEvent } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import React, {ChangeEvent, useEffect} from 'react';
+import {IoMdClose} from 'react-icons/all';
+import {Field, reduxForm} from 'redux-form';
 
 import {
     Button,
@@ -9,17 +10,19 @@ import {
     MenuItem,
     TextField
 } from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
+import {Autocomplete} from '@material-ui/lab';
 
-import { FILTER_FORM } from '../../../constants/reduxForms';
-import { makeStyles } from '@material-ui/core/styles';
-import { IoMdClose } from 'react-icons/all';
-import { bookFilters } from '../../../constants/bookFilters';
+import {FILTER_FORM} from '../../../constants/reduxForms';
+import {bookFilters} from '../../../constants/bookFilters';
+
 import renderedSelectField from '../../../share/renderedFields/select';
 import renderedTextField from '../../../share/renderedFields/input';
+
 import Department from '../../../interfaces/Department';
 import Author from '../../../interfaces/Author';
-import { Autocomplete } from '@material-ui/lab';
 import Genre from '../../../interfaces/Genre';
+import BooksFilter from '../../../interfaces/BooksFilter';
 
 const useStyles = makeStyles({
     formControl: {
@@ -53,6 +56,19 @@ let FilterForm: any = (props: any) => {
     const genres = props.genres || [];
     const departments = props.departments || [];
     const shortId = require('shortid');
+
+    const filterObj: BooksFilter = props.filterObj;
+
+    useEffect(() => {
+        props.initialize(filterObj);
+    }, [
+        filterObj.value,
+        filterObj.tYear,
+        filterObj.fYear,
+        filterObj.filter,
+        filterObj.departmentId,
+        filterObj.authorId
+    ]);
 
     return (
         <form onSubmit={handleSubmit}>
