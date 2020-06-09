@@ -10,7 +10,7 @@ import LoginForm from '../../components/Auth/LoginForm/LoginForm';
 
 import LoginData from '../../interfaces/Login';
 
-import { ClientLinks } from '../../constants/clientLinks';
+import { ClientLinks } from '../../constants/ClientLinks';
 
 import './Auth.scss';
 

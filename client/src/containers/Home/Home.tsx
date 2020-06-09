@@ -36,6 +36,12 @@ import Genre from '../../interfaces/Genre';
 import BooksFilter from '../../interfaces/BooksFilter';
 
 import './Home.scss';
+import { FILTER_FORM } from '../../constants/reduxForms';
+import { getFormValues } from 'redux-form';
+import {
+    addFilterToQueryParamsService,
+    getFilterObjService
+} from '../../services/bookService';
 
 const useStyles = makeStyles({
     pageTitle: {
@@ -80,26 +86,14 @@ const Home = (props: any) => {
     const value: string | null = params.get('value');
 
     const getFilterObj = () => {
-        let authorIdField = {};
-        let departmentIdField = {};
-        let filterField = {};
-        let fYearField = {};
-        let tYearField = {};
-        let valueField = {};
-        if (authorId) authorIdField = { authorId };
-        if (departmentId) departmentIdField = { departmentId };
-        if (filter) filterField = { filter };
-        if (fYear) fYearField = { fYear };
-        if (tYear) tYearField = { tYear };
-        if (value) valueField = { value };
-        return {
-            ...authorIdField,
-            ...departmentIdField,
-            ...filterField,
-            ...tYearField,
-            ...fYearField,
-            ...valueField
-        };
+        return getFilterObjService(
+            authorId,
+            departmentId,
+            filter,
+            fYear,
+            tYear,
+            value
+        );
     };
 
     useEffect(() => {
@@ -128,7 +122,7 @@ const Home = (props: any) => {
     const filterBooks = (filterObj: BooksFilter): void => {
         if (filterObj.departmentId)
             props.onSetDepartment(filterObj.departmentId);
-        handleFilter(filterObj);
+        addFilterToQueryParams(filterObj);
         props.onGetBooks(
             page,
             { ...filterObj, genres: JSON.stringify(props.selectedGenres) },
@@ -140,24 +134,8 @@ const Home = (props: any) => {
         history.push('/?page=' + page);
     };
 
-    const handleFilter = (filterObj: BooksFilter): void => {
-        let authorIdQuery: string = '';
-        let departmentIdQuery: string = '';
-        let filterQuery: string = '';
-        let fYearQuery: string = '';
-        let tYearQuery: string = '';
-        let valueQuery: string = '';
-        if (filterObj.authorId)
-            authorIdQuery = `authorId=${filterObj.authorId}&`;
-        if (filterObj.departmentId)
-            departmentIdQuery = `departmentId=${filterObj.departmentId}&`;
-        if (filterObj.filter) filterQuery = `filter=${filterObj.filter}&`;
-        if (filterObj.fYear) fYearQuery = `fYear=${filterObj.fYear}&`;
-        if (filterObj.tYear) tYearQuery = `tYear=${filterObj.tYear}&`;
-        if (filterObj.value) valueQuery = `value=${filterObj.value}&`;
-        history.push(
-            `/?${authorIdQuery}${departmentIdQuery}${filterQuery}${fYearQuery}${tYearQuery}${valueQuery}`
-        );
+    const addFilterToQueryParams = (filterObj: BooksFilter): void => {
+        addFilterToQueryParamsService(filterObj, history);
     };
 
     return (
@@ -171,6 +149,9 @@ const Home = (props: any) => {
                     onSubmit={filterBooks}
                     onSetGenres={props.onSetSelectedGenres}
                     filterObj={getFilterObj()}
+                    filter={props.formValues?.filter}
+                    onPaginate={handlePagination}
+                    selectedGenres={props.selectedGenres}
                 />
             </Drawer>
             <Card className={classes.pageTitle}>
@@ -238,7 +219,8 @@ const mapStateToProps = (state: any) => ({
     departments: state.department.departments,
     genres: state.genre.genres,
     selectedGenres: state.genre.selectedGenres,
-    authors: state.author.authors
+    authors: state.author.authors,
+    formValues: getFormValues(FILTER_FORM)(state)
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {

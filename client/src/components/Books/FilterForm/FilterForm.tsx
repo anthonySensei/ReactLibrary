@@ -1,6 +1,6 @@
-import React, {ChangeEvent, useEffect} from 'react';
-import {IoMdClose} from 'react-icons/all';
-import {Field, reduxForm} from 'redux-form';
+import React, { ChangeEvent, useEffect } from 'react';
+import { IoMdClose } from 'react-icons/all';
+import { Field, reduxForm } from 'redux-form';
 
 import {
     Button,
@@ -10,11 +10,11 @@ import {
     MenuItem,
     TextField
 } from '@material-ui/core';
-import {makeStyles} from '@material-ui/core/styles';
-import {Autocomplete} from '@material-ui/lab';
+import { makeStyles } from '@material-ui/core/styles';
+import { Autocomplete } from '@material-ui/lab';
 
-import {FILTER_FORM} from '../../../constants/reduxForms';
-import {bookFilters} from '../../../constants/bookFilters';
+import { FILTER_FORM } from '../../../constants/reduxForms';
+import { BookFilters } from '../../../constants/BookFilters';
 
 import renderedSelectField from '../../../share/renderedFields/select';
 import renderedTextField from '../../../share/renderedFields/input';
@@ -23,6 +23,11 @@ import Department from '../../../interfaces/Department';
 import Author from '../../../interfaces/Author';
 import Genre from '../../../interfaces/Genre';
 import BooksFilter from '../../../interfaces/BooksFilter';
+import {
+    higherThanToYear,
+    lessThanZero,
+    notEmptyFilterValue
+} from '../../../validation/fields';
 
 const useStyles = makeStyles({
     formControl: {
@@ -51,7 +56,7 @@ const useStyles = makeStyles({
 
 let FilterForm: any = (props: any) => {
     const classes = useStyles();
-    const { handleSubmit } = props;
+    const { handleSubmit, reset, filter } = props;
     const authors = props.authors || [];
     const genres = props.genres || [];
     const departments = props.departments || [];
@@ -79,7 +84,12 @@ let FilterForm: any = (props: any) => {
             </div>
             <Container className={classes.container}>
                 <Field
-                    className={classes.formControl}
+                    className={[
+                        classes.formControl,
+                        filter === BookFilters.ISBN
+                            ? classes.uppercase
+                            : classes.capitalize
+                    ].join(' ')}
                     component={renderedSelectField}
                     name="filter"
                     label="Filter"
@@ -88,11 +98,11 @@ let FilterForm: any = (props: any) => {
                         <em>Nothing</em>
                     </MenuItem>
                     <Divider />
-                    {bookFilters.map(filter => (
+                    {Object.values(BookFilters).map(filter => (
                         <MenuItem
                             key={shortId.generate()}
                             className={
-                                filter === 'isbn'
+                                filter === BookFilters.ISBN
                                     ? classes.uppercase
                                     : classes.capitalize
                             }
@@ -107,13 +117,16 @@ let FilterForm: any = (props: any) => {
                     className={classes.formControl}
                     type="text"
                     label="Value"
+                    validate={[notEmptyFilterValue]}
+                    disabled={!filter || filter === BookFilters.NOTHING}
                     component={renderedTextField}
                 />
                 <Field
                     className={classes.formControl}
-                    component={renderedSelectField}
                     name="authorId"
                     label="Author"
+                    disabled={filter === BookFilters.ISBN}
+                    component={renderedSelectField}
                 >
                     <MenuItem value="">
                         <em>Nothing</em>
@@ -129,6 +142,7 @@ let FilterForm: any = (props: any) => {
                     multiple
                     options={genres}
                     getOptionLabel={(genre: Genre) => genre.name}
+                    value={props.selectedGenres}
                     onChange={(e: ChangeEvent<{}>, values: Genre[]) => {
                         props.onSetGenres(values);
                     }}
@@ -138,6 +152,7 @@ let FilterForm: any = (props: any) => {
                             variant="standard"
                             label="Genres"
                             placeholder="Genres"
+                            disabled={filter === BookFilters.ISBN}
                         />
                     )}
                 />
@@ -146,6 +161,8 @@ let FilterForm: any = (props: any) => {
                     className={classes.formControl}
                     type="number"
                     label="From year"
+                    validate={[lessThanZero, higherThanToYear]}
+                    disabled={filter === BookFilters.ISBN}
                     component={renderedTextField}
                 />
                 <Field
@@ -153,6 +170,8 @@ let FilterForm: any = (props: any) => {
                     className={classes.formControl}
                     type="number"
                     label="To year"
+                    validate={[lessThanZero]}
+                    disabled={filter === BookFilters.ISBN}
                     component={renderedTextField}
                 />
                 <Field
@@ -160,6 +179,7 @@ let FilterForm: any = (props: any) => {
                     component={renderedSelectField}
                     name="departmentId"
                     label="Department"
+                    disabled={filter === BookFilters.ISBN}
                 >
                     <MenuItem value="all">
                         <em>All</em>
@@ -187,6 +207,11 @@ let FilterForm: any = (props: any) => {
                         type="button"
                         className="form-btn"
                         variant="outlined"
+                        onClick={() => {
+                            reset(FILTER_FORM);
+                            props.onSetGenres([]);
+                            props.onPaginate(1);
+                        }}
                     >
                         Clear
                     </Button>

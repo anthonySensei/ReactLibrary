@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { ClientLinks } from '../constants/clientLinks';
+import { ClientLinks } from '../constants/ClientLinks';
 
 import Auth from '../containers/Auth/Auth';
 import Home from "../containers/Home/Home";

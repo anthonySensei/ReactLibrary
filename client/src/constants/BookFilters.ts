@@ -1,1 +1,5 @@
-export const bookFilters = ['title', 'isbn'];
+export enum BookFilters {
+    ISBN = 'isbn',
+    TITLE = 'title',
+    NOTHING = 'nothing'
+}
