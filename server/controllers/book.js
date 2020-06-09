@@ -13,17 +13,16 @@ const errorMessages = require('../constants/errorMessages');
 
 const ITEMS_PER_PAGE = 8;
 
-const helper = require('../helper/responseHandle');
 const imageHandler = require('../helper/imageHandle');
 
 const getCondition = (
     filterName,
     filterValue,
     author,
-    genre,
-    department,
+    fromYear,
     toYear,
-    fromYear
+    department,
+    genres
 ) => {
     let authorCondition = {};
     let genreCondition = {};
@@ -33,19 +32,36 @@ const getCondition = (
 
     if (filterName && filterValue) {
         if (filterName === filters.TITLE)
-            filterCondition = { name: { [Op.iLike]: `%${filterValue}%` } };
+            filterCondition = {
+                title: {
+                    $regex: new RegExp(filterValue, 'i')
+                }
+            };
         else if (filterName === filters.ISBN)
             filterCondition = { isbn: filterValue };
     }
 
-    if (author) authorCondition = { authorId: author };
-    if (genre) genreCondition = { genreId: genre };
-    if (department) departmentCondition = { departmentId: department };
+    if (author) authorCondition = { author: author };
+    if (department && department !== 'all')
+        departmentCondition = { department: department };
 
     if (toYear && fromYear)
-        yearCondition = { year: { [Op.between]: [fromYear, toYear] } };
-    else if (fromYear) yearCondition = { year: { [Op.gte]: fromYear } };
-    else if (toYear) yearCondition = { year: { [Op.lte]: toYear } };
+        yearCondition = {
+            year: {
+                $gte: fromYear,
+                $lte: toYear
+            }
+        };
+    else if (fromYear) yearCondition = { year: { $gte: fromYear } };
+    else if (toYear) yearCondition = { year: { $lte: toYear } };
+
+    const genresId = [];
+    genres.map(genre => {
+        genresId.push(genre._id);
+    });
+
+    if (genres.length > 0)
+        genreCondition = { 'genres.genre': { $in: genresId } };
 
     return {
         ...authorCondition,
@@ -58,61 +74,52 @@ const getCondition = (
 
 exports.getBooks = async (req, res) => {
     const page = +req.query.page || 1;
-    const fromYear = +req.query.yFrom;
-    const toYear = +req.query.yTo;
-    const author = +req.query.author;
-    const genre = +req.query.genre;
-    const department = +req.query.department;
-    const filterName = req.query.filterName;
-    const filterValue = req.query.filterValue;
+    const filterName = req.query.filter;
+    const filterValue = req.query.value;
+    const authorId = req.query.authorId;
+    const fromYear = +req.query.fYear;
+    const toYear = +req.query.tYear;
+    const departmentId = req.query.departmentId;
+    const genres = req.query.genres ? JSON.parse(req.query.genres) : [];
 
-    const condition = {
-        ...getCondition(
-            filterName,
-            filterValue,
-            author,
-            genre,
-            department,
-            toYear,
-            fromYear
-        ),
-        quantity: {
-            [Op.gte]: 0
-        }
-    };
+    const condition = getCondition(
+        filterName,
+        filterValue,
+        authorId,
+        fromYear,
+        toYear,
+        departmentId,
+        genres
+    );
 
     try {
-        const totalBooks = await Book.count({
-            where: condition
-        });
-        const books = await Book.findAll({
-            include: [
-                {
-                    model: Department
-                },
-                {
-                    model: Author
-                },
-                { model: Genre }
-            ],
-            order: [['year', 'DESC']],
-            where: condition,
-            limit: ITEMS_PER_PAGE,
-            offset: (page - 1) * ITEMS_PER_PAGE
-        });
+        const totalBooks = await Book.countDocuments();
+        const books = await Book.find()
+            .sort([['year', -1]])
+            .limit(ITEMS_PER_PAGE)
+            .skip((page - 1) * ITEMS_PER_PAGE)
+            .where(condition)
+            .populate('author')
+            .populate('department')
+            .populate('genres.genre');
         const booksArr = [];
         books.forEach(book => {
-            const bookValues = book.get();
-            bookValues.image = imageHandler.convertToBase64(bookValues.image);
+            let genres = [];
+            book.genres.forEach(genreCollection => {
+                genres.push(genreCollection.genre.name);
+            });
+            genres = genres.join(', ');
+            book.image = imageHandler.convertToBase64(book.image);
             booksArr.push({
-                id: bookValues.id,
-                name: bookValues.name,
-                year: bookValues.year,
-                author: bookValues.author_.get(),
-                genre: bookValues.genre_.get(),
-                image: bookValues.image,
-                description: bookValues.description,
-                department: bookValues.department_.get()
+                id: book._id,
+                title: book.title,
+                author: book.author,
+                quantity: book.quantity,
+                genres: genres,
+                year: book.year,
+                image: book.image,
+                department: book.department,
+                description: book.description
             });
         });
         const data = {
@@ -127,7 +134,7 @@ exports.getBooks = async (req, res) => {
                 lastPage: Math.ceil(totalBooks / ITEMS_PER_PAGE)
             }
         };
-        return helper.responseHandle(res, 200, data);
+        return res.send(data);
     } catch (err) {
         return helper.responseErrorHandle(
             res,
@@ -368,7 +375,9 @@ exports.moveBook = async (req, res) => {
                 quantity: isNotUnique.get().quantity + quantity
             });
             const bookInDb = await Book.findOne({ where: { id: book.id } });
-            await bookInDb.update({ quantity: bookInDb.get().quantity - quantity });
+            await bookInDb.update({
+                quantity: bookInDb.get().quantity - quantity
+            });
             const data = {
                 isSuccessful: true,
                 message: successMessages.BOOK_SUCCESSFULLY_MOVED

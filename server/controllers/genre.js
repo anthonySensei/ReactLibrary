@@ -10,19 +10,12 @@ const successMessages = require('../constants/successMessages');
 
 exports.getGenres = async (req, res) => {
     try {
-        const genres = await Genre.findAll();
-        let genresArr = [];
-        genres.forEach(genre => {
-            genresArr.push({
-                id: genre.get().id,
-                name: genre.get().name
-            });
-        });
+        const genres = await Genre.find();
         const data = {
-            genres: genresArr,
+            genres: genres,
             message: successMessages.SUCCESSFULLY_FETCHED
         };
-        return helper.responseHandle(res, 200, data);
+        return res.send(data);
     } catch (error) {
         return helper.responseErrorHandle(res, 500, errorMessages.CANNOT_FETCH);
     }

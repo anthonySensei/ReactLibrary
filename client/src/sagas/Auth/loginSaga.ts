@@ -1,9 +1,9 @@
 import { call, put } from 'redux-saga/effects';
-import * as actionTypes from '../redux/actions/actionTypes';
+import * as actionTypes from '../../redux/actions/actionTypes';
 
-import { loginUserService } from '../services/authService';
+import { loginUserService } from '../../services/authService';
 
-import axios from '../helper/axios';
+import axios from '../../helper/axios';
 
 export function* authSaga(payload: any) {
     try {

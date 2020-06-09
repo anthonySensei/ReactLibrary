@@ -2,7 +2,7 @@ import React from 'react';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import './Header.scss';
 import { Link } from 'react-router-dom';
-import { ClientLinks } from '../../constants/clientLinks';
+import { ClientLinks } from '../../constants/ClientLinks';
 
 const Header = (props: any) => {
     return (

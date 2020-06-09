@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects';
-import * as actionTypes from '../redux/actions/actionTypes';
+import * as actionTypes from '../../redux/actions/actionTypes';
 
-import { logoutUserService } from '../services/authService';
+import { logoutUserService } from '../../services/authService';
 
 export function* logoutSaga() {
     try {

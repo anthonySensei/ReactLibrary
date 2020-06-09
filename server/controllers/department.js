@@ -10,22 +10,14 @@ const successMessages = require('../constants/successMessages');
 
 exports.getDepartments = async (req, res) => {
     try {
-        const departments = await Department.findAll();
-        const departmentsArr = [];
-
-        for (let department of departments) {
-            departmentsArr.push({
-                id: department.get().id,
-                address: department.get().address
-            });
-        }
+        const departments = await Department.find();
         const data = {
-            departments: departmentsArr,
+            departments: departments,
             message: successMessages.SUCCESSFULLY_FETCHED
         };
-        return helper.responseHandle(res, 200, data);
+        res.send(data);
     } catch (err) {
-        return helper.responseErrorHandle(res, 500, errorMessages.CANNOT_FETCH);
+        helper.responseErrorHandle(res, 500, errorMessages.CANNOT_FETCH);
     }
 };
 
