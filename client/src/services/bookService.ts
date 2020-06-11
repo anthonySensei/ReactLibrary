@@ -1,23 +1,28 @@
 import axios from '../helper/axios';
 
-import { BOOKS_URL } from '../constants/serverLinks';
-import { BookFilters } from '../constants/BookFilters';
+import { BOOK_DETAILS_URL, BOOKS_URL } from '../constants/serverLinks';
 import BooksFilter from '../interfaces/BooksFilter';
 
-export const getBooksService = (
+export const getBooksService = async (
     page: string | number,
-    filterObj: any,
+    filterObj: BooksFilter,
     departmentId: string
 ) => {
-    return axios
-        .get(BOOKS_URL, {
-            params: {
-                ...filterObj,
-                departmentId,
-                page
-            }
-        })
-        .then(response => response);
+    return await axios.get(BOOKS_URL, {
+        params: {
+            ...filterObj,
+            departmentId,
+            page
+        }
+    });
+};
+
+export const getBookService = async (bookId: string | null) => {
+    return await axios.get(BOOK_DETAILS_URL, {
+        params: {
+            bookId
+        }
+    });
 };
 
 export const addFilterToQueryParamsService = (

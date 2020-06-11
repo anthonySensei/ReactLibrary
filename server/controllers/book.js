@@ -111,7 +111,7 @@ exports.getBooks = async (req, res) => {
             genres = genres.join(', ');
             book.image = imageHandler.convertToBase64(book.image);
             booksArr.push({
-                id: book._id,
+                _id: book._id,
                 title: book.title,
                 author: book.author,
                 quantity: book.quantity,
@@ -146,7 +146,6 @@ exports.getBooks = async (req, res) => {
 
 exports.getBook = async (req, res) => {
     const bookId = req.query.bookId;
-    let condition = { id: bookId };
 
     if (!bookId) {
         return helper.responseErrorHandle(
@@ -157,32 +156,32 @@ exports.getBook = async (req, res) => {
     }
 
     try {
-        const book = await Book.findOne({
-            where: condition,
-            include: [{ model: Author }, { model: Genre }]
+        const book = await Book.findOne({ _id: bookId })
+            .populate('author')
+            .populate('department')
+            .populate('genres.genre');
+        book.image = imageHandler.convertToBase64(book.image);
+        let genres = [];
+        book.genres.forEach(genreCollection => {
+            genres.push(genreCollection.genre.name);
         });
-        const bookValues = book.get();
-        const department = await Department.findOne({
-            where: { id: book.get().departmentId }
-        });
-        bookValues.image = imageHandler.convertToBase64(bookValues.image);
+        genres = genres.join(', ');
         const bookData = {
-            id: bookValues.id,
-            isbn: bookValues.isbn,
-            quantity: bookValues.quantity,
-            name: bookValues.name,
-            author: bookValues.author_.get(),
-            genre: bookValues.genre_.get(),
-            image: bookValues.image,
-            description: bookValues.description,
-            year: bookValues.year,
-            department: department.get()
+            _id: book._id,
+            title: book.title,
+            author: book.author,
+            quantity: book.quantity,
+            genres: genres,
+            year: book.year,
+            image: book.image,
+            department: book.department,
+            description: book.description
         };
         const data = {
             book: bookData,
             message: successMessages.SUCCESSFULLY_FETCHED
         };
-        helper.responseHandle(res, 200, data);
+        res.send(data);
     } catch (err) {
         return helper.responseErrorHandle(
             res,

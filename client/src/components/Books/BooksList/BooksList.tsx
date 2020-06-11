@@ -9,6 +9,8 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Book from '../../../interfaces/Book';
+import { useHistory } from 'react-router-dom';
+import { ClientLinks } from '../../../constants/ClientLinks';
 
 const useStyles = makeStyles({
     bookCard: {
@@ -35,8 +37,14 @@ const useStyles = makeStyles({
 
 const BooksList = (props: any) => {
     const classes = useStyles();
+    const history = useHistory();
     const books = props.books || [];
     const shortId = props.shortId;
+
+    const showBookDetails = (bookId: string) => {
+        history.push(`${ClientLinks.BOOK_DETAILS}?bookId=${bookId}`);
+    };
+
     return (
         <>
             {books.length > 0 ? (
@@ -135,6 +143,7 @@ const BooksList = (props: any) => {
                                     variant="contained"
                                     color="primary"
                                     className={classes.button}
+                                    onClick={() => showBookDetails(book._id)}
                                 >
                                     Details
                                 </Button>
