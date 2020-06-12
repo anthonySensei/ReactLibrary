@@ -3,6 +3,7 @@ export const LOGOUT_URL = 'logout';
 
 export const BOOKS_URL = 'books';
 export const BOOK_DETAILS_URL = `${BOOKS_URL}/details`;
+export const BOOK_MOVE_URL = `${BOOKS_URL}/move`;
 
 export const DEPARTMENTS_URL = 'departments';
 

@@ -29,7 +29,7 @@ exports.postLoginUser = (req, res) => {
         } else {
             user.image = imageHandle.convertToBase64(user.image);
             const userJWT = {
-                id: user.id,
+                id: user._id,
                 email: user.email,
                 role: user.role
             };

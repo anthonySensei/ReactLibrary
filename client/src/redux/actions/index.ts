@@ -1,6 +1,6 @@
 export { loginUser, setLoginError, logout, checkState } from './auth';
 
-export { getBooks } from './book';
+export { getBooks, getBook, moveBook } from './book';
 
 export { setOpenSnackbar } from './snackbar';
 

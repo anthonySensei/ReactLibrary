@@ -1,7 +1,12 @@
 import axios from '../helper/axios';
 
-import { BOOK_DETAILS_URL, BOOKS_URL } from '../constants/serverLinks';
+import {
+    BOOK_DETAILS_URL,
+    BOOK_MOVE_URL,
+    BOOKS_URL
+} from '../constants/serverLinks';
 import BooksFilter from '../interfaces/BooksFilter';
+import Book from '../interfaces/Book';
 
 export const getBooksService = async (
     page: string | number,
@@ -22,6 +27,18 @@ export const getBookService = async (bookId: string | null) => {
         params: {
             bookId
         }
+    });
+};
+
+export const moveBookService = async (
+    book: Book,
+    departmentId: string,
+    quantity: number
+) => {
+    return await axios.post(BOOK_MOVE_URL, {
+        book,
+        departmentId,
+        quantity
     });
 };
 

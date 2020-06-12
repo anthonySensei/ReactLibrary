@@ -7,6 +7,7 @@ const ExtractJWT = passportJWT.ExtractJwt;
 
 const errorMessages = require('../constants/errorMessages');
 const fields = require('../constants/fields');
+const secret_key = require('./secret_key');
 
 module.exports = (passport, User) => {
     const LocalStrategy = require('passport-local').Strategy;
@@ -55,7 +56,7 @@ module.exports = (passport, User) => {
                 secretOrKey: secret_key
             },
             (jwtPayload, cb) => {
-                return Librarian.findOne({ where: { id: jwtPayload.id } })
+                return User.findOne({ _id: jwtPayload.id })
                     .then(user => {
                         return cb(null, user);
                     })
@@ -72,14 +73,14 @@ module.exports = (passport, User) => {
 
     passport.deserializeUser((id, done) => {
         try {
-            const librarian = Librarian.findOne({ where: { id: id } });
-            if (librarian) {
-                done(null, librarian.get());
+            const user = User.findOne({ _id: id });
+            if (user) {
+                done(null, user);
             } else {
-                done(librarian.errors, null);
+                done(user.errors, null);
             }
         } catch (e) {
-            done(librarian.errors, null);
+            done('Error', null);
         }
     });
 };

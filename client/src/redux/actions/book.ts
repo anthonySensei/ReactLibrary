@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import Book from '../../interfaces/Book';
 
 export const getBooks = (
     page: string | number,
@@ -17,5 +18,18 @@ export const getBook = (bookId: string | null) => {
     return {
         type: actionTypes.GET_BOOK,
         bookId
+    };
+};
+
+export const moveBook = (
+    book: Book,
+    departmentId: string,
+    quantity: number
+) => {
+    return {
+        type: actionTypes.MOVE_BOOK,
+        book,
+        departmentId,
+        quantity
     };
 };
