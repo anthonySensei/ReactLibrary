@@ -1,38 +1,21 @@
-const Sequelize = require('sequelize');
+const mongoose = require('mongoose');
 
-const sequelize = require('../config/database');
+const Schema = mongoose.Schema;
 
-const Librarian = sequelize.define('librarian_', {
-    id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
+const librarianSchema = new Schema({
+    passportId: {
+        type: String,
+        required: true
     },
     name: {
-        type: Sequelize.STRING,
-        allowNull: true
+        type: String,
+        required: true
     },
-    email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-            isEmail: true,
-            notNull: { args: true, msg: 'Please fill in email' }
-        },
-        unique: {
-            args: true,
-            msg: 'Email already in use'
-        }
-    },
-    profile_image: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    password: {
-        type: Sequelize.STRING,
-        allowNull: true
+    department: {
+        type: Schema.Types.ObjectId,
+        ref: 'Department',
+        required: true
     }
 });
 
-module.exports = Librarian;
+module.exports = mongoose.model('Librarian', librarianSchema);

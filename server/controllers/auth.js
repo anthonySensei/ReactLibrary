@@ -1,5 +1,4 @@
 const Student = require('../models/student');
-const Role = require('../models/role');
 
 const jwt = require('jsonwebtoken');
 const secret_key = require('../config/secret_key');
