@@ -9,6 +9,11 @@ const orderSchema = new Schema({
     },
     loan_time: {
         type: Date,
+        required: false
+    },
+    book: {
+        type: Schema.Types.ObjectId,
+        ref: 'Book',
         required: true
     },
     student: {

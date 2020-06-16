@@ -149,9 +149,9 @@ exports.getAllOrders = async (req, res) => {
 };
 
 exports.orderBook = async (req, res) => {
-    const studentEmail = req.body.studentEmail;
+    const studentId = req.body.studentId;
     const bookId = req.body.bookId;
-    const orderTime = req.body.time;
+    const time = req.body.time;
     if (!req.body) {
         return helper.responseErrorHandle(
             res,
@@ -161,23 +161,18 @@ exports.orderBook = async (req, res) => {
     }
     try {
         const student = await Student.findOne({
-            where: {
-                email: studentEmail
-            }
+            user: studentId
         });
         if (!student) {
             return helper.responseErrorHandle(
                 res,
                 400,
-                errorMessages.STUDENT_WITH_THIS_READER_TICKET_DOESNT_EXIST
+                errorMessages.SOMETHING_WENT_WRONG
             );
         }
 
-        const book = await Book.findOne({
-            where: { id: bookId },
-            include: { model: Department }
-        });
-        if (book.get().quantity <= 0) {
+        const book = await Book.findOne({ _id: bookId });
+        if (book.quantity <= 0) {
             return helper.responseErrorHandle(
                 res,
                 400,
@@ -185,25 +180,17 @@ exports.orderBook = async (req, res) => {
             );
         } else {
             const bookOrder = new Order({
-                order_time: orderTime,
-                studentId: student.get().id,
-                bookId: bookId,
-                departmentId: book.get().department_.get().id
+                order_time: time,
+                student: student._id,
+                book: bookId,
+                department: book.department
             });
             await bookOrder.save();
-            await book.update({ quantity: book.get().quantity - 1 });
-            await mailSender.sendMail(
-                studentEmail,
-                mailMessages.subjects.BOOK_ORDERED,
-                mailMessages.messages.BOOK_ORDERED
-            );
+            await book.update({ quantity: book.quantity - 1 });
 
-            const data = {
-                isSuccessful: true,
+            res.send({
                 message: successMessages.SUCCESSFULLY_ORDERED
-            };
-
-            helper.responseHandle(res, 200, data);
+            });
         }
     } catch (err) {
         helper.responseErrorHandle(

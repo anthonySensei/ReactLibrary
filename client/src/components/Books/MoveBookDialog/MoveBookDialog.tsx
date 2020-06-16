@@ -16,7 +16,7 @@ import {
 import Department from '../../../interfaces/Department';
 import { makeStyles } from '@material-ui/core/styles';
 
-export interface BookDetailsDialogProps {
+export interface MoveDialogProps {
     open: boolean;
     quantityError: string;
     departmentError: string;
@@ -33,7 +33,7 @@ const useStyles = makeStyles({
     }
 });
 
-export const MoveBookDialog = (props: BookDetailsDialogProps) => {
+export const MoveBookDialog = (props: MoveDialogProps) => {
     const {
         onClose,
         open,

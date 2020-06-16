@@ -10,6 +10,11 @@ const studentSchema = new Schema({
     name: {
         type: String,
         allowNull: true
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 });
 

@@ -9,6 +9,11 @@ const loanSchema = new Schema({
     },
     returned_time: {
         type: Date,
+        required: false
+    },
+    book: {
+        type: Schema.Types.ObjectId,
+        ref: 'Book',
         required: true
     },
     student: {

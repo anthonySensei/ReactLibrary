@@ -3,7 +3,9 @@ import axios from '../helper/axios';
 import {
     BOOK_DETAILS_URL,
     BOOK_MOVE_URL,
-    BOOKS_URL
+    BOOKS_URL,
+    LOANS_URL,
+    ORDERS_URL
 } from '../constants/serverLinks';
 import BooksFilter from '../interfaces/BooksFilter';
 import Book from '../interfaces/Book';
@@ -39,6 +41,27 @@ export const moveBookService = async (
         book,
         departmentId,
         quantity
+    });
+};
+
+export const loanBookService = async (
+    studentId: string,
+    bookId: string,
+    librarianId: string
+) => {
+    return await axios.post(LOANS_URL, {
+        studentId,
+        bookId,
+        librarianId,
+        time: new Date()
+    });
+};
+
+export const orderBookService = async (studentId: string, bookId: string) => {
+    return await axios.post(ORDERS_URL, {
+        studentId,
+        bookId,
+        time: new Date()
     });
 };
 

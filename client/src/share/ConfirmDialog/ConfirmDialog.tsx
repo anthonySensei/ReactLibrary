@@ -6,11 +6,16 @@ import Button from '@material-ui/core/Button';
 
 import '../../App.scss';
 
-export const ConfirmDialog = (props: any) => {
+export interface ConfirmDialogProps {
+    open: boolean;
+    onClose: (confirm: boolean) => void;
+}
+
+export const ConfirmDialog = (props: ConfirmDialogProps) => {
     const { onClose, open } = props;
 
     const handleClose = () => {
-        onClose();
+        onClose(false);
     };
 
     return (
@@ -26,14 +31,14 @@ export const ConfirmDialog = (props: any) => {
                     className="dialog-button"
                     variant="contained"
                     color="primary"
-                    onClick={() => onClose()}
+                    onClick={() => onClose(true)}
                 >
                     Yes
                 </Button>
                 <Button
                     className="dialog-button"
                     variant="contained"
-                    onClick={() => onClose('')}
+                    onClick={() => onClose(false)}
                 >
                     No
                 </Button>

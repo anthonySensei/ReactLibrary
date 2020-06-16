@@ -8,6 +8,7 @@ import snackbar from './snackbar';
 import department from './department';
 import author from './author';
 import genre from './genre';
+import student from './student';
 
 const rootReducer = combineReducers({
     auth,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     department,
     author,
     genre,
+    student,
     form: formReducer
 });
 

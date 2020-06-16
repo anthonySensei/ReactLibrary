@@ -33,3 +33,27 @@ export const moveBook = (
         quantity
     };
 };
+
+export const loanBook = (
+    studentId: string,
+    bookId: string,
+    librarianId: string
+) => {
+    return {
+        type: actionTypes.LOAN_BOOK,
+        studentId,
+        bookId,
+        librarianId
+    };
+};
+
+export const orderBook = (
+    studentId: string,
+    bookId: string
+) => {
+    return {
+        type: actionTypes.ORDER_BOOK,
+        studentId,
+        bookId
+    };
+};

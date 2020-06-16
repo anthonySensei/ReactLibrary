@@ -15,6 +15,11 @@ const librarianSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Department',
         required: true
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 });
 

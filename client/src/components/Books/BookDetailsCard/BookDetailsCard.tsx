@@ -42,7 +42,10 @@ const BookDetailsCard = (props: any) => {
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
                     It was written by {book.author.name}. Genres of book are{' '}
-                    {book.genres}. {book.description}
+                    {book.genres}. {book.description}.
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    Quantity: {book.quantity}.
                 </Typography>
                 <Typography
                     variant="body2"
@@ -75,6 +78,7 @@ const BookDetailsCard = (props: any) => {
                             size="small"
                             color="primary"
                             variant="contained"
+                            onClick={() => props.onSetOpenConfirmDialog(true)}
                         >
                             Order
                         </Button>
@@ -88,6 +92,7 @@ const BookDetailsCard = (props: any) => {
                             size="small"
                             color="primary"
                             variant="contained"
+                            onClick={() => props.onSetOpenLoanDialog()}
                         >
                             Loan
                         </Button>

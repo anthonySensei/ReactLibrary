@@ -374,10 +374,10 @@ exports.getLoansStatistic = (req, res) => {
 };
 
 exports.loanBook = async (req, res) => {
-    const studentTReader = req.body.studentTicketReader;
-    const librarianEmail = req.body.librarianEmail;
+    const studentId = req.body.studentId;
+    const librarianId = req.body.librarianId;
     const bookId = req.body.bookId;
-    const loanTime = req.body.time;
+    const time = req.body.time;
     if (!req.body) {
         return helper.responseErrorHandle(
             res,
@@ -386,53 +386,30 @@ exports.loanBook = async (req, res) => {
         );
     }
     try {
-        const student = await Student.findOne({
-            where: {
-                reader_ticket: studentTReader
-            }
-        });
-        if (!student) {
+        const book = await Book.findOne({ _id: bookId });
+        const librarian = await Librarian.findOne({ user: librarianId });
+        if (book.quantity <= 0) {
             return helper.responseErrorHandle(
                 res,
                 400,
-                errorMessages.STUDENT_WITH_THIS_READER_TICKET_DOESNT_EXIST
-            );
-        }
-
-        const librarian = await Librarian.findOne({
-            where: {
-                email: librarianEmail
-            },
-            include: {
-                model: Department
-            }
-        });
-        const book = await Book.findOne({ where: { id: bookId } });
-        if (book.get().quantity <= 0) {
-            return helper.responseErrorHandle(
-                res,
-                400,
-                errorMessages.STUDENT_WITH_THIS_READER_TICKET_DOESNT_EXIST
+                errorMessages.SOMETHING_WENT_WRONG
             );
         } else {
             const bookLoan = new Loan({
-                loan_time: loanTime,
-                studentId: student.get().id,
-                bookId: bookId,
-                librarianId: librarian.get().id,
-                departmentId: librarian.get().department_.get().id
+                loan_time: time,
+                student: studentId,
+                book: bookId,
+                librarian: librarian._id,
+                department: book.department
             });
             await bookLoan.save();
-            await book.update({ quantity: book.get().quantity - 1 });
+            await book.update({ quantity: book.quantity - 1 });
 
-            const data = {
-                isSuccessful: true,
+            res.send({
                 message: successMessages.SUCCESSFULLY_LOANED
-            };
-
-            helper.responseHandle(res, 200, data);
+            });
         }
-    } catch (error) {
+    } catch (err) {
         helper.responseErrorHandle(
             res,
             500,

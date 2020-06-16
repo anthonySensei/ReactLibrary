@@ -57,30 +57,12 @@ const getStudentOrders = async studentId => {
 
 exports.getAllStudents = async (req, res) => {
     try {
-        const students = await Student.findAll();
-        const studentsArr = [];
-        students.forEach(student => {
-            const studentValues = student.get();
-            if (studentValues.profile_image) {
-                studentValues.profile_image = imageHandler.convertToBase64(
-                    studentValues.profile_image
-                );
-            } else {
-                studentValues.profile_image = '';
-            }
-            const studentData = {
-                id: studentValues.id,
-                name: studentValues.name,
-                email: studentValues.email,
-                readerTicket: studentValues.reader_ticket
-            };
-            studentsArr.push(studentData);
-        });
+        const students = await Student.find();
         const data = {
             message: successMessages.SUCCESSFULLY_FETCHED,
-            students: studentsArr
+            students: students
         };
-        return helper.responseHandle(res, 200, data);
+        return res.send(data);
     } catch (err) {
         return helper.responseErrorHandle(
             res,
@@ -169,7 +151,9 @@ exports.getStudent = async (req, res) => {
         const studentData = {
             name: studentValues.name,
             email: studentValues.email,
-            profileImage: imageHandler.convertToBase64(studentValues.profile_image),
+            profileImage: imageHandler.convertToBase64(
+                studentValues.profile_image
+            ),
             readerTicket: studentValues.reader_ticket,
             status: studentValues.status,
             loans: studentLoans,
