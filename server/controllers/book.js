@@ -15,6 +15,8 @@ const ITEMS_PER_PAGE = 8;
 
 const imageHandler = require('../helper/imageHandle');
 
+const helper = require('../helper/responseHandle');
+
 const getCondition = (
     filterName,
     filterValue,
@@ -111,7 +113,7 @@ exports.getBooks = async (req, res) => {
             genres = genres.join(', ');
             book.image = imageHandler.convertToBase64(book.image);
             booksArr.push({
-                id: book._id,
+                _id: book._id,
                 title: book.title,
                 author: book.author,
                 quantity: book.quantity,
@@ -146,7 +148,6 @@ exports.getBooks = async (req, res) => {
 
 exports.getBook = async (req, res) => {
     const bookId = req.query.bookId;
-    let condition = { id: bookId };
 
     if (!bookId) {
         return helper.responseErrorHandle(
@@ -157,32 +158,34 @@ exports.getBook = async (req, res) => {
     }
 
     try {
-        const book = await Book.findOne({
-            where: condition,
-            include: [{ model: Author }, { model: Genre }]
+        const book = await Book.findOne({ _id: bookId })
+            .populate('author')
+            .populate('department')
+            .populate('genres.genre');
+        book.image = imageHandler.convertToBase64(book.image);
+        let genres = [];
+        book.genres.forEach(genreCollection => {
+            genres.push(genreCollection.genre.name);
         });
-        const bookValues = book.get();
-        const department = await Department.findOne({
-            where: { id: book.get().departmentId }
-        });
-        bookValues.image = imageHandler.convertToBase64(bookValues.image);
+        genres = genres.join(', ');
         const bookData = {
-            id: bookValues.id,
-            isbn: bookValues.isbn,
-            quantity: bookValues.quantity,
-            name: bookValues.name,
-            author: bookValues.author_.get(),
-            genre: bookValues.genre_.get(),
-            image: bookValues.image,
-            description: bookValues.description,
-            year: bookValues.year,
-            department: department.get()
+            _id: book._id,
+            isbn: book.isbn,
+            title: book.title,
+            author: book.author,
+            quantity: book.quantity,
+            language: book.language,
+            genres: genres,
+            year: book.year,
+            image: book.image,
+            department: book.department,
+            description: book.description
         };
         const data = {
             book: bookData,
             message: successMessages.SUCCESSFULLY_FETCHED
         };
-        helper.responseHandle(res, 200, data);
+        res.send(data);
     } catch (err) {
         return helper.responseErrorHandle(
             res,
@@ -352,46 +355,53 @@ exports.deleteBook = async (req, res) => {
 
 exports.moveBook = async (req, res) => {
     const departmentId = req.body.departmentId;
-    const quantity = req.body.quantity;
+    const quantity = +req.body.quantity;
     const book = req.body.book;
-    const newBook = {
+    book.image = imageHandler.getPath(book.image);
+    const bookGenres = book.genres.split(', ');
+    const genresInDb = await Genre.find({ name: { $in: bookGenres } });
+    const gIds = genresInDb.map(genre => genre._id);
+    const genreArr = gIds.map(gId => {
+        return {
+            genre: gId
+        };
+    });
+    const newBook = new Book({
         ...book,
-        departmentId: departmentId,
-        id: null,
-        genreId: book.genre.id,
-        authorId: book.author.id,
+        department: departmentId,
+        _id: null,
+        genres: genreArr,
+        author: book.author._id,
         quantity: quantity
-    };
+    });
     try {
-        newBook.image = imageHandler.getPath(newBook.image);
         const isNotUnique = await Book.findOne({
-            where: {
-                isbn: newBook.isbn,
-                departmentId: newBook.departmentId
-            }
+            isbn: newBook.isbn,
+            department: newBook.department
         });
         if (isNotUnique) {
-            await isNotUnique.update({
-                quantity: isNotUnique.get().quantity + quantity
+            await isNotUnique.updateOne({
+                quantity: +isNotUnique.quantity + quantity
             });
-            const bookInDb = await Book.findOne({ where: { id: book.id } });
-            await bookInDb.update({
-                quantity: bookInDb.get().quantity - quantity
+            const bookInDb = await Book.findOne({ _id: book._id });
+            await bookInDb.updateOne({
+                quantity: bookInDb.quantity - quantity
             });
             const data = {
-                isSuccessful: true,
                 message: successMessages.BOOK_SUCCESSFULLY_MOVED
             };
-            return helper.responseHandle(res, 200, data);
+            res.send(data);
+        } else {
+            await newBook.save();
+            const bookInDb = await Book.findOne({ _id: book._id });
+            await bookInDb.updateOne({
+                quantity: bookInDb.quantity - quantity
+            });
+            const data = {
+                message: successMessages.BOOK_SUCCESSFULLY_MOVED
+            };
+            return res.send(data);
         }
-        await Book.create(newBook);
-        const bookInDb = await Book.findOne({ where: { id: book.id } });
-        await bookInDb.update({ quantity: bookInDb.get().quantity - quantity });
-        const data = {
-            isSuccessful: true,
-            message: successMessages.BOOK_SUCCESSFULLY_MOVED
-        };
-        return helper.responseHandle(res, 200, data);
     } catch (err) {
         return helper.responseErrorHandle(
             res,

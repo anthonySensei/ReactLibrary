@@ -7,6 +7,17 @@
     }
 }
 
+.buttons-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 15px 0;
+
+    .dialog-button {
+        width: 43%;
+    }
+}
+
 ::-webkit-scrollbar {
     width: 10px;
 }

@@ -31,13 +31,6 @@ const scheduleRoutes = require('./routes/schedule');
 
 const User = require('./models/user');
 const Department = require('./models/department');
-const Student = require('./models/student');
-const Librarian = require('./models/librarian');
-const Role = require('./models/role');
-const Loan = require('./models/loan');
-const Order = require('./models/order');
-const Schedule = require('./models/schedule');
-const Period = require('./models/period');
 
 const authorsUrl = require('./constants/links').AUTHORS_URL;
 const departmentsUrl = require('./constants/links').DEPARTMENTS_URL;
@@ -125,23 +118,6 @@ app.use(studentsUrl, studentRoutes);
 app.use(myAccountUrl, userRoutes);
 app.use(periodsUrl, periodRoutes);
 app.use(schedulesUrl, scheduleRoutes);
-
-Student.hasMany(Loan);
-Student.hasMany(Order);
-
-Schedule.belongsTo(Librarian);
-
-Librarian.hasMany(Loan);
-Librarian.hasMany(Schedule);
-
-Schedule.belongsTo(Period);
-
-Role.belongsTo(Librarian, { foreignKey: 'librarian_id' });
-
-Loan.belongsTo(Student);
-Loan.belongsTo(Librarian);
-
-Order.belongsTo(Student);
 
 mongoose
     .connect(

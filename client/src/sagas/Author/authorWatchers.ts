@@ -5,5 +5,5 @@ import * as actionTypes from '../../redux/actions/actionTypes';
 import { getAuthorsSaga } from './getAuthorsSaga';
 
 export default function* watchAuthors() {
-    yield takeEvery(actionTypes.GET_DEPARTMENTS, getAuthorsSaga);
+    yield takeEvery(actionTypes.GET_AUTHORS, getAuthorsSaga);
 }

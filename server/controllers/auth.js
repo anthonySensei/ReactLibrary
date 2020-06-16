@@ -1,5 +1,4 @@
 const Student = require('../models/student');
-const Role = require('../models/role');
 
 const jwt = require('jsonwebtoken');
 const secret_key = require('../config/secret_key');
@@ -29,7 +28,7 @@ exports.postLoginUser = (req, res) => {
         } else {
             user.image = imageHandle.convertToBase64(user.image);
             const userJWT = {
-                id: user.id,
+                id: user._id,
                 email: user.email,
                 role: user.role
             };

@@ -7,7 +7,7 @@ const initialState = {
 
 const reducer = (state = initialState, action: any) => {
     switch (action.type) {
-        case actionTypes.GET_AUTHORS:
+        case actionTypes.GET_AUTHORS_SUCCESS:
             return updateObject(state, {
                 authors: action.authors
             });

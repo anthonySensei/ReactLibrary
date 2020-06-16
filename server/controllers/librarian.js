@@ -4,7 +4,6 @@ const Op = Sequelize.Op;
 const Librarian = require('../models/librarian');
 const Student = require('../models/student');
 const Department = require('../models/department');
-const Role = require('../models/role');
 const Schedule = require('../models/schedule');
 const Period = require('../models/period');
 

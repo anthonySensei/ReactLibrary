@@ -1,23 +1,68 @@
 import axios from '../helper/axios';
 
-import { BOOKS_URL } from '../constants/serverLinks';
-import { BookFilters } from '../constants/BookFilters';
+import {
+    BOOK_DETAILS_URL,
+    BOOK_MOVE_URL,
+    BOOKS_URL,
+    LOANS_URL,
+    ORDERS_URL
+} from '../constants/serverLinks';
 import BooksFilter from '../interfaces/BooksFilter';
+import Book from '../interfaces/Book';
 
-export const getBooksService = (
+export const getBooksService = async (
     page: string | number,
-    filterObj: any,
+    filterObj: BooksFilter,
     departmentId: string
 ) => {
-    return axios
-        .get(BOOKS_URL, {
-            params: {
-                ...filterObj,
-                departmentId,
-                page
-            }
-        })
-        .then(response => response);
+    return await axios.get(BOOKS_URL, {
+        params: {
+            ...filterObj,
+            departmentId,
+            page
+        }
+    });
+};
+
+export const getBookService = async (bookId: string | null) => {
+    return await axios.get(BOOK_DETAILS_URL, {
+        params: {
+            bookId
+        }
+    });
+};
+
+export const moveBookService = async (
+    book: Book,
+    departmentId: string,
+    quantity: number
+) => {
+    return await axios.post(BOOK_MOVE_URL, {
+        book,
+        departmentId,
+        quantity
+    });
+};
+
+export const loanBookService = async (
+    studentId: string,
+    bookId: string,
+    librarianId: string
+) => {
+    return await axios.post(LOANS_URL, {
+        studentId,
+        bookId,
+        librarianId,
+        time: new Date()
+    });
+};
+
+export const orderBookService = async (studentId: string, bookId: string) => {
+    return await axios.post(ORDERS_URL, {
+        studentId,
+        bookId,
+        time: new Date()
+    });
 };
 
 export const addFilterToQueryParamsService = (

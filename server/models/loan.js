@@ -1,22 +1,36 @@
-const Sequelize = require('sequelize');
+const mongoose = require('mongoose');
 
-const sequelize = require('../config/database');
+const Schema = mongoose.Schema;
 
-const Loan = sequelize.define('loan_', {
-    id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
-    },
+const loanSchema = new Schema({
     loan_time: {
-        type: Sequelize.DATE,
-        allowNull: false
+        type: Date,
+        required: true
     },
     returned_time: {
-        type: Sequelize.DATE,
-        allowNull: true
+        type: Date,
+        required: false
+    },
+    book: {
+        type: Schema.Types.ObjectId,
+        ref: 'Book',
+        required: true
+    },
+    student: {
+        type: Schema.Types.ObjectId,
+        ref: 'Student',
+        required: true
+    },
+    librarian: {
+        type: Schema.Types.ObjectId,
+        ref: 'Librarian',
+        required: true
+    },
+    department: {
+        type: Schema.Types.ObjectId,
+        ref: 'Department',
+        required: true
     }
 });
 
-module.exports = Loan;
+module.exports = mongoose.model('Loan', loanSchema);

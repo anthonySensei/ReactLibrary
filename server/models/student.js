@@ -1,53 +1,21 @@
-const Sequelize = require('sequelize');
+const mongoose = require('mongoose');
 
-const sequelize = require('../config/database');
+const Schema = mongoose.Schema;
 
-const Student = sequelize.define('student_', {
-    id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
+const studentSchema = new Schema({
+    studentId: {
+        type: String,
+        required: true
     },
     name: {
-        type: Sequelize.STRING,
+        type: String,
         allowNull: true
     },
-    email: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-            isEmail: true,
-            notNull: { args: true, msg: 'Please fill in email' }
-        }
-    },
-    profile_image: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    status: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    registration_token: {
-        type: Sequelize.STRING,
-        allowNull: true
-    },
-    reader_ticket: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-            notNull: { args: true, msg: 'Please fill in reader ticket' }
-        },
-        unique: {
-            args: true,
-            msg: 'Reader ticket already in use'
-        }
-    },
-    password: {
-        type: Sequelize.STRING,
-        allowNull: true
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 });
 
-module.exports = Student;
+module.exports = mongoose.model('Student', studentSchema);
