@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import {getBook, loanBook, moveBook, orderBook} from '../../redux/actions/book';
+import {
+    getBook,
+    loanBook,
+    moveBook,
+    orderBook
+} from '../../redux/actions/book';
 import { CircularProgress, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import BookDetailsCard from '../../components/Books/BookDetailsCard/BookDetailsCard';
@@ -34,11 +39,9 @@ const BookDetails = (props: any) => {
     const quantity = book ? book.quantity : 0;
     const departments: Department[] = props.departments || [];
     const students: Student[] = props.students || [];
-    const moveTo: Department[] = departments
-        ? departments.filter(
-              (department: Department) => department._id !== book.department._id
-          )
-        : [];
+    const moveTo: Department[] = departments.filter(
+        (department: Department) => department?._id !== book?.department?._id
+    );
 
     const bookId: string | null = new URLSearchParams(
         props.location.search
