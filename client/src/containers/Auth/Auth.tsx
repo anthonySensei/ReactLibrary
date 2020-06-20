@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -13,24 +13,67 @@ import LoginData from '../../interfaces/Login';
 import { ClientLinks } from '../../constants/ClientLinks';
 
 import './Auth.scss';
+import { AuthTypes } from '../../constants/AuthTypes';
+import RegistrationForm from '../../components/Auth/RegistrationForm/RegistrationForm';
 
 const Auth = (props: any) => {
+    const [authType, setAuthType] = useState(AuthTypes.LOGIN);
+
     let authRedirect = null;
     if (props.isLoggedIn) {
         authRedirect = <Redirect to={ClientLinks.HOME_PAGE} />;
     }
-    const loginHandler = (loginData: LoginData) => {
+    const handleLogin = (loginData: LoginData) => {
         props.onLogin(loginData);
     };
+
+    const handleRegistration = (registrationData: any) => {
+        console.log(registrationData);
+    };
+
+    const handleSwitchAuth = (authType: AuthTypes) => {
+        setAuthType(authType);
+    };
+
+    let authPage;
+
+    switch (authType) {
+        case AuthTypes.LOGIN:
+            document.title = 'Login';
+            authPage = (
+                <LoginForm
+                    onSubmit={handleLogin}
+                    loginError={props.loginError}
+                    setLoginError={props.onSetLoginError}
+                    switchAuth={handleSwitchAuth}
+                />
+            );
+            break;
+        case AuthTypes.REGISTRATION:
+            document.title = 'Registration';
+            authPage = (
+                <RegistrationForm
+                    switchAuth={handleSwitchAuth}
+                    onSubmit={handleRegistration}
+                />
+            );
+            break;
+        default:
+            document.title = 'Login';
+            authPage = (
+                <LoginForm
+                    onSubmit={handleLogin}
+                    loginError={props.loginError}
+                    setLoginError={props.onSetLoginError}
+                    switchAuth={handleSwitchAuth}
+                />
+            );
+    }
 
     return (
         <Card className="card auth-form">
             {authRedirect}
-            <LoginForm
-                onSubmit={loginHandler}
-                loginError={props.loginError}
-                setLoginError={props.onSetLoginError}
-            />
+            {authPage}
         </Card>
     );
 };

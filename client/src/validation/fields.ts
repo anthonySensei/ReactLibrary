@@ -8,6 +8,9 @@ export const required = (value: string) =>
 export const email = (value: string) =>
     value && !validation.EMAIL.test(value) ? 'Email is not valid' : undefined;
 
+export const id = (value: string) =>
+    value && !validation.ID.test(value) ? 'ID is not valid' : undefined;
+
 export const password = (value: string) =>
     value && !validation.PASSWORD.test(value)
         ? 'Password is not valid'

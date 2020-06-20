@@ -1,19 +1,32 @@
+@import '../../App';
+
 .card.auth-form {
-  display: block;
-  width: 30%;
-  margin: 15% auto;
-  text-align: center;
-  .form-field {
     display: block;
-    width: 70%;
-    margin: 5px auto;
-    div {
-      width: 100%;
+    width: 35%;
+    margin: 15% auto;
+    text-align: center;
+    .form-field {
+        display: block;
+        width: 70%;
+        margin: 5px auto;
+        div {
+            width: 100%;
+        }
     }
-  }
-  .btn-form {
-    display: block;
-    width: 20%;
-    margin: 10px auto 10px;
-  }
+    .form-btn-container {
+        width: 75%;
+        margin: 0 auto;
+        .form-btn {
+            width: 44%;
+        }
+    }
+    .form-btn {
+        display: block;
+        width: 30%;
+        margin: 10px auto 10px;
+    }
+    .auth-link {
+        color: $main-color;
+        cursor: pointer;
+    }
 }
