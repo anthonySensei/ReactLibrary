@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { loginUser, setLoginError } from '../../redux/actions';
+import { loginUser, registration, setLoginError } from '../../redux/actions';
 
 import { Card } from '@material-ui/core';
 
@@ -15,9 +15,11 @@ import { ClientLinks } from '../../constants/ClientLinks';
 import './Auth.scss';
 import { AuthTypes } from '../../constants/AuthTypes';
 import RegistrationForm from '../../components/Auth/RegistrationForm/RegistrationForm';
+import RegistrationFormData from '../../interfaces/RegistrationFormData';
 
 const Auth = (props: any) => {
     const [authType, setAuthType] = useState(AuthTypes.LOGIN);
+    const message = props.message;
 
     let authRedirect = null;
     if (props.isLoggedIn) {
@@ -27,8 +29,8 @@ const Auth = (props: any) => {
         props.onLogin(loginData);
     };
 
-    const handleRegistration = (registrationData: any) => {
-        console.log(registrationData);
+    const handleRegistration = (registrationData: RegistrationFormData) => {
+        props.onRegistration(registrationData);
     };
 
     const handleSwitchAuth = (authType: AuthTypes) => {
@@ -55,6 +57,7 @@ const Auth = (props: any) => {
                 <RegistrationForm
                     switchAuth={handleSwitchAuth}
                     onSubmit={handleRegistration}
+                    message={message}
                 />
             );
             break;
@@ -80,13 +83,16 @@ const Auth = (props: any) => {
 
 const mapStateToProps = (state: any) => ({
     isLoggedIn: !!state.auth.user,
+    message: state.auth.message,
     loginError: state.auth.loginError
 });
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
         onLogin: (data: any) => dispatch(loginUser(data)),
-        onSetLoginError: (data: boolean) => dispatch(setLoginError(data))
+        onSetLoginError: (data: boolean) => dispatch(setLoginError(data)),
+        onRegistration: (registrationData: RegistrationFormData) =>
+            dispatch(registration(registrationData))
     };
 };
 

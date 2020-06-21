@@ -1,6 +1,8 @@
 import * as actionTypes from './actionTypes';
 import { TOKEN_START } from '../../constants/tokenStart';
+
 import User from '../../interfaces/User';
+import RegistrationFormData from '../../interfaces/RegistrationFormData';
 
 export const loginUser = (res: any) => {
     return {
@@ -19,6 +21,13 @@ export const setLoginError = (result: boolean) => {
 export const logout = () => {
     return {
         type: actionTypes.INITIATE_LOGOUT_USER
+    };
+};
+
+export const registration = (result: RegistrationFormData) => {
+    return {
+        type: actionTypes.REGISTRATION,
+        result
     };
 };
 
