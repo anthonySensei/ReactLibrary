@@ -49,3 +49,10 @@ export const checkState = () => {
         user
     };
 };
+
+export const activateUser = (activationToken: string) => {
+    return {
+        type: actionTypes.ACTIVATE_USER,
+        result: activationToken
+    };
+};

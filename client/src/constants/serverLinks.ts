@@ -2,6 +2,7 @@ export const LOGIN_URL = 'login';
 export const LOGOUT_URL = 'logout';
 export const REGISTRATION_URL = 'registration';
 export const REGISTRATION_CHECK_URL = `${REGISTRATION_URL}/check`;
+export const ACTIVATE_USER_URL = `/check-activation-token`;
 
 export const BOOKS_URL = 'books';
 export const BOOK_DETAILS_URL = `${BOOKS_URL}/details`;

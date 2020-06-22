@@ -10,6 +10,7 @@ import Home from '../containers/Home/Home';
 import Header from '../components/Header/Header';
 import Logout from '../components/Auth/Logout/Logout';
 import BookDetails from '../containers/BookDetails/BookDetails';
+import ActivationPage from '../containers/ActivationPage/ActivationPage';
 
 const Routers = (props: any) => {
     return (
@@ -22,6 +23,10 @@ const Routers = (props: any) => {
                     component={BookDetails}
                 />
                 <Route path={ClientLinks.LOGIN} component={Auth} />
+                <Route
+                    path={ClientLinks.ACTIVATION_PAGE}
+                    component={ActivationPage}
+                />
                 {props.isLoggedIn ? (
                     <Route path={ClientLinks.LOGOUT} component={Logout} />
                 ) : (

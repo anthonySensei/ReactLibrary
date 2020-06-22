@@ -14,13 +14,13 @@ const successMessages = require('../constants/successMessages');
 const roles = require('../constants/roles');
 
 const helper = require('../helper/responseHandle');
-const checkUniqueness = require('../helper/checkUniqueness');
 const generatePassword = require('../helper/generatePassword');
 const imageHandle = require('../helper/imageHandle');
 
-const studentController = require('./student');
-
 const sessionDuration = 3600 * 12;
+
+const mailSender = require('../helper/mailSender');
+const mailMessages = require('../constants/mailMessages');
 
 exports.postLoginUser = (req, res) => {
     passport.authenticate('local', async (err, user) => {
@@ -99,6 +99,11 @@ exports.postCreateUser = async (req, res) => {
                     user: user._id
                 });
                 await student.save();
+                await mailSender.sendMail(
+                    email,
+                    mailMessages.subjects.ACCOUNT_ACTIVATION,
+                    mailMessages.generateActivationMessage(activationToken)
+                );
                 res.send({
                     message: successMessages.ACCOUNT_SUCCESSFULLY_CREATED
                 });
@@ -113,30 +118,31 @@ exports.postCreateUser = async (req, res) => {
     }
 };
 
-exports.postCheckRegistrationToken = async (req, res, next) => {
-    const token = req.body.registrationToken;
+exports.postCheckActivationToken = async (req, res, next) => {
+    const token = req.body.activationToken;
 
-    if (!token) {
+    if (!token)
         return helper.responseErrorHandle(
             res,
             400,
             errorMessages.SOMETHING_WENT_WRONG
         );
-    }
 
     try {
-        const student = await Student.findOne({
-            where: { registration_token: token }
+        const user = await User.findOne({
+            activationToken: token
         });
-        await student.update({
-            status: userStatus.ACTIVATED,
-            registration_token: ''
+        if (!user)
+            return helper.responseErrorHandle(
+                res,
+                400,
+                errorMessages.SOMETHING_WENT_WRONG
+            );
+        await user.updateOne({
+            active: true,
+            activationToken: ''
         });
-        const data = {
-            isSuccessful: true,
-            message: successMessages.SUCCESSFULLY_ACTIVATED
-        };
-        return helper.responseHandle(res, 200, data);
+        res.send({ message: successMessages.SUCCESSFULLY_ACTIVATED });
     } catch (err) {
         return helper.responseErrorHandle(
             res,

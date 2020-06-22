@@ -3,7 +3,8 @@ export {
     setLoginError,
     logout,
     checkState,
-    registration
+    registration,
+    activateUser
 } from './auth';
 
 export { getBooks, getBook, moveBook, loanBook, orderBook } from './book';

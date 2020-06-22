@@ -10,13 +10,13 @@ const registrationCheckUrl = require('../constants/links')
 const loginUrl = require('../constants/links').AUTH_LOGIN_URL;
 const logoutUrl = require('../constants/links').AUTH_LOGOUT_URL;
 const checkRegistrationTokenUrl = require('../constants/links')
-    .AUTH_CHECK_REGISTRATION_TOKEN_URL;
+    .AUTH_CHECK_ACTIVATION_TOKEN_URL;
 
 router.post(registrationUrl, authController.postCreateUser);
 
 router.post(
     checkRegistrationTokenUrl,
-    authController.postCheckRegistrationToken
+    authController.postCheckActivationToken
 );
 
 router.post(loginUrl, authController.postLoginUser);

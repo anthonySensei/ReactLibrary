@@ -15,5 +15,6 @@ export function* registrationSaga(payload: any) {
     } catch (err) {
         const error = err.response ? err.response.data.message : 'Error';
         handleSnackbarOpenService(true, SnackbarTypes.ERROR, error);
+        yield put({ type: actionTypes.SET_LOADING_INDICATOR, result: false });
     }
 }

@@ -7,6 +7,7 @@ import { logoutSaga } from './logoutSaga';
 import { checkAuthStateSaga } from './checkAuthStateSaga';
 import { checkAuthTimeoutSaga } from './checkAuthTimeoutSaga';
 import { registrationSaga } from './registrationSage';
+import { activateUserSaga } from './activateUserSaga';
 
 export default function* watchUserAuthentication() {
     yield takeLatest(actionTypes.LOGIN_USER, authSaga);
@@ -14,4 +15,5 @@ export default function* watchUserAuthentication() {
     yield takeEvery(actionTypes.AUTO_LOGOUT, checkAuthTimeoutSaga);
     yield takeLatest(actionTypes.INITIATE_LOGOUT_USER, logoutSaga);
     yield takeLatest(actionTypes.REGISTRATION, registrationSaga);
+    yield takeLatest(actionTypes.ACTIVATE_USER, activateUserSaga);
 }
