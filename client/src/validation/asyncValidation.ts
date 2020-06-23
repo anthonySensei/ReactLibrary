@@ -1,8 +1,8 @@
 import axios from '../helper/axios';
 import { REGISTRATION_CHECK_URL } from '../constants/serverLinks';
-import RegistrationFormData from '../interfaces/RegistrationFormData';
+import RegistrationData from '../interfaces/RegistrationData';
 
-export const asyncStudentIdValidate = (values: RegistrationFormData) => {
+export const asyncStudentIdValidate = (values: RegistrationData) => {
     return axios
         .post(REGISTRATION_CHECK_URL, {
             studentId: values.studentId,

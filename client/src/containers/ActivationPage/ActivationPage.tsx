@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, RouteComponentProps } from 'react-router-dom';
 
 import { activateUser } from '../../redux/actions';
 
@@ -12,13 +12,23 @@ import { CircularProgress } from '@material-ui/core';
 import { handleSnackbarOpenService } from '../../services/snackbar';
 
 import './ActivationPage.scss';
+
 import { Dispatch } from 'redux';
 
-const ActivationPage = (props: any) => {
+interface ActivationPageProps extends RouteComponentProps<{}> {
+    message: string;
+    error: string;
+    onActivate: (token: string) => void;
+}
+
+const ActivationPage = (props: ActivationPageProps) => {
     const params = new URLSearchParams(props.location.search);
     const token = params.get('token');
 
-    const { error, message } = props;
+    const message = props.message;
+    let error = props.error;
+
+    if (!token) error = 'Token is not found';
 
     let redirect = null;
 

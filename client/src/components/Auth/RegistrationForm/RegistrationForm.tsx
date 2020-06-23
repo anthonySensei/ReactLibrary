@@ -6,6 +6,7 @@ import { Field, reduxForm } from 'redux-form';
 
 import { AuthTypes } from '../../../constants/AuthTypes';
 import { REGISTRATION_FORM } from '../../../constants/reduxForms';
+import { SnackbarTypes } from '../../../constants/snackbarTypes';
 
 import renderedTextField from '../../../share/renderedFields/input';
 
@@ -17,10 +18,19 @@ import {
     retypePassword
 } from '../../../validation/fields';
 import { asyncStudentIdValidate } from '../../../validation/asyncValidation';
-import { handleSnackbarOpenService } from '../../../services/snackbar';
-import { SnackbarTypes } from '../../../constants/snackbarTypes';
 
-let RegistrationForm: any = (props: any) => {
+import { handleSnackbarOpenService } from '../../../services/snackbar';
+
+import RegistrationData from '../../../interfaces/RegistrationData';
+
+interface RegistrationFormProps {
+    handleSubmit: () => RegistrationData;
+    invalid: boolean;
+    message: string;
+    switchAuth: (authForm: string) => void;
+}
+
+let RegistrationForm: any = (props: RegistrationFormProps) => {
     const { handleSubmit, invalid } = props;
     const message = props.message;
 
@@ -29,7 +39,7 @@ let RegistrationForm: any = (props: any) => {
         handleSnackbarOpenService(true, SnackbarTypes.SUCCESS, message);
     }
 
-    const getSteps = () => {
+    const getSteps = (): string[] => {
         return ['Main', 'Password', 'Finish'];
     };
 

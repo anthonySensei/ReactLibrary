@@ -6,14 +6,14 @@ import {
     LOGOUT_URL,
     REGISTRATION_URL
 } from '../constants/serverLinks';
-import RegistrationFormData from '../interfaces/RegistrationFormData';
+import RegistrationData from '../interfaces/RegistrationData';
 
 export const loginUserService = async (request: any) => {
     return await axios.post(LOGIN_URL, request.result);
 };
 
 export const registrationService = async (
-    registrationValues: RegistrationFormData
+    registrationValues: RegistrationData
 ) => {
     return await axios.post(REGISTRATION_URL, registrationValues);
 };

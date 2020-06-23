@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -7,17 +7,27 @@ import { loginUser, registration, setLoginError } from '../../redux/actions';
 import { Card } from '@material-ui/core';
 
 import LoginForm from '../../components/Auth/LoginForm/LoginForm';
+import RegistrationForm from '../../components/Auth/RegistrationForm/RegistrationForm';
 
 import LoginData from '../../interfaces/Login';
+import RegistrationData from '../../interfaces/RegistrationData';
 
 import { ClientLinks } from '../../constants/ClientLinks';
+import { AuthTypes } from '../../constants/AuthTypes';
 
 import './Auth.scss';
-import { AuthTypes } from '../../constants/AuthTypes';
-import RegistrationForm from '../../components/Auth/RegistrationForm/RegistrationForm';
-import RegistrationFormData from '../../interfaces/RegistrationFormData';
+import {Dispatch} from "redux";
 
-const Auth = (props: any) => {
+interface AuthProps {
+    message: string;
+    onLogin: (loginData: LoginData) => void;
+    onRegistration: (registrationData: RegistrationData) => void;
+    isLoggedIn: boolean;
+    loginError: string;
+    onSetLoginError: (isError: boolean) => void;
+}
+
+const Auth = (props: AuthProps) => {
     const [authType, setAuthType] = useState(AuthTypes.LOGIN);
     const message = props.message;
 
@@ -25,15 +35,15 @@ const Auth = (props: any) => {
     if (props.isLoggedIn) {
         authRedirect = <Redirect to={ClientLinks.HOME_PAGE} />;
     }
-    const handleLogin = (loginData: LoginData) => {
+    const handleLogin = (loginData: LoginData): void => {
         props.onLogin(loginData);
     };
 
-    const handleRegistration = (registrationData: RegistrationFormData) => {
+    const handleRegistration = (registrationData: RegistrationData): void => {
         props.onRegistration(registrationData);
     };
 
-    const handleSwitchAuth = (authType: AuthTypes) => {
+    const handleSwitchAuth = (authType: AuthTypes): void => {
         setAuthType(authType);
     };
 
@@ -87,11 +97,11 @@ const mapStateToProps = (state: any) => ({
     loginError: state.auth.loginError
 });
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
-        onLogin: (data: any) => dispatch(loginUser(data)),
+        onLogin: (loginData: LoginData) => dispatch(loginUser(loginData)),
         onSetLoginError: (data: boolean) => dispatch(setLoginError(data)),
-        onRegistration: (registrationData: RegistrationFormData) =>
+        onRegistration: (registrationData: RegistrationData) =>
             dispatch(registration(registrationData))
     };
 };

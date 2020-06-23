@@ -4,7 +4,11 @@ import './Header.scss';
 import { Link } from 'react-router-dom';
 import { ClientLinks } from '../../constants/ClientLinks';
 
-const Header = (props: any) => {
+interface HeaderProps {
+    isLoggedIn: boolean;
+}
+
+const Header = (props: HeaderProps) => {
     return (
         <AppBar position="static">
             <Toolbar className="navbar main-navbar">

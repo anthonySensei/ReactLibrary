@@ -2,9 +2,10 @@ import * as actionTypes from './actionTypes';
 import { TOKEN_START } from '../../constants/tokenStart';
 
 import User from '../../interfaces/User';
-import RegistrationFormData from '../../interfaces/RegistrationFormData';
+import RegistrationData from '../../interfaces/RegistrationData';
+import LoginData from "../../interfaces/Login";
 
-export const loginUser = (res: any) => {
+export const loginUser = (res: LoginData) => {
     return {
         type: actionTypes.LOGIN_USER,
         result: res
@@ -24,10 +25,10 @@ export const logout = () => {
     };
 };
 
-export const registration = (result: RegistrationFormData) => {
+export const registration = (registrationData: RegistrationData) => {
     return {
         type: actionTypes.REGISTRATION,
-        result
+        registrationData
     };
 };
 

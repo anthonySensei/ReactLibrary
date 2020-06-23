@@ -6,13 +6,17 @@ import { ClientLinks } from '../constants/ClientLinks';
 
 import Auth from '../containers/Auth/Auth';
 import Home from '../containers/Home/Home';
-
-import Header from '../components/Header/Header';
-import Logout from '../components/Auth/Logout/Logout';
 import BookDetails from '../containers/BookDetails/BookDetails';
 import ActivationPage from '../containers/ActivationPage/ActivationPage';
 
-const Routers = (props: any) => {
+import Header from '../components/Header/Header';
+import Logout from '../components/Auth/Logout/Logout';
+
+interface RoutersProps {
+    isLoggedIn: boolean;
+}
+
+const Routers = (props: RoutersProps) => {
     return (
         <Router>
             <Header {...props} />
