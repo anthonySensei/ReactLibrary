@@ -5,7 +5,9 @@ import axios from '../../helper/axios';
 
 const initialState = {
     user: null,
-    loginError: null
+    loginError: null,
+    message: null,
+    activationError: null
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -16,6 +18,10 @@ const reducer = (state = initialState, action: any) => {
             return updateObject(state, {
                 user: response.user,
                 loginError: null
+            });
+        case actionTypes.REGISTRATION_SUCCESS:
+            return updateObject(state, {
+                message: response.message
             });
         case actionTypes.LOGIN_USER_ERROR:
             return updateObject(state, {
@@ -34,6 +40,14 @@ const reducer = (state = initialState, action: any) => {
             return updateObject(state, {
                 error: null,
                 user: null
+            });
+        case actionTypes.ACTIVATE_USER_SUCCESS:
+            return updateObject(state, {
+                message: action.message
+            });
+        case actionTypes.ACTIVATE_USER_ERROR:
+            return updateObject(state, {
+                activationError: action.error
             });
         default:
             return state;

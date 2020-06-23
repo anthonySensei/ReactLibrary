@@ -5,20 +5,27 @@ const router = express.Router();
 const authController = require('../controllers/auth');
 
 const registrationUrl = require('../constants/links').AUTH_REGISTRATION_URL;
+const registrationCheckUrl = require('../constants/links')
+    .AUTH_REGISTRATION_CHECK_URL;
 const loginUrl = require('../constants/links').AUTH_LOGIN_URL;
 const logoutUrl = require('../constants/links').AUTH_LOGOUT_URL;
 const checkRegistrationTokenUrl = require('../constants/links')
-    .AUTH_CHECK_REGISTRATION_TOKEN_URL;
+    .AUTH_CHECK_ACTIVATION_TOKEN_URL;
 
 router.post(registrationUrl, authController.postCreateUser);
 
 router.post(
     checkRegistrationTokenUrl,
-    authController.postCheckRegistrationToken
+    authController.postCheckActivationToken
 );
 
 router.post(loginUrl, authController.postLoginUser);
 
 router.get(logoutUrl, authController.getLogout);
+
+router.post(
+    registrationUrl + registrationCheckUrl,
+    authController.checkStudentRegistration
+);
 
 module.exports = router;

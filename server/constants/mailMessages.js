@@ -1,4 +1,4 @@
-const activationPageUrl = require('./links').AUTH_ACTIVATION_PAGE_URL;
+const activationPageUrl = require('./links').AUTH_CLIENT_ACTIVATION_PAGE_URL;
 
 exports.subjects = {
     ACCOUNT_ACTIVATION: 'Account activation',

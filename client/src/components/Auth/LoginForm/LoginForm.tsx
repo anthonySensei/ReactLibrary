@@ -8,6 +8,7 @@ import renderedTextField from '../../../share/renderedFields/input';
 import { LOGIN_FORM } from '../../../constants/reduxForms';
 
 import { email, required } from '../../../validation/fields';
+import { AuthTypes } from '../../../constants/AuthTypes';
 
 let LoginForm: any = (props: any) => {
     const { handleSubmit, loginError } = props;
@@ -53,13 +54,22 @@ let LoginForm: any = (props: any) => {
                     }
                 />
                 <Button
-                    className="btn-form"
+                    className="form-btn"
                     type="submit"
                     variant="contained"
                     color="primary"
                 >
                     Login
                 </Button>
+                <Divider />
+                <div className="links-group">
+                    <p
+                        className="auth-link"
+                        onClick={() => props.switchAuth(AuthTypes.REGISTRATION)}
+                    >
+                        Don't have account?
+                    </p>
+                </div>
             </form>
         </>
     );

@@ -4,10 +4,12 @@ exports.BOOKS_ISBN_URL = `/isbn`;
 exports.BOOKS_MOVE_URL = `/move`;
 
 exports.AUTH_REGISTRATION_URL = '/registration';
-exports.AUTH_CHECK_REGISTRATION_TOKEN_URL = '/check-registration-token';
-exports.AUTH_ACTIVATION_PAGE_URL = '/activation-page';
+exports.AUTH_REGISTRATION_CHECK_URL = '/check';
+exports.AUTH_CHECK_ACTIVATION_TOKEN_URL = '/check-activation-token';
 exports.AUTH_LOGIN_URL = '/login';
 exports.AUTH_LOGOUT_URL = '/logout';
+
+exports.AUTH_CLIENT_ACTIVATION_PAGE_URL = '/activation-page';
 
 exports.AUTHORS_URL = '/authors';
 
@@ -34,4 +36,3 @@ exports.PERIODS_URL = '/periods';
 
 exports.SCHEDULES_URL = '/schedules';
 exports.SCHEDULES_SORTED_URL = '/sorted';
-
