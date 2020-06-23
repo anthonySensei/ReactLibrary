@@ -2,6 +2,7 @@ const { Sequelize } = require('sequelize');
 const Op = Sequelize.Op;
 
 const Student = require('../models/student');
+const User = require('../models/user');
 const Department = require('../models/department');
 const Order = require('../models/order');
 const Book = require('../models/book');
@@ -293,7 +294,7 @@ exports.addStudent = async (req, res) => {
     } catch (err) {
         return helper.responseErrorHandle(
             res,
-            5000,
+            500,
             errorMessages.SOMETHING_WENT_WRONG
         );
     }

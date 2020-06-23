@@ -1,8 +1,11 @@
 import * as actionTypes from './actionTypes';
 import { TOKEN_START } from '../../constants/tokenStart';
-import User from '../../interfaces/User';
 
-export const loginUser = (res: any) => {
+import User from '../../interfaces/User';
+import RegistrationData from '../../interfaces/RegistrationData';
+import LoginData from "../../interfaces/Login";
+
+export const loginUser = (res: LoginData) => {
     return {
         type: actionTypes.LOGIN_USER,
         result: res
@@ -22,6 +25,13 @@ export const logout = () => {
     };
 };
 
+export const registration = (registrationData: RegistrationData) => {
+    return {
+        type: actionTypes.REGISTRATION,
+        registrationData
+    };
+};
+
 export const checkState = () => {
     const token: string | null = localStorage.getItem('token');
     if (token && !token.includes(TOKEN_START)) {
@@ -38,5 +48,12 @@ export const checkState = () => {
         type: actionTypes.CHECK_STATE,
         token,
         user
+    };
+};
+
+export const activateUser = (activationToken: string) => {
+    return {
+        type: actionTypes.ACTIVATE_USER,
+        result: activationToken
     };
 };

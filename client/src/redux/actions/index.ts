@@ -1,4 +1,11 @@
-export { loginUser, setLoginError, logout, checkState } from './auth';
+export {
+    loginUser,
+    setLoginError,
+    logout,
+    checkState,
+    registration,
+    activateUser
+} from './auth';
 
 export { getBooks, getBook, moveBook, loanBook, orderBook } from './book';
 

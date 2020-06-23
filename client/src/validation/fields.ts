@@ -8,6 +8,9 @@ export const required = (value: string) =>
 export const email = (value: string) =>
     value && !validation.EMAIL.test(value) ? 'Email is not valid' : undefined;
 
+export const id = (value: string) =>
+    value && !validation.ID.test(value) ? 'ID is not valid' : undefined;
+
 export const password = (value: string) =>
     value && !validation.PASSWORD.test(value)
         ? 'Password is not valid'
@@ -15,6 +18,13 @@ export const password = (value: string) =>
 
 export const lessThanZero = (value: string) =>
     !value || +value > 1 ? undefined : 'Year must be bigger than 0';
+
+export const retypePassword = (retypePassword: string) => {
+    const password = store.getState()?.form?.registrationForm?.values?.password;
+    return password && retypePassword && retypePassword !== password
+        ? 'Retype right password'
+        : undefined;
+};
 
 export const higherThanToYear = (value: string): string | undefined => {
     const tYearValue = store.getState()?.form?.filterForm?.values?.tYear;

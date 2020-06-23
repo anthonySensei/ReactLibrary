@@ -5,7 +5,7 @@ module.exports = {
     WRONG_PASSWORD_OR_EMAIL: 'Wrong password or email',
     EMPTY_FIELDS: 'Please fill in form',
     EMAIL_ADDRESS_ALREADY_IN_USE: 'Email address already in use',
-    READER_TICKET_ALREADY_IN_USE: 'Reader ticket already in use',
+    STUDENT_ID_ALREADY_IN_USE: 'Student ID already in use',
     CANNOT_FETCH: 'Cannot fetch',
     STUDENT_WITH_THIS_READER_TICKET_DOESNT_EXIST:
         "Student with this reader ticket doesn't exist",
