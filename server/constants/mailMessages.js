@@ -18,7 +18,7 @@ exports.messages = messages;
 exports.generateActivationMessage = registrationToken => {
     return `'Hello. Please follow the link below to activate your account.
                 <br />
-                <a href="${process.env.REACT}${activationPageUrl}?rtoken=${registrationToken}">
+                <a href="${process.env.REACT}${activationPageUrl}?token=${registrationToken}">
                     http://localhost:4200/activation-page?rtoken=${registrationToken}
                 </a>
                 ${messages.BEST_REGARDS}
