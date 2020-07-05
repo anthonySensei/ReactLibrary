@@ -1,12 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
+
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
-import './Header.scss';
-import { Link } from 'react-router-dom';
+
 import { ClientLinks } from '../../constants/ClientLinks';
 
-interface HeaderProps {
-    isLoggedIn: boolean;
-}
+import HeaderProps from "../../interfaces/props/HeaderProps";
+
+import './Header.scss';
 
 const Header = (props: HeaderProps) => {
     return (

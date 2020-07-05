@@ -387,20 +387,19 @@ exports.moveBook = async (req, res) => {
             await bookInDb.updateOne({
                 quantity: bookInDb.quantity - quantity
             });
-            const data = {
+            res.send({
                 message: successMessages.BOOK_SUCCESSFULLY_MOVED
-            };
-            res.send(data);
+            });
         } else {
+            console.log('here');
             await newBook.save();
             const bookInDb = await Book.findOne({ _id: book._id });
             await bookInDb.updateOne({
                 quantity: bookInDb.quantity - quantity
             });
-            const data = {
+            return res.send({
                 message: successMessages.BOOK_SUCCESSFULLY_MOVED
-            };
-            return res.send(data);
+            });
         }
     } catch (err) {
         return helper.responseErrorHandle(

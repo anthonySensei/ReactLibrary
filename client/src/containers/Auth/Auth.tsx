@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
 import { loginUser, registration, setLoginError } from '../../redux/actions';
 
@@ -11,36 +12,28 @@ import RegistrationForm from '../../components/Auth/RegistrationForm/Registratio
 
 import LoginData from '../../interfaces/Login';
 import RegistrationData from '../../interfaces/RegistrationData';
+import AuthProps from '../../interfaces/props/AuthProps';
 
 import { ClientLinks } from '../../constants/ClientLinks';
 import { AuthTypes } from '../../constants/AuthTypes';
 
 import './Auth.scss';
-import {Dispatch} from "redux";
-
-interface AuthProps {
-    message: string;
-    onLogin: (loginData: LoginData) => void;
-    onRegistration: (registrationData: RegistrationData) => void;
-    isLoggedIn: boolean;
-    loginError: string;
-    onSetLoginError: (isError: boolean) => void;
-}
 
 const Auth = (props: AuthProps) => {
     const [authType, setAuthType] = useState(AuthTypes.LOGIN);
-    const message = props.message;
+    const { message, isLoggedIn, loginError } = props;
+    const { onLogin, onRegistration, onSetLoginError } = props;
 
     let authRedirect = null;
-    if (props.isLoggedIn) {
+    if (isLoggedIn) {
         authRedirect = <Redirect to={ClientLinks.HOME_PAGE} />;
     }
     const handleLogin = (loginData: LoginData): void => {
-        props.onLogin(loginData);
+        onLogin(loginData);
     };
 
     const handleRegistration = (registrationData: RegistrationData): void => {
-        props.onRegistration(registrationData);
+        onRegistration(registrationData);
     };
 
     const handleSwitchAuth = (authType: AuthTypes): void => {
@@ -49,17 +42,19 @@ const Auth = (props: AuthProps) => {
 
     let authPage;
 
+    const loginForm = (
+        <LoginForm
+            onSubmit={handleLogin}
+            loginError={loginError}
+            setLoginError={onSetLoginError}
+            switchAuth={handleSwitchAuth}
+        />
+    );
+
     switch (authType) {
         case AuthTypes.LOGIN:
             document.title = 'Login';
-            authPage = (
-                <LoginForm
-                    onSubmit={handleLogin}
-                    loginError={props.loginError}
-                    setLoginError={props.onSetLoginError}
-                    switchAuth={handleSwitchAuth}
-                />
-            );
+            authPage = loginForm;
             break;
         case AuthTypes.REGISTRATION:
             document.title = 'Registration';
@@ -73,14 +68,7 @@ const Auth = (props: AuthProps) => {
             break;
         default:
             document.title = 'Login';
-            authPage = (
-                <LoginForm
-                    onSubmit={handleLogin}
-                    loginError={props.loginError}
-                    setLoginError={props.onSetLoginError}
-                    switchAuth={handleSwitchAuth}
-                />
-            );
+            authPage = loginForm;
     }
 
     return (

@@ -6,7 +6,14 @@ import { handleSnackbarOpenService } from '../../services/snackbar';
 
 import { SnackbarTypes } from '../../constants/snackbarTypes';
 
-export function* registrationSaga(payload: any) {
+import RegistrationData from '../../interfaces/RegistrationData';
+
+interface RegistrationSagePayload {
+    type: string;
+    registrationData: RegistrationData;
+}
+
+export function* registrationSaga(payload: RegistrationSagePayload) {
     try {
         const response = yield call(
             registrationService,

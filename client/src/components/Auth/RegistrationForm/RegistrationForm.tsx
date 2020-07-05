@@ -21,21 +21,14 @@ import { asyncStudentIdValidate } from '../../../validation/asyncValidation';
 
 import { handleSnackbarOpenService } from '../../../services/snackbar';
 
-import RegistrationData from '../../../interfaces/RegistrationData';
-
-interface RegistrationFormProps {
-    handleSubmit: () => RegistrationData;
-    invalid: boolean;
-    message: string;
-    switchAuth: (authForm: string) => void;
-}
+import RegistrationFormProps from '../../../interfaces/props/RegistrationFormProps';
 
 let RegistrationForm: any = (props: RegistrationFormProps) => {
-    const { handleSubmit, invalid } = props;
-    const message = props.message;
+    const { handleSubmit, switchAuth } = props;
+    const { message, invalid } = props;
 
     if (message) {
-        props.switchAuth(AuthTypes.LOGIN);
+        switchAuth(AuthTypes.LOGIN);
         handleSnackbarOpenService(true, SnackbarTypes.SUCCESS, message);
     }
 
@@ -170,7 +163,7 @@ let RegistrationForm: any = (props: RegistrationFormProps) => {
                 <div className="links-group">
                     <p
                         className="auth-link"
-                        onClick={() => props.switchAuth(AuthTypes.LOGIN)}
+                        onClick={() => switchAuth(AuthTypes.LOGIN)}
                     >
                         Have an account?
                     </p>

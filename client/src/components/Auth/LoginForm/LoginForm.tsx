@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 
 import { Button, Divider } from '@material-ui/core';
@@ -6,12 +6,15 @@ import { Button, Divider } from '@material-ui/core';
 import renderedTextField from '../../../share/renderedFields/input';
 
 import { LOGIN_FORM } from '../../../constants/reduxForms';
-
-import { email, required } from '../../../validation/fields';
 import { AuthTypes } from '../../../constants/AuthTypes';
 
-let LoginForm: any = (props: any) => {
-    const { handleSubmit, loginError } = props;
+import LoginFormProps from '../../../interfaces/props/LoginFormProps';
+
+import { email, required } from '../../../validation/fields';
+
+let LoginForm: any = (props: LoginFormProps) => {
+    const { handleSubmit, setLoginError, switchAuth } = props;
+    const loginError = props.loginError;
 
     const emailValidate: any = { validate: [required, email] };
     const emailAdvancedValidate: any = {
@@ -36,9 +39,7 @@ let LoginForm: any = (props: any) => {
                     label="Email"
                     {...(!loginError ? emailValidate : emailAdvancedValidate)}
                     component={renderedTextField}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                        props.setLoginError(false)
-                    }
+                    onChange={() => setLoginError(false)}
                 />
                 <Field
                     name="password"
@@ -49,9 +50,7 @@ let LoginForm: any = (props: any) => {
                         ? passwordValidate
                         : passwordValidateAdvanced)}
                     component={renderedTextField}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                        props.setLoginError(false)
-                    }
+                    onChange={() => setLoginError(false)}
                 />
                 <Button
                     className="form-btn"
@@ -65,7 +64,7 @@ let LoginForm: any = (props: any) => {
                 <div className="links-group">
                     <p
                         className="auth-link"
-                        onClick={() => props.switchAuth(AuthTypes.REGISTRATION)}
+                        onClick={() => switchAuth(AuthTypes.REGISTRATION)}
                     >
                         Don't have account?
                     </p>

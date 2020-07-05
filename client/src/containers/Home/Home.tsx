@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FiFilter } from 'react-icons/all';
 import { connect } from 'react-redux';
-
+import { getFormValues } from 'redux-form';
 import { Dispatch } from 'redux';
+
 import {
     getAuthors,
     getBooks,
@@ -25,65 +26,51 @@ import {
     MenuItem,
     Select
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 
 import BooksList from '../../components/Books/BooksList/BooksList';
 import FilterForm from '../../components/Books/FilterForm/FilterForm';
 import PaginationContainer from '../../components/Books/PaginationContainer/PaginationContainer';
 
 import Department from '../../interfaces/Department';
-import Genre from '../../interfaces/Genre';
 import BooksFilter from '../../interfaces/BooksFilter';
+import HomePageProps from '../../interfaces/props/HomePageProps';
+import Genre from '../../interfaces/Genre';
 
-import './Home.scss';
-import { FILTER_FORM } from '../../constants/reduxForms';
-import { getFormValues } from 'redux-form';
 import {
     addFilterToQueryParamsService,
     getFilterObjService
 } from '../../services/bookService';
 
-const useStyles = makeStyles({
-    pageTitle: {
-        textAlign: 'center',
-        marginTop: '5%',
-        marginBottom: '0.5%'
-    },
-    booksContainer: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        padding: '50px 20px'
-    },
-    paginationContainer: {
-        display: 'flex',
-        justifyContent: 'center',
-        margin: '10px 0',
-        padding: '10px 0'
-    },
-    formControl: {
-        minWidth: 170,
-        textAlign: 'left'
-    }
-});
+import { homePageStyles } from '../../constants/styles';
+import { FILTER_FORM } from '../../constants/reduxForms';
 
-const Home = (props: any) => {
+import './Home.scss';
+
+const Home = (props: HomePageProps) => {
     document.title = 'Home';
-    const classes = useStyles();
-    const history = useHistory();
-    const department = props.department;
-    const departments = props.departments;
-    const [isOpenFilter, setIsOpenFilter] = useState(false);
+
     const shortId = require('shortid');
+
+    const classes = homePageStyles();
+    const history = useHistory();
+    const [isOpenFilter, setIsOpenFilter] = useState(false);
+
+    const department: string = props.departmentId;
+    const departments: Department[] = props.departments;
+
     const params = new URLSearchParams(props.location.search);
     const page: string | number = params.get('page') || 1;
-
     const authorId: string | null = params.get('authorId');
     const departmentId: string | null = params.get('departmentId');
     const filter: string | null = params.get('filter');
     const fYear: string | null = params.get('fYear');
     const tYear: string | null = params.get('tYear');
     const value: string | null = params.get('value');
+
+    const { authors, genres, books } = props;
+    const { onGetBooks, onGetDepartments, onGetAuthors, onGetGenres } = props;
+    const { onSetDepartment, onSetSelectedGenres } = props;
+    const { isLoading, paginationData, selectedGenres, formValues } = props;
 
     const getFilterObj = () => {
         return getFilterObjService(
@@ -97,33 +84,34 @@ const Home = (props: any) => {
     };
 
     useEffect(() => {
-        props.onGetBooks(page, getFilterObj(), department);
-        props.onGetDepartments();
-        props.onGetGenres();
-        props.onGetAuthors();
+        onGetBooks(page, getFilterObj(), department);
+        onGetDepartments();
     }, []);
 
     useEffect(() => {
-        props.onGetBooks(page, getFilterObj(), department);
+        onGetBooks(page, getFilterObj(), department);
     }, [page]);
 
     const toggleDrawer = (isOpen: boolean) => (): void => {
         setIsOpenFilter(isOpen);
+        if (isOpen) {
+            onGetAuthors();
+            onGetGenres();
+        }
     };
 
     const handleChange = (
         event: React.ChangeEvent<{ value: unknown }>
     ): void => {
         const departmentId: string = event.target.value as string;
-        props.onSetDepartment(departmentId);
-        props.onGetBooks(page, {}, departmentId);
+        onSetDepartment(departmentId);
+        onGetBooks(page, {}, departmentId);
     };
 
     const filterBooks = (filterObj: BooksFilter): void => {
-        if (filterObj.departmentId)
-            props.onSetDepartment(filterObj.departmentId);
+        if (filterObj.departmentId) onSetDepartment(filterObj.departmentId);
         addFilterToQueryParams(filterObj);
-        props.onGetBooks(
+        onGetBooks(
             page,
             { ...filterObj, genres: JSON.stringify(props.selectedGenres) },
             filterObj.departmentId
@@ -144,14 +132,14 @@ const Home = (props: any) => {
                 <FilterForm
                     onToggleDrawer={toggleDrawer}
                     departments={departments}
-                    authors={props.authors}
-                    genres={props.genres}
+                    authors={authors}
+                    genres={genres}
                     onSubmit={filterBooks}
-                    onSetGenres={props.onSetSelectedGenres}
                     filterObj={getFilterObj()}
-                    filter={props.formValues?.filter}
                     onPaginate={handlePagination}
-                    selectedGenres={props.selectedGenres}
+                    filter={formValues?.filter}
+                    onSetGenres={onSetSelectedGenres}
+                    selectedGenres={selectedGenres}
                 />
             </Drawer>
             <Card className={classes.pageTitle}>
@@ -185,41 +173,39 @@ const Home = (props: any) => {
                 </div>
             </Card>
             <Card className={classes.booksContainer}>
-                {props.isLoading ? (
+                {isLoading ? (
                     <CircularProgress />
                 ) : (
                     <BooksList
-                        books={props.books}
                         departmentId={department}
                         shortId={shortId}
+                        books={books}
                     />
                 )}
             </Card>
-            {props.isLoading ||
-            !props.paginationData.hasPreviousPage ||
-            !props.paginationData.hasNextPage ? (
-                ''
-            ) : (
-                <Card className={classes.paginationContainer}>
-                    <PaginationContainer
-                        paginationData={props.paginationData}
-                        onHandlePagination={handlePagination}
-                    />
-                </Card>
-            )}
+            {!isLoading &&
+                (paginationData.hasPreviousPage ||
+                    paginationData.hasNextPage) && (
+                    <Card className={classes.paginationContainer}>
+                        <PaginationContainer
+                            paginationData={paginationData}
+                            onHandlePagination={handlePagination}
+                        />
+                    </Card>
+                )}
         </Container>
     );
 };
 
 const mapStateToProps = (state: any) => ({
     books: state.book.books,
+    genres: state.genre.genres,
+    authors: state.author.authors,
     paginationData: state.book.paginationData,
     isLoading: state.loading.loading,
     department: state.department.department,
     departments: state.department.departments,
-    genres: state.genre.genres,
     selectedGenres: state.genre.selectedGenres,
-    authors: state.author.authors,
     formValues: getFormValues(FILTER_FORM)(state)
 });
 
@@ -231,12 +217,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
             departmentId: string
         ) => dispatch(getBooks(page, filterObj, departmentId)),
         onGetDepartments: () => dispatch(getDepartments()),
-        onGetAuthors: () => dispatch(getAuthors()),
-        onGetGenres: () => dispatch(getGenres()),
         onSetDepartment: (departmentId: string) =>
             dispatch(setDepartment(departmentId)),
         onSetSelectedGenres: (genres: Genre[]) =>
-            dispatch(setSelectedGenres(genres))
+            dispatch(setSelectedGenres(genres)),
+        onGetAuthors: () => dispatch(getAuthors()),
+        onGetGenres: () => dispatch(getGenres())
     };
 };
 

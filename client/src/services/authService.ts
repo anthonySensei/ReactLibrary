@@ -6,10 +6,12 @@ import {
     LOGOUT_URL,
     REGISTRATION_URL
 } from '../constants/serverLinks';
-import RegistrationData from '../interfaces/RegistrationData';
 
-export const loginUserService = async (request: any) => {
-    return await axios.post(LOGIN_URL, request.result);
+import RegistrationData from '../interfaces/RegistrationData';
+import LoginData from '../interfaces/Login';
+
+export const loginUserService = async (loginData: LoginData) => {
+    return await axios.post(LOGIN_URL, loginData);
 };
 
 export const registrationService = async (

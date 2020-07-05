@@ -10,11 +10,11 @@ import {
     MenuItem,
     TextField
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { Autocomplete } from '@material-ui/lab';
 
 import { FILTER_FORM } from '../../../constants/reduxForms';
 import { BookFilters } from '../../../constants/BookFilters';
+import { filterFormStyles } from '../../../constants/styles';
 
 import renderedSelectField from '../../../share/renderedFields/select';
 import renderedTextField from '../../../share/renderedFields/input';
@@ -23,43 +23,22 @@ import Department from '../../../interfaces/Department';
 import Author from '../../../interfaces/Author';
 import Genre from '../../../interfaces/Genre';
 import BooksFilter from '../../../interfaces/BooksFilter';
+import FilterFormProps from '../../../interfaces/props/FilterFormProps';
+
 import {
     higherThanToYear,
     lessThanZero,
     notEmptyFilterValue
 } from '../../../validation/fields';
 
-const useStyles = makeStyles({
-    formControl: {
-        minWidth: '100%',
-        textAlign: 'left',
-        margin: '10px auto'
-    },
-    closeBtnPanel: {
-        backgroundColor: '#2196F3',
-        textAlign: 'right',
-        width: 250
-    },
-    closeBtn: {
-        color: '#fff'
-    },
-    capitalize: {
-        textTransform: 'capitalize'
-    },
-    uppercase: {
-        textTransform: 'uppercase'
-    },
-    container: {
-        maxWidth: 250
-    }
-});
-
-let FilterForm: any = (props: any) => {
-    const classes = useStyles();
+let FilterForm: any = (props: FilterFormProps) => {
+    const classes = filterFormStyles();
     const { handleSubmit, reset, filter } = props;
-    const authors = props.authors || [];
-    const genres = props.genres || [];
-    const departments = props.departments || [];
+    const { onPaginate, onSetGenres, onToggleDrawer } = props;
+
+    const authors: Author[] = props.authors || [];
+    const genres: Genre[] = props.genres || [];
+    const departments: Department[] = props.departments || [];
     const shortId = require('shortid');
 
     const filterObj: BooksFilter = props.filterObj;
@@ -78,7 +57,7 @@ let FilterForm: any = (props: any) => {
     return (
         <form onSubmit={handleSubmit}>
             <div className={classes.closeBtnPanel}>
-                <IconButton onClick={props.onToggleDrawer(false)}>
+                <IconButton onClick={onToggleDrawer(false)}>
                     <IoMdClose className={classes.closeBtn} />
                 </IconButton>
             </div>
@@ -144,7 +123,7 @@ let FilterForm: any = (props: any) => {
                     getOptionLabel={(genre: Genre) => genre.name}
                     value={props.selectedGenres}
                     onChange={(e: ChangeEvent<{}>, values: Genre[]) => {
-                        props.onSetGenres(values);
+                        onSetGenres(values);
                     }}
                     renderInput={params => (
                         <TextField
@@ -209,8 +188,8 @@ let FilterForm: any = (props: any) => {
                         variant="outlined"
                         onClick={() => {
                             reset(FILTER_FORM);
-                            props.onSetGenres([]);
-                            props.onPaginate(1);
+                            onSetGenres([]);
+                            onPaginate(1);
                         }}
                     >
                         Clear

@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { GoLocation } from 'react-icons/all';
+
 import {
     Button,
     Card,
@@ -8,23 +10,21 @@ import {
     Tooltip,
     Typography
 } from '@material-ui/core';
-import { GoLocation } from 'react-icons/all';
+
 import { UserRoles } from '../../../constants/UserRoles';
+import { bookDetailsCardStyles } from '../../../constants/styles';
+
 import Book from '../../../interfaces/Book';
 import User from '../../../interfaces/User';
-import { makeStyles } from '@material-ui/core/styles';
+import BookDetailsCardProps from '../../../interfaces/props/BookDetailsCardProps';
 
-const useStyles = makeStyles({
-    bookCard: {
-        maxWidth: '30%'
-    },
-    location: {
-        marginTop: 20
-    }
-});
-
-const BookDetailsCard = (props: any) => {
-    const classes = useStyles();
+const BookDetailsCard = (props: BookDetailsCardProps) => {
+    const classes = bookDetailsCardStyles();
+    const {
+        onSetOpenConfirmDialog,
+        onSetOpenLoanDialog,
+        onSetOpenMoveDialog
+    } = props;
     const book: Book = props.book || { author: {}, department: {} };
     const user: User = props.user || {};
 
@@ -58,47 +58,41 @@ const BookDetailsCard = (props: any) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                {user.role === UserRoles.MANAGER ? (
+                {user.role === UserRoles.MANAGER && (
                     <Tooltip title="Move book to another department">
                         <Button
                             size="small"
                             color="primary"
                             variant="contained"
-                            onClick={() => props.onSetOpenMoveDialog()}
+                            onClick={() => onSetOpenMoveDialog()}
                         >
                             Move
                         </Button>
                     </Tooltip>
-                ) : (
-                    ''
                 )}
-                {user.role === UserRoles.STUDENT ? (
+                {user.role === UserRoles.STUDENT && (
                     <Tooltip title="Order this book">
                         <Button
                             size="small"
                             color="primary"
                             variant="contained"
-                            onClick={() => props.onSetOpenConfirmDialog(true)}
+                            onClick={() => onSetOpenConfirmDialog(true)}
                         >
                             Order
                         </Button>
                     </Tooltip>
-                ) : (
-                    ''
                 )}
-                {user.role === UserRoles.LIBRARIAN ? (
+                {user.role === UserRoles.LIBRARIAN && (
                     <Tooltip title="Loan book">
                         <Button
                             size="small"
                             color="primary"
                             variant="contained"
-                            onClick={() => props.onSetOpenLoanDialog()}
+                            onClick={() => onSetOpenLoanDialog()}
                         >
                             Loan
                         </Button>
                     </Tooltip>
-                ) : (
-                    ''
                 )}
             </CardActions>
         </Card>

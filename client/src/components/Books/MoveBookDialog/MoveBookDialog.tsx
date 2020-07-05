@@ -4,7 +4,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 
-import '../../../App.scss';
 import {
     Divider,
     FormControl,
@@ -13,27 +12,17 @@ import {
     Select,
     TextField
 } from '@material-ui/core';
+
+import { dialogStyles } from '../../../constants/styles';
+
 import Department from '../../../interfaces/Department';
-import { makeStyles } from '@material-ui/core/styles';
+import MoveBookDialogProps from '../../../interfaces/props/MoveBookDialogProps';
 
-export interface MoveDialogProps {
-    open: boolean;
-    quantityError: string;
-    departmentError: string;
-    departments: Department[];
-    onClose: (departmentId: string, quantity: number, submit: boolean) => void;
-    onSetQuantityError: (error: string) => void;
-    onSetDepartmentError: (error: string) => void;
-}
+import '../../../App.scss';
 
-const useStyles = makeStyles({
-    input: {
-        width: '92%',
-        margin: '5px auto'
-    }
-});
+export const MoveBookDialog = (props: MoveBookDialogProps) => {
+    const classes = dialogStyles();
 
-export const MoveBookDialog = (props: MoveDialogProps) => {
     const {
         onClose,
         open,
@@ -43,9 +32,9 @@ export const MoveBookDialog = (props: MoveDialogProps) => {
         departmentError,
         onSetDepartmentError
     } = props;
-    const classes = useStyles();
     const [departmentId, setDepartmentId] = useState('');
     const [quantityToMove, setQuantityToMove] = useState(0);
+
     const shortId = require('shortid');
 
     const handleDepartmentChange = (

@@ -6,9 +6,15 @@ import Book from '../../interfaces/Book';
 import { getBookService } from '../../services/bookService';
 import { setLoadingService } from '../../services/loadingIndicator';
 import { handleSnackbarOpenService } from '../../services/snackbar';
+
 import { SnackbarTypes } from '../../constants/snackbarTypes';
 
-export function* getBookSaga(payload: any) {
+interface GetBookSagaPayload {
+    type: string;
+    bookId: string | null;
+}
+
+export function* getBookSaga(payload: GetBookSagaPayload) {
     try {
         setLoadingService(true);
         const response = yield call(getBookService, payload.bookId);
