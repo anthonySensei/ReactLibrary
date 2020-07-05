@@ -2,13 +2,23 @@ import { call, put } from 'redux-saga/effects';
 import * as actionTypes from '../../redux/actions/actionTypes';
 
 import Book from '../../interfaces/Book';
+import MainPagination from '../../interfaces/MainPagination';
+import BooksFilter from '../../interfaces/BooksFilter';
 
 import { getBooksService } from '../../services/bookService';
 import { setLoadingService } from '../../services/loadingIndicator';
 import { handleSnackbarOpenService } from '../../services/snackbar';
+
 import { SnackbarTypes } from '../../constants/snackbarTypes';
 
-export function* getBooksSaga(payload: any) {
+interface GetBooksSagaPayload {
+    type: string;
+    page: string | number;
+    filterObj: BooksFilter;
+    departmentId: string;
+}
+
+export function* getBooksSaga(payload: GetBooksSagaPayload) {
     try {
         setLoadingService(true);
         const response = yield call(
@@ -18,7 +28,7 @@ export function* getBooksSaga(payload: any) {
             payload.departmentId
         );
         const books: Book[] = response.data.books;
-        const paginationData = response.data.paginationData;
+        const paginationData: MainPagination = response.data.paginationData;
         yield put({
             type: actionTypes.GET_BOOKS_SUCCESS,
             books,

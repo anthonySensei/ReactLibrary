@@ -1,44 +1,25 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+
 import {
     Button,
     Card,
     CardActions,
     CardContent,
-    CardMedia,
-    Typography
+    CardMedia
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+
 import Book from '../../../interfaces/Book';
-import { useHistory } from 'react-router-dom';
+import BookListProps from '../../../interfaces/props/BookListProps';
+
 import { ClientLinks } from '../../../constants/ClientLinks';
+import { bookListStyles } from '../../../constants/styles';
 
-const useStyles = makeStyles({
-    bookCard: {
-        flex: '20%',
-        maxWidth: '25%',
-        margin: '10px'
-    },
-    image: {
-        height: 0,
-        paddingTop: '120%'
-    },
-    title: {
-        fontSize: 20,
-        textAlign: 'center'
-    },
-    info: {
-        fontSize: 16,
-        marginTop: 5
-    },
-    button: {
-        width: '100%'
-    }
-});
-
-const BooksList = (props: any) => {
-    const classes = useStyles();
+const BooksList = (props: BookListProps) => {
+    const classes = bookListStyles();
     const history = useHistory();
-    const books = props.books || [];
+
+    const books: Book[] = props.books || [];
     const shortId = props.shortId;
 
     const showBookDetails = (bookId: string) => {
@@ -55,87 +36,44 @@ const BooksList = (props: any) => {
                             key={shortId.generate()}
                         >
                             <CardContent>
-                                <Typography
-                                    className={classes.title}
-                                    color="textSecondary"
-                                    gutterBottom
-                                >
-                                    {book.title}
-                                </Typography>
+                                <h2 className={classes.title}>{book.title}</h2>
                                 <CardMedia
                                     className={classes.image}
                                     image={book.image}
                                     title={book.description}
                                 />
-                                <Typography
-                                    variant="body2"
-                                    component="p"
-                                    className={classes.info}
-                                >
-                                    <Typography
-                                        color="textSecondary"
-                                        component="span"
-                                    >
+                                <p className={classes.info}>
+                                    <span className="secondary-text">
                                         Author:{' '}
-                                    </Typography>
+                                    </span>
                                     {book.author.name}
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    component="p"
-                                    className={classes.info}
-                                >
-                                    <Typography
-                                        color="textSecondary"
-                                        component="span"
-                                    >
+                                </p>
+                                <p className={classes.info}>
+                                    <span className="secondary-text">
                                         Genre:{' '}
-                                    </Typography>
+                                    </span>
                                     {book.genres}
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    component="p"
-                                    className={classes.info}
-                                >
-                                    <Typography
-                                        color="textSecondary"
-                                        component="span"
-                                    >
+                                </p>
+                                <p className={classes.info}>
+                                    <span className="secondary-text">
                                         Year:{' '}
-                                    </Typography>
+                                    </span>
                                     {book.year}
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    component="p"
-                                    className={classes.info}
-                                >
-                                    <Typography
-                                        color="textSecondary"
-                                        component="span"
-                                    >
+                                </p>
+                                <p className={classes.info}>
+                                    <span className="secondary-text">
                                         Quantity:{' '}
-                                    </Typography>
+                                    </span>
                                     {book.quantity}
-                                </Typography>
-                                {props.departmentId === 'all' ? (
-                                    <Typography
-                                        variant="body2"
-                                        component="p"
-                                        className={classes.info}
-                                    >
-                                        <Typography
-                                            color="textSecondary"
-                                            component="span"
-                                        >
+                                </p>
+                                {props.departmentId === 'all' && (
+                                    <p className={classes.info}>
+                                        <span className="secondary-text">
                                             Department:{' '}
-                                        </Typography>
+                                        </span>
                                         {book.department.name}(
                                         {book.department.address})
-                                    </Typography>
-                                ) : (
-                                    ''
+                                    </p>
                                 )}
                             </CardContent>
                             <CardActions>

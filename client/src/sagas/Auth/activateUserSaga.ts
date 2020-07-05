@@ -3,7 +3,12 @@ import * as actionTypes from '../../redux/actions/actionTypes';
 
 import { activateUserService } from '../../services/authService';
 
-export function* activateUserSaga(payload: any) {
+interface ActivateUserSagaPayload {
+    type: string;
+    result: string;
+}
+
+export function* activateUserSaga(payload: ActivateUserSagaPayload) {
     try {
         const response = yield call(activateUserService, payload.result);
         yield put({

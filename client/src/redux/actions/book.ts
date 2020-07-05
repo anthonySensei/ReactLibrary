@@ -1,9 +1,10 @@
 import * as actionTypes from './actionTypes';
 import Book from '../../interfaces/Book';
+import BooksFilter from "../../interfaces/BooksFilter";
 
 export const getBooks = (
     page: string | number,
-    filterObj: any,
+    filterObj: BooksFilter,
     departmentId: string
 ) => {
     return {

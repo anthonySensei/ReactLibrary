@@ -2,7 +2,15 @@ import { put } from 'redux-saga/effects';
 
 import * as actionTypes from '../../redux/actions/actionTypes';
 
-export function* checkAuthStateSaga(payload: any) {
+import User from '../../interfaces/User';
+
+interface CheckAuthStateSagaPayload {
+    type: string;
+    token: string;
+    user: User | null;
+}
+
+export function* checkAuthStateSaga(payload: CheckAuthStateSagaPayload) {
     if (!payload.token) {
         yield put({ type: actionTypes.LOGOUT_USER });
     } else {

@@ -1,39 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import {
-    getBook,
-    loanBook,
-    moveBook,
-    orderBook
-} from '../../redux/actions/book';
+
+import { getBook, loanBook, moveBook, orderBook } from '../../redux/actions';
+import { getAllStudents, getDepartments } from '../../redux/actions';
+
 import { CircularProgress, Container } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+
 import BookDetailsCard from '../../components/Books/BookDetailsCard/BookDetailsCard';
 import MoveBookDialog from '../../components/Books/MoveBookDialog/MoveBookDialog';
-import { getDepartments, getAllStudents } from '../../redux/actions';
+import LoanBookDialog from '../../components/Books/LoanBookDialog/LoanBookDialog';
+
 import Book from '../../interfaces/Book';
 import Department from '../../interfaces/Department';
 import Student from '../../interfaces/Student';
-import LoanBookDialog from '../../components/Books/LoanBookDialog/LoanBookDialog';
+import BookDetailsProps from '../../interfaces/props/BookDetailsProps';
+
 import ConfirmDialog from '../../share/ConfirmDialog/ConfirmDialog';
 
-const useStyles = makeStyles({
-    container: {
-        display: 'flex',
-        justifyContent: 'center',
-        padding: '50px 0'
-    }
-});
+import { bookDetailsStyles } from '../../constants/styles';
 
-const BookDetails = (props: any) => {
-    const classes = useStyles();
+const BookDetails = (props: BookDetailsProps) => {
+    const classes = bookDetailsStyles();
 
     const [openMoveDialog, setOpenMoveDialog] = useState(false);
     const [openLoanDialog, setOpenLoanDialog] = useState(false);
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const [quantityError, setQuantityError] = useState('');
     const [departmentError, setDepartmentError] = useState('');
+
+    const { onGetBook, onGetDepartments, onGetStudents } = props;
+    const { onLoanBook, onMoveBook, onOrderBook } = props;
+    const { location, isLoading, user } = props;
 
     const book: Book = props.book;
     const quantity = book ? book.quantity : 0;
@@ -43,21 +41,21 @@ const BookDetails = (props: any) => {
         (department: Department) => department?._id !== book?.department?._id
     );
 
-    const bookId: string | null = new URLSearchParams(
-        props.location.search
-    ).get('bookId');
+    const bookId: string | null = new URLSearchParams(location.search).get(
+        'bookId'
+    );
 
     useEffect(() => {
-        props.onGetBook(bookId);
+        onGetBook(bookId);
     }, [bookId]);
 
     const handleClickOpenMoveDialog = () => {
-        props.onGetDepartments();
+        onGetDepartments();
         setOpenMoveDialog(true);
     };
 
     const handleClickOpenLoanDialog = () => {
-        props.onGetStudents();
+        onGetStudents();
         setOpenLoanDialog(true);
     };
 
@@ -80,28 +78,28 @@ const BookDetails = (props: any) => {
             setQuantityError(`You cannot move more than ${quantity} books`);
             return;
         } else if (departmentId && quantityToMove > 0 && submit) {
-            props.onMoveBook(props.book, departmentId, quantityToMove);
+            onMoveBook(book, departmentId, quantityToMove);
         }
         setOpenMoveDialog(false);
     };
 
     const handleLoanDialogClose = (studentId: string) => {
         if (studentId) {
-            props.onLoanBook(studentId, book._id, props.user._id);
+            onLoanBook(studentId, book._id, user._id);
         }
         setOpenLoanDialog(false);
     };
 
     const handleConfirmDialogClose = async (confirm: boolean) => {
         if (confirm) {
-            props.onOrderBook(props.user._id, book._id);
+            onOrderBook(user._id, book._id);
         }
         setOpenConfirmDialog(false);
     };
 
     return (
         <Container className={classes.container}>
-            {props.isLoading ? (
+            {isLoading ? (
                 <CircularProgress />
             ) : (
                 <>
@@ -124,8 +122,8 @@ const BookDetails = (props: any) => {
                         onClose={handleConfirmDialogClose}
                     />
                     <BookDetailsCard
-                        book={props.book}
-                        user={props.user}
+                        book={book}
+                        user={user}
                         onSetOpenMoveDialog={handleClickOpenMoveDialog}
                         onSetOpenLoanDialog={handleClickOpenLoanDialog}
                         onSetOpenConfirmDialog={setOpenConfirmDialog}

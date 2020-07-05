@@ -8,7 +8,6 @@ const uuidv4 = require('uuid/v4');
 
 const passport = require('passport');
 
-const userStatus = require('../constants/userStatuses');
 const errorMessages = require('../constants/errorMessages');
 const successMessages = require('../constants/successMessages');
 const roles = require('../constants/roles');
@@ -37,14 +36,13 @@ exports.postLoginUser = (req, res) => {
                 expiresIn: sessionDuration
             });
             jwt.verify(token, secret_key);
-            const data = {
+            res.send({
                 isSuccessful: true,
                 message: successMessages.SUCCESSFULLY_LOGGED_IN,
                 user: user,
                 token: 'Bearer ' + token,
                 tokenExpiresIn: sessionDuration
-            };
-            res.send(data);
+            });
         }
     })(req, res);
 };
@@ -118,7 +116,7 @@ exports.postCreateUser = async (req, res) => {
     }
 };
 
-exports.postCheckActivationToken = async (req, res, next) => {
+exports.postCheckActivationToken = async (req, res) => {
     const token = req.body.activationToken;
 
     if (!token)

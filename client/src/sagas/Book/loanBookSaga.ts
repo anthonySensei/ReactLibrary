@@ -1,4 +1,5 @@
-import { call } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
+import * as actionTypes from '../../redux/actions/actionTypes';
 
 import { loanBookService } from '../../services/bookService';
 import { setLoadingService } from '../../services/loadingIndicator';
@@ -6,11 +7,14 @@ import { handleSnackbarOpenService } from '../../services/snackbar';
 
 import { SnackbarTypes } from '../../constants/snackbarTypes';
 
-import { store } from '../../index';
+interface LoanBookSagaPayload {
+    type: string;
+    studentId: string;
+    bookId: string;
+    librarianId: string;
+}
 
-import { getBook } from '../../redux/actions';
-
-export function* loanBookSaga(payload: any) {
+export function* loanBookSaga(payload: LoanBookSagaPayload) {
     try {
         setLoadingService(true);
         const response = yield call(
@@ -19,13 +23,16 @@ export function* loanBookSaga(payload: any) {
             payload.bookId,
             payload.librarianId
         );
+        yield put({
+            type: actionTypes.GET_BOOK,
+            bookId: payload.bookId
+        });
+        yield setLoadingService(false);
         yield handleSnackbarOpenService(
             true,
             SnackbarTypes.SUCCESS,
             response.data.message
         );
-        store.dispatch(getBook(payload.bookId));
-        setLoadingService(false);
     } catch (err) {
         const errorMessage = err.response ? err.response.data.message : 'Error';
         setLoadingService(false);

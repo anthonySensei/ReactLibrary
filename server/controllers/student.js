@@ -22,7 +22,6 @@ const loanController = require('./loan');
 
 const models = require('../constants/models');
 const roles = require('../constants/roles');
-const statuses = require('../constants/userStatuses');
 const filters = require('../constants/filters');
 
 const getStudentOrders = async studentId => {

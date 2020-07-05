@@ -1,16 +1,19 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom';
-import {connect} from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-import {logout} from '../../../redux/actions/index';
+import { logout } from '../../../redux/actions';
 
-const Logout = (props: any) => {
+import LogoutProps from '../../../interfaces/props/LogoutProps';
+
+const Logout = (props: LogoutProps) => {
     props.onLogout();
 
     return <Redirect to="/" />;
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         onLogout: () => dispatch(logout())
     };

@@ -11,11 +11,10 @@ const successMessages = require('../constants/successMessages');
 exports.getAuthors = async (req, res) => {
     try {
         const authors = await Author.find();
-        const data = {
+        return res.send({
             authors: authors,
             message: successMessages.SUCCESSFULLY_FETCHED
-        };
-        return res.send(data);
+        });
     } catch (error) {
         return helper.responseErrorHandle(res, 500, errorMessages.CANNOT_FETCH);
     }

@@ -4,12 +4,11 @@ import * as actionTypes from '../../redux/actions/actionTypes';
 
 import { setLoadingService } from '../../services/loadingIndicator';
 import { handleSnackbarOpenService } from '../../services/snackbar';
+import { getAllStudentsService } from '../../services/studentService';
 
 import { SnackbarTypes } from '../../constants/snackbarTypes';
 
 import Student from '../../interfaces/Student';
-import { getAllStudents } from '../../redux/actions';
-import {getAllStudentsService} from "../../services/studentService";
 
 export function* getAllStudentsSaga() {
     try {

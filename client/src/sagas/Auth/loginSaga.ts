@@ -5,12 +5,20 @@ import { loginUserService } from '../../services/authService';
 
 import axios from '../../helper/axios';
 
-export function* authSaga(payload: any) {
+import LoginData from '../../interfaces/Login';
+import User from "../../interfaces/User";
+
+interface LoginSagaPayload {
+    type: string;
+    result: LoginData;
+}
+
+export function* authSaga(payload: LoginSagaPayload) {
     try {
-        const response = yield call(loginUserService, payload);
+        const response = yield call(loginUserService, payload.result);
         const token: string = response.data.token;
         const tokenExpiresIn: number = response.data.tokenExpiresIn;
-        const user = response.data.user;
+        const user: User = response.data.user;
         const expirationDate: Date = new Date(
             new Date().getTime() + tokenExpiresIn * 1000
         );
@@ -18,10 +26,7 @@ export function* authSaga(payload: any) {
         axios.defaults.headers.common.Authorization = token;
 
         yield localStorage.setItem('token', token);
-        yield localStorage.setItem(
-            'expirationDate',
-            expirationDate.toString()
-        );
+        yield localStorage.setItem('expirationDate', expirationDate.toString());
         yield localStorage.setItem('user', JSON.stringify(user));
 
         yield put({
@@ -31,7 +36,7 @@ export function* authSaga(payload: any) {
 
         yield put({
             type: actionTypes.AUTO_LOGOUT,
-            expirationTime: tokenExpiresIn * 1000 - new Date().getTime()
+            expirationTime: expirationDate.getTime() - new Date().getTime()
         });
     } catch (err) {
         yield put({

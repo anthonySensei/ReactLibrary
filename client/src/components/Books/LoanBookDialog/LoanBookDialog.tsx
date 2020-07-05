@@ -3,29 +3,19 @@ import React, { ChangeEvent, useState } from 'react';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
+import { Autocomplete } from '@material-ui/lab';
+import { TextField } from '@material-ui/core';
+
+import Student from '../../../interfaces/Student';
+import { LoanBookDialogProps } from '../../../interfaces/props/LoanBookDialogProps';
+
+import { dialogStyles } from '../../../constants/styles';
 
 import '../../../App.scss';
-import { TextField } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
-import { makeStyles } from '@material-ui/core/styles';
-import Student from '../../../interfaces/Student';
 
-export interface LoanDialogProps {
-    open: boolean;
-    onClose: (studentId: string) => void;
-    students: Student[];
-}
-
-const useStyles = makeStyles({
-    input: {
-        width: '92%',
-        margin: '5px auto'
-    }
-});
-
-export const LoanBookDialog = (props: LoanDialogProps) => {
+export const LoanBookDialog = (props: LoanBookDialogProps) => {
     const { onClose, open, students } = props;
-    const classes = useStyles();
+    const classes = dialogStyles();
     const [studentId, setStudentId] = useState('');
 
     const handleClose = () => {
