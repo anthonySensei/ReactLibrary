@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect } from 'react';
-import { IoMdClose } from 'react-icons/all';
+import CloseIcon from '@material-ui/icons/Close';
 import { Field, reduxForm } from 'redux-form';
 
 import {
@@ -58,7 +58,7 @@ let FilterForm: any = (props: FilterFormProps) => {
         <form onSubmit={handleSubmit}>
             <div className={classes.closeBtnPanel}>
                 <IconButton onClick={onToggleDrawer(false)}>
-                    <IoMdClose className={classes.closeBtn} />
+                    <CloseIcon className={classes.closeBtn} />
                 </IconButton>
             </div>
             <Container className={classes.container}>

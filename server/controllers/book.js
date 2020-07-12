@@ -1,12 +1,6 @@
-const { Sequelize } = require('sequelize');
-const Op = Sequelize.Op;
-
 const Book = require('../models/book');
 const Genre = require('../models/genre');
-const Author = require('../models/author');
-const Department = require('../models/department');
 
-const statuses = require('../constants/statuses');
 const filters = require('../constants/filters');
 const successMessages = require('../constants/successMessages');
 const errorMessages = require('../constants/errorMessages');
@@ -111,7 +105,9 @@ exports.getBooks = async (req, res) => {
                 genres.push(genreCollection.genre.name);
             });
             genres = genres.join(', ');
-            book.image = imageHandler.convertToBase64(book.image);
+            if (process.env.NODE_ENV !== 'testing') {
+                book.image = imageHandler.convertToBase64(book.image);
+            }
             booksArr.push({
                 _id: book._id,
                 title: book.title,
@@ -124,7 +120,7 @@ exports.getBooks = async (req, res) => {
                 description: book.description
             });
         });
-        const data = {
+        return res.send({
             books: booksArr,
             message: successMessages.SUCCESSFULLY_FETCHED,
             paginationData: {
@@ -135,8 +131,7 @@ exports.getBooks = async (req, res) => {
                 previousPage: page - 1,
                 lastPage: Math.ceil(totalBooks / ITEMS_PER_PAGE)
             }
-        };
-        return res.send(data);
+        });
     } catch (err) {
         return helper.responseErrorHandle(
             res,
@@ -153,7 +148,7 @@ exports.getBook = async (req, res) => {
         return helper.responseErrorHandle(
             res,
             400,
-            errorMessages.SOMETHING_WENT_WRONG
+            errorMessages.CANNOT_FIND_BOOK_ID
         );
     }
 
@@ -162,7 +157,9 @@ exports.getBook = async (req, res) => {
             .populate('author')
             .populate('department')
             .populate('genres.genre');
-        book.image = imageHandler.convertToBase64(book.image);
+        if (process.env.NODE_ENV !== 'testing') {
+            book.image = imageHandler.convertToBase64(book.image);
+        }
         let genres = [];
         book.genres.forEach(genreCollection => {
             genres.push(genreCollection.genre.name);
@@ -181,169 +178,10 @@ exports.getBook = async (req, res) => {
             department: book.department,
             description: book.description
         };
-        const data = {
+        res.send({
             book: bookData,
             message: successMessages.SUCCESSFULLY_FETCHED
-        };
-        res.send(data);
-    } catch (err) {
-        return helper.responseErrorHandle(
-            res,
-            500,
-            errorMessages.SOMETHING_WENT_WRONG
-        );
-    }
-};
-
-exports.getAllBooksISBN = async (req, res) => {
-    try {
-        const books = await Book.findAll();
-        const booksArr = [];
-        books.forEach(book => {
-            const bookData = book.get();
-            booksArr.push({
-                id: bookData.id,
-                isbn: bookData.isbn,
-                department: {
-                    id: bookData.departmentId
-                }
-            });
         });
-        const data = {
-            books: booksArr,
-            message: successMessages.SUCCESSFULLY_FETCHED
-        };
-        helper.responseHandle(res, 200, data);
-    } catch (err) {
-        return helper.responseErrorHandle(
-            res,
-            500,
-            errorMessages.SOMETHING_WENT_WRONG
-        );
-    }
-};
-
-exports.addBook = async (req, res) => {
-    const imageBase64 = req.body.base64;
-    if (!imageBase64) {
-        return helper.responseErrorHandle(res, 400, errorMessages.EMPTY_FIELDS);
-    }
-
-    const bookData = JSON.parse(req.body.book_data);
-
-    if (!bookData) {
-        return helper.responseErrorHandle(res, 400, errorMessages.EMPTY_FIELDS);
-    }
-
-    const filepath = imageHandler.getPath(imageBase64);
-
-    try {
-        const isNotUnique = await Book.findOne({
-            where: {
-                isbn: bookData.isbn,
-                departmentId: bookData.department.id
-            }
-        });
-
-        if (isNotUnique) {
-            return helper.responseErrorHandle(
-                res,
-                200,
-                errorMessages.ISBN_EXIST
-            );
-        } else {
-            const newBook = new Book({
-                isbn: bookData.isbn,
-                name: bookData.name,
-                authorId: bookData.author.id,
-                genreId: bookData.genre.id,
-                year: bookData.year,
-                quantity: bookData.quantity,
-                description: bookData.description,
-                image: filepath,
-                departmentId: bookData.department.id
-            });
-
-            await newBook.save();
-
-            const data = {
-                isSuccessful: true,
-                message: successMessages.BOOK_SUCCESSFULLY_CREATED
-            };
-            return helper.responseHandle(res, 200, data);
-        }
-    } catch (err) {
-        return helper.responseErrorHandle(
-            res,
-            500,
-            errorMessages.SOMETHING_WENT_WRONG
-        );
-    }
-};
-
-exports.editBook = async (req, res) => {
-    const imageBase64 = JSON.parse(req.body.base64);
-    const bookData = JSON.parse(req.body.book_data);
-
-    if (!bookData && !imageBase64) {
-        return helper.responseErrorHandle(res, 400, errorMessages.EMPTY_FIELDS);
-    }
-
-    if (imageBase64.image) {
-        bookData.image = imageHandler.getPath(imageBase64.image);
-    } else {
-        bookData.image = imageHandler.getPath(bookData.image);
-    }
-
-    try {
-        const isNotUnique = await Book.findOne({
-            where: {
-                isbn: bookData.isbn,
-                departmentId: bookData.department.id,
-                id: { [Op.ne]: bookData.id }
-            }
-        });
-
-        if (isNotUnique) {
-            return helper.responseErrorHandle(
-                res,
-                200,
-                errorMessages.ISBN_EXIST
-            );
-        } else {
-            const book = await Book.findOne({
-                where: {
-                    id: bookData.id
-                }
-            });
-
-            await book.update(bookData);
-
-            const data = {
-                isSuccessful: true,
-                message: successMessages.BOOK_SUCCESSFULLY_UPDATED
-            };
-            return helper.responseHandle(res, 200, data);
-        }
-    } catch (err) {
-        return helper.responseErrorHandle(
-            res,
-            500,
-            errorMessages.SOMETHING_WENT_WRONG
-        );
-    }
-};
-
-exports.deleteBook = async (req, res) => {
-    const bookId = req.query.bookId;
-    try {
-        const book = await Book.findOne({ where: { id: bookId } });
-        await book.destroy();
-        const data = {
-            isSuccessful: true,
-            message: successMessages.BOOK_SUCCESSFULLY_DELETED
-        };
-        return helper.responseHandle(res, 200, data);
     } catch (err) {
         return helper.responseErrorHandle(
             res,
@@ -387,20 +225,16 @@ exports.moveBook = async (req, res) => {
             await bookInDb.updateOne({
                 quantity: bookInDb.quantity - quantity
             });
-            res.send({
-                message: successMessages.BOOK_SUCCESSFULLY_MOVED
-            });
         } else {
-            console.log('here');
             await newBook.save();
             const bookInDb = await Book.findOne({ _id: book._id });
             await bookInDb.updateOne({
                 quantity: bookInDb.quantity - quantity
             });
-            return res.send({
-                message: successMessages.BOOK_SUCCESSFULLY_MOVED
-            });
         }
+        return res.send({
+            message: successMessages.BOOK_SUCCESSFULLY_MOVED
+        });
     } catch (err) {
         return helper.responseErrorHandle(
             res,

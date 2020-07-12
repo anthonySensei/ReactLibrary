@@ -19,7 +19,7 @@ import { AuthTypes } from '../../constants/AuthTypes';
 
 import './Auth.scss';
 
-const Auth = (props: AuthProps) => {
+export const Auth = (props: AuthProps) => {
     const [authType, setAuthType] = useState(AuthTypes.LOGIN);
     const { message, isLoggedIn, loginError } = props;
     const { onLogin, onRegistration, onSetLoginError } = props;

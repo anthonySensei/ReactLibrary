@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { FiFilter } from 'react-icons/all';
+import FilterListIcon from '@material-ui/icons/FilterList';
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
 import { Dispatch } from 'redux';
@@ -46,7 +46,7 @@ import { FILTER_FORM } from '../../constants/reduxForms';
 
 import './Home.scss';
 
-const Home = (props: HomePageProps) => {
+export const Home = (props: HomePageProps) => {
     document.title = 'Home';
 
     const shortId = require('shortid');
@@ -56,7 +56,7 @@ const Home = (props: HomePageProps) => {
     const [isOpenFilter, setIsOpenFilter] = useState(false);
 
     const department: string = props.departmentId;
-    const departments: Department[] = props.departments;
+    const departments: Department[] = props.departments || [];
 
     const params = new URLSearchParams(props.location.search);
     const page: string | number = params.get('page') || 1;
@@ -67,7 +67,7 @@ const Home = (props: HomePageProps) => {
     const tYear: string | null = params.get('tYear');
     const value: string | null = params.get('value');
 
-    const { authors, genres, books } = props;
+    const { authors, genres, books } = props || [];
     const { onGetBooks, onGetDepartments, onGetAuthors, onGetGenres } = props;
     const { onSetDepartment, onSetSelectedGenres } = props;
     const { isLoading, paginationData, selectedGenres, formValues } = props;
@@ -148,7 +148,7 @@ const Home = (props: HomePageProps) => {
                     <Button
                         variant="outlined"
                         color="primary"
-                        startIcon={<FiFilter />}
+                        startIcon={<FilterListIcon />}
                         onClick={toggleDrawer(true)}
                     >
                         Filter
@@ -178,7 +178,6 @@ const Home = (props: HomePageProps) => {
                 ) : (
                     <BooksList
                         departmentId={department}
-                        shortId={shortId}
                         books={books}
                     />
                 )}

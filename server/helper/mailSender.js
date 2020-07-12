@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport(
 exports.sendMail = (email, subject, message) => {
     return transporter.sendMail({
         to: email,
-        from: process.env.EVENTS_PLACE_EMAIL_ADDRESS,
+        from: process.env.LIBRARY_EMAIL_ADDRESS,
         subject: subject,
         html: message
     });

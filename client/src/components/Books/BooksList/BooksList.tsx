@@ -20,7 +20,7 @@ const BooksList = (props: BookListProps) => {
     const history = useHistory();
 
     const books: Book[] = props.books || [];
-    const shortId = props.shortId;
+    const shortId = require('shortid');
 
     const showBookDetails = (bookId: string) => {
         history.push(`${ClientLinks.BOOK_DETAILS}?bookId=${bookId}`);

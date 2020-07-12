@@ -16,7 +16,7 @@ import ActivationPageProps from '../../interfaces/props/ActivationPageProps';
 
 import './ActivationPage.scss';
 
-const ActivationPage = (props: ActivationPageProps) => {
+export const ActivationPage = (props: ActivationPageProps) => {
     const params = new URLSearchParams(props.location.search);
     const token = params.get('token');
 

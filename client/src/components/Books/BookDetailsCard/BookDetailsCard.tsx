@@ -1,5 +1,4 @@
 import React from 'react';
-import { GoLocation } from 'react-icons/all';
 
 import {
     Button,
@@ -17,6 +16,7 @@ import { bookDetailsCardStyles } from '../../../constants/styles';
 import Book from '../../../interfaces/Book';
 import User from '../../../interfaces/User';
 import BookDetailsCardProps from '../../../interfaces/props/BookDetailsCardProps';
+import { LocationOn } from '@material-ui/icons';
 
 const BookDetailsCard = (props: BookDetailsCardProps) => {
     const classes = bookDetailsCardStyles();
@@ -53,7 +53,7 @@ const BookDetailsCard = (props: BookDetailsCardProps) => {
                     component="p"
                     className={classes.location}
                 >
-                    <GoLocation />
+                    <LocationOn />
                     {book.department.name}({book.department.address})
                 </Typography>
             </CardContent>

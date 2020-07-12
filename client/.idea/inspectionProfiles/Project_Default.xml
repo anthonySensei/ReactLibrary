@@ -2,5 +2,8 @@
   <profile version="1.0">
     <option name="myName" value="Project Default" />
     <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="RequiredAttributes" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myAdditionalRequiredHtmlAttributes" value="onSetOpenConfirmDialog,onSetOpenConfirmDialog,user,onSetOpenConfirmDialog,onSetOpenConfirmDialog,onSetOpenConfirmDialog,onSetOpenConfirmDialog,onSetOpenLoanDialog,onSetOpenLoanDialog,onSetOpenMoveDialog,onSetOpenConfirmDialog,onSetOpenConfirmDialog,onSetOpenLoanDialog,onSetOpenMoveDialog,book,onSetOpenConfirmDialog,onSetOpenLoanDialog,books,departmentId,departmentId,shortId,departmentId,departmentId" />
+    </inspection_tool>
   </profile>
 </component>

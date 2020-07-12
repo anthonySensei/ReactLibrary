@@ -11,6 +11,7 @@ import { AuthTypes } from '../../../constants/AuthTypes';
 import LoginFormProps from '../../../interfaces/props/LoginFormProps';
 
 import { email, required } from '../../../validation/fields';
+import loadingPage from "../../LoadingPage/LoadingPage";
 
 let LoginForm: any = (props: LoginFormProps) => {
     const { handleSubmit, setLoginError, switchAuth } = props;
