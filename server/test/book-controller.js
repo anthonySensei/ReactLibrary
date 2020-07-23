@@ -13,10 +13,12 @@ const test = require('../constants/test');
 const db = require('../helper/db');
 
 describe('Book controller', () => {
+    const mongoDbId = '5edba11fdb31f77eecc4d879';
     const res = {
         statusCode: null,
         message: null,
         books: [],
+        book: null,
         paginationData: {},
         status: function (code) {
             this.statusCode = code;
@@ -25,6 +27,7 @@ describe('Book controller', () => {
         send: function (data) {
             this.message = data.message;
             this.books = data.books;
+            this.book = data.book;
             this.paginationData = data.paginationData;
         }
     };
@@ -60,27 +63,27 @@ describe('Book controller', () => {
         it('should filter book\\books and then send it\\them', async () => {
             const author = new Author({
                 ...test.author,
-                _id: '5edba11fdb31f77eecc4d879'
+                _id: mongoDbId
             });
             await author.save();
             const department = new Department({
                 ...test.department,
-                _id: '5edba11fdb31f77eecc4d879'
+                _id: mongoDbId
             });
             await department.save();
             const book = new Book({
                 ...test.book,
-                _id: '5edba11fdb31f77eecc4d879',
-                author: '5edba11fdb31f77eecc4d879',
-                department: '5edba11fdb31f77eecc4d879'
+                _id: mongoDbId,
+                author: mongoDbId,
+                department: mongoDbId
             });
             await book.save();
             await BookController.getBooks(
                 {
                     query: {
                         ...query,
-                        authorId: '5edba11fdb31f77eecc4d879',
-                        departmentId: '5edba11fdb31f77eecc4d879'
+                        authorId: mongoDbId,
+                        departmentId: mongoDbId
                     }
                 },
                 res
@@ -95,6 +98,7 @@ describe('Book controller', () => {
     describe('Fetching book', () => {
         it("should throw an error if didn't get book id", async () => {
             await BookController.getBook({ query: { bookId: null } }, res);
+            expect(res.statusCode).to.be.equal(400);
             expect(res.message).to.be.equal(errorMessages.CANNOT_FIND_BOOK_ID);
         });
 
@@ -106,6 +110,7 @@ describe('Book controller', () => {
             expect(res.message).to.be.equal(
                 successMessages.SUCCESSFULLY_FETCHED
             );
+            expect(res.book._id.toString()).to.be.equal('5eefc1435c89c844d40db508');
         });
     });
 

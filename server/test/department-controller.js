@@ -10,13 +10,8 @@ const db = require('../helper/db');
 
 describe('Department controller', () => {
     const res = {
-        statusCode: null,
         message: null,
         departments: [],
-        status: function (code) {
-            this.statusCode = code;
-            return this;
-        },
         send: function (data) {
             this.message = data.message;
             this.departments = data.departments;

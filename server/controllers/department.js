@@ -8,11 +8,10 @@ const successMessages = require('../constants/successMessages');
 exports.getDepartments = async (req, res) => {
     try {
         const departments = await Department.find();
-        const data = {
+        res.send({
             departments: departments,
             message: successMessages.SUCCESSFULLY_FETCHED
-        };
-        res.send(data);
+        });
     } catch (err) {
         helper.responseErrorHandle(res, 500, errorMessages.CANNOT_FETCH);
     }

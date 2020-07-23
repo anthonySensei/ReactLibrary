@@ -10,13 +10,8 @@ const db = require('../helper/db');
 
 describe('Genre controller', () => {
     const res = {
-        statusCode: null,
         message: null,
         genres: [],
-        status: function (code) {
-            this.statusCode = code;
-            return this;
-        },
         send: function (data) {
             this.message = data.message;
             this.genres = data.genres;

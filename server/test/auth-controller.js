@@ -42,7 +42,7 @@ describe('Auth controller', () => {
             name: 'Name'
         };
 
-        it('should throw an error if email or password or studentId ir name are empty', async () => {
+        it('should throw an error if email or password or studentId or name are empty', async () => {
             const errorRequest = { body: {} };
             await AuthController.postCreateUser(errorRequest, res);
             expect(res.statusCode).to.be.equal(400);

@@ -108,17 +108,7 @@ exports.getBooks = async (req, res) => {
             if (process.env.NODE_ENV !== 'testing') {
                 book.image = imageHandler.convertToBase64(book.image);
             }
-            booksArr.push({
-                _id: book._id,
-                title: book.title,
-                author: book.author,
-                quantity: book.quantity,
-                genres: genres,
-                year: book.year,
-                image: book.image,
-                department: book.department,
-                description: book.description
-            });
+            booksArr.push({...book._doc, genres});
         });
         return res.send({
             books: booksArr,
@@ -165,21 +155,8 @@ exports.getBook = async (req, res) => {
             genres.push(genreCollection.genre.name);
         });
         genres = genres.join(', ');
-        const bookData = {
-            _id: book._id,
-            isbn: book.isbn,
-            title: book.title,
-            author: book.author,
-            quantity: book.quantity,
-            language: book.language,
-            genres: genres,
-            year: book.year,
-            image: book.image,
-            department: book.department,
-            description: book.description
-        };
         res.send({
-            book: bookData,
+            book: { ...book._doc, genres },
             message: successMessages.SUCCESSFULLY_FETCHED
         });
     } catch (err) {

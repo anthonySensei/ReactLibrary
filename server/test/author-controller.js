@@ -1,5 +1,4 @@
 const expect = require('chai').expect;
-const mongoose = require('mongoose');
 
 const Author = require('../models/author');
 const AuthorController = require('../controllers/author');
@@ -11,13 +10,8 @@ const db = require('../helper/db');
 
 describe('Author controller', () => {
     const res = {
-        statusCode: null,
         message: null,
         authors: [],
-        status: function (code) {
-            this.statusCode = code;
-            return this;
-        },
         send: function (data) {
             this.message = data.message;
             this.authors = data.authors;
