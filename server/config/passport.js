@@ -6,7 +6,7 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 
 const errorMessages = require('../constants/errorMessages');
-const fields = require('../constants/fields');
+const fields = require('../constants/passportFields');
 const secret_key = require('./secret_key');
 
 module.exports = (passport, User) => {

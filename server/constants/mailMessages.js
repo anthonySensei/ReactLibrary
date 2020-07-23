@@ -1,17 +1,13 @@
 const activationPageUrl = require('./links').AUTH_CLIENT_ACTIVATION_PAGE_URL;
 
 exports.subjects = {
-    ACCOUNT_ACTIVATION: 'Account activation',
-    ACCOUNT_CREATED: 'Account created',
-    BOOK_ORDERED: 'Book ordered'
+    ACCOUNT_ACTIVATION: 'Account activation'
 };
 
 const messages = {
     BEST_REGARDS: `<br>
                     With best regards, <br>
-                    Library`,
-    BOOK_ORDERED: `Your book has been successfully ordered.
-                    ${this.BEST_REGARDS}`
+                    Library`
 };
 exports.messages = messages;
 
@@ -23,12 +19,4 @@ exports.generateActivationMessage = registrationToken => {
                 </a>
                 ${messages.BEST_REGARDS}
             `;
-};
-
-exports.generatePasswordMessage = (email, password) => {
-    return `Hello. Your account has been successfully created. 
-            <br />
-            Email: ${email}<br />
-            Password: ${password}
-            ${messages.BEST_REGARDS}`;
 };

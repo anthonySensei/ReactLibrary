@@ -38,7 +38,6 @@ const reducer = (state = initialState, action: any) => {
             localStorage.removeItem('expirationDate');
             localStorage.removeItem('user');
             return updateObject(state, {
-                error: null,
                 user: null
             });
         case actionTypes.ACTIVATE_USER_SUCCESS:

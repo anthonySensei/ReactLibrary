@@ -10,7 +10,7 @@ const path = require('path');
 const express = require('express');
 
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+const db = require('./helper/db');
 
 const passport = require('passport');
 
@@ -19,30 +19,23 @@ const multer = require('multer');
 const bookRoutes = require('./routes/book');
 const loanRoutes = require('./routes/loan');
 const orderRoutes = require('./routes/order');
-const userRoutes = require('./routes/user');
 const studentRoutes = require('./routes/student');
-const librarianRoutes = require('./routes/librarian');
 const authRoutes = require('./routes/auth');
 const departmentRoutes = require('./routes/department');
 const authorRoutes = require('./routes/author');
 const genreRoutes = require('./routes/genre');
-const periodRoutes = require('./routes/period');
-const scheduleRoutes = require('./routes/schedule');
 
 const User = require('./models/user');
 const Department = require('./models/department');
 
-const authorsUrl = require('./constants/links').AUTHORS_URL;
-const departmentsUrl = require('./constants/links').DEPARTMENTS_URL;
-const booksUrl = require('./constants/links').BOOKS_URL;
-const librariansUrl = require('./constants/links').LIBRARIANS_URL;
-const genresUrl = require('./constants/links').GENRES_URL;
-const ordersUrl = require('./constants/links').ORDERS_URL;
-const loansUrl = require('./constants/links').LOANS_URL;
-const studentsUrl = require('./constants/links').STUDENTS_URL;
-const myAccountUrl = require('./constants/links').MY_ACCOUNT_URL;
-const periodsUrl = require('./constants/links').PERIODS_URL;
-const schedulesUrl = require('./constants/links').SCHEDULES_URL;
+const links = require('./constants/links');
+const authorsUrl = links.AUTHORS_URL;
+const departmentsUrl = links.DEPARTMENTS_URL;
+const booksUrl = links.BOOKS_URL;
+const genresUrl = links.GENRES_URL;
+const ordersUrl = links.ORDERS_URL;
+const loansUrl = links.LOANS_URL;
+const studentsUrl = links.STUDENTS_URL;
 
 const helper = require('./helper/createManager');
 
@@ -111,19 +104,11 @@ app.use(authorsUrl, authorRoutes);
 app.use(booksUrl, bookRoutes);
 app.use(departmentsUrl, departmentRoutes);
 app.use(genresUrl, genreRoutes);
-app.use(librariansUrl, librarianRoutes);
 app.use(loansUrl, loanRoutes);
 app.use(ordersUrl, orderRoutes);
 app.use(studentsUrl, studentRoutes);
-app.use(myAccountUrl, userRoutes);
-app.use(periodsUrl, periodRoutes);
-app.use(schedulesUrl, scheduleRoutes);
 
-mongoose
-    .connect(
-        `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@reactlibrary-geibi.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
-        { useNewUrlParser: true, useUnifiedTopology: true }
-    )
+db.connect()
     .then(async () => {
         try {
             const department = await Department.findOne({

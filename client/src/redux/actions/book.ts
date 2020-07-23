@@ -1,10 +1,10 @@
 import * as actionTypes from './actionTypes';
 import Book from '../../interfaces/Book';
-import BooksFilter from "../../interfaces/BooksFilter";
+import BooksFilter from '../../interfaces/BooksFilter';
 
 export const getBooks = (
     page: string | number,
-    filterObj: BooksFilter,
+    filterObj: BooksFilter | {},
     departmentId: string
 ) => {
     return {
@@ -48,10 +48,7 @@ export const loanBook = (
     };
 };
 
-export const orderBook = (
-    studentId: string,
-    bookId: string
-) => {
+export const orderBook = (studentId: string, bookId: string) => {
     return {
         type: actionTypes.ORDER_BOOK,
         studentId,

@@ -20,7 +20,7 @@ import ConfirmDialog from '../../share/ConfirmDialog/ConfirmDialog';
 
 import { bookDetailsStyles } from '../../constants/styles';
 
-const BookDetails = (props: BookDetailsProps) => {
+export const BookDetails = (props: BookDetailsProps) => {
     const classes = bookDetailsStyles();
 
     const [openMoveDialog, setOpenMoveDialog] = useState(false);

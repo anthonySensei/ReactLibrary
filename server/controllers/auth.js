@@ -58,10 +58,11 @@ exports.postCreateUser = async (req, res) => {
     const studentId = req.body.studentId;
     const email = req.body.email;
     const name = req.body.name;
-    const password = generatePassword.cryptPassword(req.body.password);
-    if (!email || !password || !studentId || !name || !password)
+    const password = req.body.password
+        ? generatePassword.cryptPassword(req.body.password)
+        : null;
+    if (!email || !password || !studentId || !name)
         return helper.responseErrorHandle(res, 400, errorMessages.EMPTY_FIELDS);
-
     try {
         const isNotUniqueStudentId = !!(await Student.findOne({ studentId }));
         if (isNotUniqueStudentId) {
@@ -97,11 +98,13 @@ exports.postCreateUser = async (req, res) => {
                     user: user._id
                 });
                 await student.save();
-                await mailSender.sendMail(
-                    email,
-                    mailMessages.subjects.ACCOUNT_ACTIVATION,
-                    mailMessages.generateActivationMessage(activationToken)
-                );
+                if (process.env.NODE_ENV !== 'testing') {
+                    await mailSender.sendMail(
+                        email,
+                        mailMessages.subjects.ACCOUNT_ACTIVATION,
+                        mailMessages.generateActivationMessage(activationToken)
+                    );
+                }
                 res.send({
                     message: successMessages.ACCOUNT_SUCCESSFULLY_CREATED
                 });
@@ -123,7 +126,7 @@ exports.postCheckActivationToken = async (req, res) => {
         return helper.responseErrorHandle(
             res,
             400,
-            errorMessages.SOMETHING_WENT_WRONG
+            errorMessages.CANNOT_FIND_TOKEN
         );
 
     try {

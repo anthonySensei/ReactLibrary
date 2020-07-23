@@ -7,7 +7,8 @@ import { logout } from '../../../redux/actions';
 
 import LogoutProps from '../../../interfaces/props/LogoutProps';
 
-const Logout = (props: LogoutProps) => {
+
+export const Logout = (props: LogoutProps) => {
     props.onLogout();
 
     return <Redirect to="/" />;
