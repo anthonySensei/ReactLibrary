@@ -12,14 +12,12 @@ import Department from '../../interfaces/Department';
 
 export function* getDepartmentsSaga() {
     try {
-        setLoadingService(true);
         const response = yield call(getDepartmentsService);
         const departments: Department[] = response.data.departments;
         yield put({
             type: actionTypes.GET_DEPARTMENTS_SUCCESS,
             departments
         });
-        setLoadingService(false);
     } catch (err) {
         const errorMessage = err.response ? err.response.data.message : 'Error';
         setLoadingService(false);

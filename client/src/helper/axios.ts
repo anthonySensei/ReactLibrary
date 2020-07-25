@@ -1,8 +1,10 @@
 import axios from 'axios';
+
 import { TOKEN_START } from '../constants/tokenStart';
+import { SERVER_URL } from '../constants/serverLinks';
 
 const instance = axios.create({
-    baseURL: `http://localhost:3001/`
+    baseURL: SERVER_URL
 });
 
 const token = localStorage.getItem('token');

@@ -110,6 +110,7 @@ app.use(StudentUrl.BASE, studentRoutes);
 
 const departmentName = 'Main';
 const departmentAddress = 'Centre Street';
+import socket from './config/socket';
 
 connectDb()
     .then(async () => {
@@ -130,7 +131,9 @@ connectDb()
             if (!manager) {
                 await createManager();
             }
-            app.listen(port);
+            const server = app.listen(port);
+            const io = socket.init(server);
+            io.on('connection', () => {});
         } catch (err) {}
     })
     .catch();

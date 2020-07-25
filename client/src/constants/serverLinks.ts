@@ -1,3 +1,5 @@
+export const SERVER_URL = 'http://localhost:3001/';
+
 export const LOGIN_URL = 'login';
 export const LOGOUT_URL = 'logout';
 export const REGISTRATION_URL = 'registration';
