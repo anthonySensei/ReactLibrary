@@ -4,7 +4,8 @@ export default {
     SUCCESSFULLY_LOANED: 'Book has been successfully loaned!',
     SUCCESSFULLY_ORDERED: 'Book has been successfully ordered!',
     ACCOUNT_SUCCESSFULLY_CREATED:
-        'Account has successfully created. Please confirm email to activate account',
+        'Account has been successfully created. Please confirm email to activate account',
+    DEPARTMENT_SUCCESSFULLY_CREATED: 'Department has been successfully created',
     BOOK_SUCCESSFULLY_MOVED:
         'Book has been successfully moved to another department',
     SUCCESSFULLY_ACTIVATED: 'Account has been successfully activated',

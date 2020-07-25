@@ -9,14 +9,14 @@ import {
     Tooltip,
     Typography
 } from '@material-ui/core';
+import { LocationOn } from '@material-ui/icons';
 
 import { UserRoles } from '../../../constants/UserRoles';
 import { bookDetailsCardStyles } from '../../../constants/styles';
 
 import Book from '../../../interfaces/Book';
 import User from '../../../interfaces/User';
-import BookDetailsCardProps from '../../../interfaces/props/BookDetailsCardProps';
-import { LocationOn } from '@material-ui/icons';
+import BookDetailsCardProps from '../../../interfaces/props/BookDetails/BookDetailsCardProps';
 
 const BookDetailsCard = (props: BookDetailsCardProps) => {
     const classes = bookDetailsCardStyles();
@@ -33,7 +33,7 @@ const BookDetailsCard = (props: BookDetailsCardProps) => {
             <CardMedia
                 component="img"
                 alt={book.title}
-                image={book.image}
+                image={'https://images.pexels.com/photos/825947/pexels-photo-825947.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'}
                 title={book.title}
             />
             <CardContent>

@@ -1,4 +1,4 @@
-import RegistrationData from '../RegistrationData';
+import RegistrationData from '../../formsData/RegistrationData';
 
 export default interface RegistrationFormProps {
     handleSubmit: () => RegistrationData;

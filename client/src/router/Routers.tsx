@@ -3,14 +3,15 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { ClientLinks } from '../constants/ClientLinks';
+import { UserRoles } from '../constants/UserRoles';
 
 import Header from '../components/Header/Header';
 import Logout from '../components/Auth/Logout/Logout';
 import LoadingPage from '../components/LoadingPage/LoadingPage';
 
-interface RoutersProps {
-    isLoggedIn: boolean;
-}
+import Managing from '../containers/Managing/Managing';
+
+import RouterProps from '../interfaces/props/RouterProps';
 
 const Home = lazy(() => import('../containers/Home/Home'));
 const Auth = lazy(() => import('../containers/Auth/Auth'));
@@ -19,7 +20,7 @@ const ActivationPage = lazy(() =>
     import('../containers/ActivationPage/ActivationPage')
 );
 
-const Routers = (props: RoutersProps) => {
+const Routers = (props: RouterProps) => {
     return (
         <>
             <Router>
@@ -46,6 +47,12 @@ const Routers = (props: RoutersProps) => {
                                 component={Logout}
                             />
                         )}
+                        {props.userRole === UserRoles.MANAGER && (
+                            <Route
+                                path={ClientLinks.MANAGING_PAGE}
+                                component={Managing}
+                            />
+                        )}
                     </Switch>
                 </Suspense>
             </Router>
@@ -54,7 +61,8 @@ const Routers = (props: RoutersProps) => {
 };
 
 const mapStateToProps = (state: any) => ({
-    isLoggedIn: !!state.auth.user
+    isLoggedIn: !!state.auth.user,
+    userRole: state.auth.user?.role
 });
 
 export default connect(mapStateToProps)(Routers);

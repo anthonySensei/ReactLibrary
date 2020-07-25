@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, ButtonGroup } from '@material-ui/core';
 
-import PaginationContainerProps from '../../../interfaces/props/PaginationContainerProps';
+import PaginationContainerProps from '../../../interfaces/props/Home/PaginationContainerProps';
 import MainPagination from '../../../interfaces/MainPagination';
 
 const PaginationContainer = (props: PaginationContainerProps) => {

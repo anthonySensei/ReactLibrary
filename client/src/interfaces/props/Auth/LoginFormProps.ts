@@ -1,4 +1,4 @@
-import LoginData from "../Login";
+import LoginData from "../../formsData/LoginData";
 
 export default interface LoginFormProps {
     loginError: string;

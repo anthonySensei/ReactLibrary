@@ -1,7 +1,7 @@
-import BooksFilter from '../BooksFilter';
-import Author from '../Author';
-import Genre from '../Genre';
-import Department from '../Department';
+import BooksFilter from '../../BooksFilter';
+import Author from '../../Author';
+import Genre from '../../Genre';
+import Department from '../../Department';
 
 export default interface FilterFormProps {
     handleSubmit: () => BooksFilter;

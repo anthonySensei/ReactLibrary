@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 
 import Book from '../../../interfaces/Book';
-import BookListProps from '../../../interfaces/props/BookListProps';
+import BookListProps from '../../../interfaces/props/Home/BookListProps';
 
 import { ClientLinks } from '../../../constants/ClientLinks';
 import { bookListStyles } from '../../../constants/styles';
@@ -39,7 +39,7 @@ const BooksList = (props: BookListProps) => {
                                 <h2 className={classes.title}>{book.title}</h2>
                                 <CardMedia
                                     className={classes.image}
-                                    image={book.image}
+                                    image={'https://images.pexels.com/photos/825947/pexels-photo-825947.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'}
                                     title={book.description}
                                 />
                                 <p className={classes.info}>
