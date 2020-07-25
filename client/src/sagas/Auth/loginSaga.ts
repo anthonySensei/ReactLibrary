@@ -5,7 +5,7 @@ import { loginUserService } from '../../services/authService';
 
 import axios from '../../helper/axios';
 
-import LoginData from '../../interfaces/Login';
+import LoginData from '../../interfaces/formsData/LoginData';
 import User from "../../interfaces/User";
 
 interface LoginSagaPayload {

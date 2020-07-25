@@ -33,7 +33,7 @@ import PaginationContainer from '../../components/Books/PaginationContainer/Pagi
 
 import Department from '../../interfaces/Department';
 import BooksFilter from '../../interfaces/BooksFilter';
-import HomePageProps from '../../interfaces/props/HomePageProps';
+import HomePageProps from '../../interfaces/props/Home/HomePageProps';
 import Genre from '../../interfaces/Genre';
 
 import {

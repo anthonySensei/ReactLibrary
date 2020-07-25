@@ -10,9 +10,9 @@ import { Card } from '@material-ui/core';
 import LoginForm from '../../components/Auth/LoginForm/LoginForm';
 import RegistrationForm from '../../components/Auth/RegistrationForm/RegistrationForm';
 
-import LoginData from '../../interfaces/Login';
-import RegistrationData from '../../interfaces/RegistrationData';
-import AuthProps from '../../interfaces/props/AuthProps';
+import LoginData from '../../interfaces/formsData/LoginData';
+import RegistrationData from '../../interfaces/formsData/RegistrationData';
+import AuthProps from '../../interfaces/props/Auth/AuthProps';
 
 import { ClientLinks } from '../../constants/ClientLinks';
 import { AuthTypes } from '../../constants/AuthTypes';

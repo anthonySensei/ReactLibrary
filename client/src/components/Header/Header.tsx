@@ -1,15 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 
 import { ClientLinks } from '../../constants/ClientLinks';
 
-import HeaderProps from "../../interfaces/props/HeaderProps";
+import RouterProps from '../../interfaces/props/RouterProps';
 
 import './Header.scss';
+import { UserRoles } from '../../constants/UserRoles';
 
-const Header = (props: HeaderProps) => {
+const Header = (props: RouterProps) => {
     return (
         <AppBar position="static">
             <Toolbar className="navbar main-navbar">
@@ -22,6 +23,16 @@ const Header = (props: HeaderProps) => {
                             Books
                         </Link>
                     </Typography>
+                    {props.userRole === UserRoles.MANAGER && (
+                        <Typography variant="h6">
+                            <Link
+                                to={ClientLinks.MANAGING_PAGE}
+                                className="navbar-link"
+                            >
+                                Managing
+                            </Link>
+                        </Typography>
+                    )}
                 </div>
                 <div className="header-block">
                     {!props.isLoggedIn ? (

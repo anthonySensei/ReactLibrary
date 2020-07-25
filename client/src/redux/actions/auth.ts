@@ -2,8 +2,8 @@ import * as actionTypes from './actionTypes';
 import { TOKEN_START } from '../../constants/tokenStart';
 
 import User from '../../interfaces/User';
-import RegistrationData from '../../interfaces/RegistrationData';
-import LoginData from "../../interfaces/Login";
+import RegistrationData from '../../interfaces/formsData/RegistrationData';
+import LoginData from "../../interfaces/formsData/LoginData";
 
 export const loginUser = (res: LoginData) => {
     return {

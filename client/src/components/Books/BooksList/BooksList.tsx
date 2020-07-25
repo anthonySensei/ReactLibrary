@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 
 import Book from '../../../interfaces/Book';
-import BookListProps from '../../../interfaces/props/BookListProps';
+import BookListProps from '../../../interfaces/props/Home/BookListProps';
 
 import { ClientLinks } from '../../../constants/ClientLinks';
 import { bookListStyles } from '../../../constants/styles';

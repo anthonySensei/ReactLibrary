@@ -1,4 +1,4 @@
-import MainPagination from "../MainPagination";
+import MainPagination from "../../MainPagination";
 
 export default interface PaginationContainerProps {
     paginationData: MainPagination;

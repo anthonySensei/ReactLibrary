@@ -6,7 +6,7 @@ import { handleSnackbarOpenService } from '../../services/snackbar';
 
 import { SnackbarTypes } from '../../constants/snackbarTypes';
 
-import RegistrationData from '../../interfaces/RegistrationData';
+import RegistrationData from '../../interfaces/formsData/RegistrationData';
 
 interface RegistrationSagePayload {
     type: string;

@@ -16,7 +16,7 @@ import {
 import { dialogStyles } from '../../../constants/styles';
 
 import Department from '../../../interfaces/Department';
-import MoveBookDialogProps from '../../../interfaces/props/MoveBookDialogProps';
+import MoveBookDialogProps from '../../../interfaces/props/BookDetails/MoveBookDialogProps';
 
 import '../../../App.scss';
 

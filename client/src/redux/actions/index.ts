@@ -13,7 +13,7 @@ export { setOpenSnackbar } from './snackbar';
 
 export { setLoading } from './loadingIndicator';
 
-export { setDepartment, getDepartments } from './department';
+export { setDepartment, getDepartments, addDepartment } from './department';
 
 export { getAuthors } from './author';
 

@@ -1,5 +1,5 @@
-import LoginData from "../Login";
-import RegistrationData from "../RegistrationData";
+import LoginData from "../../formsData/LoginData";
+import RegistrationData from "../../formsData/RegistrationData";
 
 export default interface AuthProps {
     message: string;

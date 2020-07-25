@@ -7,8 +7,8 @@ import {
     REGISTRATION_URL
 } from '../constants/serverLinks';
 
-import RegistrationData from '../interfaces/RegistrationData';
-import LoginData from '../interfaces/Login';
+import RegistrationData from '../interfaces/formsData/RegistrationData';
+import LoginData from '../interfaces/formsData/LoginData';
 
 export const loginUserService = async (loginData: LoginData) => {
     return await axios.post(LOGIN_URL, loginData);

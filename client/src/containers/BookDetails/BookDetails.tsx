@@ -14,7 +14,7 @@ import LoanBookDialog from '../../components/Books/LoanBookDialog/LoanBookDialog
 import Book from '../../interfaces/Book';
 import Department from '../../interfaces/Department';
 import Student from '../../interfaces/Student';
-import BookDetailsProps from '../../interfaces/props/BookDetailsProps';
+import BookDetailsProps from '../../interfaces/props/BookDetails/BookDetailsProps';
 
 import ConfirmDialog from '../../share/ConfirmDialog/ConfirmDialog';
 

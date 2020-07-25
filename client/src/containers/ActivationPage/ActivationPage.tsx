@@ -12,7 +12,7 @@ import { CircularProgress } from '@material-ui/core';
 
 import { handleSnackbarOpenService } from '../../services/snackbar';
 
-import ActivationPageProps from '../../interfaces/props/ActivationPageProps';
+import ActivationPageProps from '../../interfaces/props/Auth/ActivationPageProps';
 
 import './ActivationPage.scss';
 

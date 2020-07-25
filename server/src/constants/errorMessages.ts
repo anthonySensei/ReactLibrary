@@ -8,7 +8,8 @@ export default {
     CANNOT_FETCH: 'Cannot fetch',
     THERE_ARE_NO_AVAILABLE_BOOKS:
         'There are no books available in the department.',
-    ISBN_EXIST: 'Book with this isbn exist in this department',
+    ISBN_EXIST: 'Book with this isbn exists in this department',
+    DEPARTMENT_EXIST: 'Department with this name exists',
     CANNOT_FIND_TOKEN: 'Cannot find token',
     CANNOT_FIND_BOOK_ID: 'Cannot find book id'
 };
