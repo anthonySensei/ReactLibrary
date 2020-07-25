@@ -21,7 +21,6 @@ import {
     managingStyles
 } from '../../constants/styles';
 
-
 const Managing = (props: ManagingPageProps) => {
     const classes = managingStyles();
     const [expanded, setExpanded] = React.useState<string | false>(false);

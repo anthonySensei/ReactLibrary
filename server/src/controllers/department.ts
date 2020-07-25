@@ -7,6 +7,8 @@ import { responseErrorHandle } from '../helper/responseHandle';
 import errorMessages from '../constants/errorMessages';
 import successMessages from '../constants/successMessages';
 
+import socket from '../config/socket';
+
 export const getDepartments = async (req: Request, res: Response) => {
     try {
         res.send({
@@ -31,6 +33,9 @@ export const addDepartment = async (req: Request, res: Response) => {
                 errorMessages.DEPARTMENT_EXIST
             );
         await Department.create(department);
+        socket.getIO().emit('departments', {
+            action: 'create'
+        });
         res.send({
             message: successMessages.DEPARTMENT_SUCCESSFULLY_CREATED
         });

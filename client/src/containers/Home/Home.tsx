@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
 import { Dispatch } from 'redux';
+import openSocket from 'socket.io-client';
 
 import {
     getAuthors,
@@ -26,14 +26,15 @@ import {
     MenuItem,
     Select
 } from '@material-ui/core';
+import FilterListIcon from '@material-ui/icons/FilterList';
 
 import BooksList from '../../components/Books/BooksList/BooksList';
 import FilterForm from '../../components/Books/FilterForm/FilterForm';
 import PaginationContainer from '../../components/Books/PaginationContainer/PaginationContainer';
 
+import HomePageProps from '../../interfaces/props/Home/HomePageProps';
 import Department from '../../interfaces/Department';
 import BooksFilter from '../../interfaces/BooksFilter';
-import HomePageProps from '../../interfaces/props/Home/HomePageProps';
 import Genre from '../../interfaces/Genre';
 
 import {
@@ -43,6 +44,7 @@ import {
 
 import { homePageStyles } from '../../constants/styles';
 import { FILTER_FORM } from '../../constants/reduxForms';
+import { SERVER_URL } from '../../constants/serverLinks';
 
 import './Home.scss';
 
@@ -82,6 +84,13 @@ export const Home = (props: HomePageProps) => {
             value
         );
     };
+
+    useEffect(() => {
+        const socket = openSocket(SERVER_URL);
+        socket.on('departments', (data: any) => {
+            onGetDepartments();
+        });
+    }, []);
 
     useEffect(() => {
         onGetBooks(page, getFilterObj(), department);
@@ -176,10 +185,7 @@ export const Home = (props: HomePageProps) => {
                 {isLoading ? (
                     <CircularProgress />
                 ) : (
-                    <BooksList
-                        departmentId={department}
-                        books={books}
-                    />
+                    <BooksList departmentId={department} books={books} />
                 )}
             </Card>
             {!isLoading &&
