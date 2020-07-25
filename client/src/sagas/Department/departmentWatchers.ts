@@ -1,4 +1,4 @@
-import { takeEvery } from 'redux-saga/effects';
+import { takeEvery, takeLatest } from 'redux-saga/effects';
 
 import * as actionTypes from '../../redux/actions/actionTypes';
 
@@ -7,5 +7,5 @@ import { addDepartmentSaga } from './addDepartmentSaga';
 
 export default function* watchDepartments() {
     yield takeEvery(actionTypes.GET_DEPARTMENTS, getDepartmentsSaga);
-    yield takeEvery(actionTypes.ADD_DEPARTMENT, addDepartmentSaga);
+    yield takeLatest(actionTypes.ADD_DEPARTMENT, addDepartmentSaga);
 }

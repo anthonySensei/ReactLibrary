@@ -6,13 +6,13 @@ import { Button, Container, Divider } from '@material-ui/core';
 import { DEPARTMENT_FORM } from '../../../constants/reduxForms';
 import { departmentFormStyles } from '../../../constants/styles';
 
-import DepartmentFormProps from '../../../interfaces/props/Managing/DepartmentFormProps';
+import ManagingFormProps from '../../../interfaces/props/Managing/ManagingFormProps';
 
 import renderedTextField from '../../../share/renderedFields/input';
 
 import { required } from '../../../validation/fields';
 
-let DepartmentForm: any = (props: DepartmentFormProps) => {
+let DepartmentForm: any = (props: ManagingFormProps) => {
     const classes = departmentFormStyles();
     const { handleSubmit, reset, invalid, pristine, submitting } = props;
 

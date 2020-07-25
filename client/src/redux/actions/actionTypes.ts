@@ -31,6 +31,9 @@ export const ADD_DEPARTMENT = 'ADD_DEPARTMENT';
 
 export const GET_AUTHORS = 'GET_AUTHORS';
 export const GET_AUTHORS_SUCCESS = 'GET_AUTHORS_SUCCESS';
+export const ADD_AUTHOR = 'ADD_AUTHOR';
+export const UPDATE_AUTHOR = 'UPDATE_AUTHOR';
+export const DELETE_AUTHOR = 'DELETE_AUTHOR';
 
 export const GET_GENRES = 'GET_GENRES';
 export const GET_GENRES_SUCCESS = 'GET_GENRES_SUCCESS';
