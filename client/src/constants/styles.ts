@@ -110,6 +110,10 @@ export const departmentFormStyles = makeStyles({
             width: '100%'
         }
     },
+    autocomplete: {
+        width: '30%',
+        margin: '10px auto'
+    },
     btnContainer: {
         display: 'flex',
         alignItems: 'center',
@@ -119,6 +123,9 @@ export const departmentFormStyles = makeStyles({
         '& .form-btn': {
             width: '48%'
         }
+    },
+    w30: {
+        width: '30%'
     }
 });
 

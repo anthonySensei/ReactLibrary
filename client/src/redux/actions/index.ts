@@ -15,7 +15,7 @@ export { setLoading } from './loadingIndicator';
 
 export { setDepartment, getDepartments, addDepartment } from './department';
 
-export { getAuthors } from './author';
+export { getAuthors, addAuthor, updateAuthor, deleteAuthor } from './author';
 
 export { getGenres, setSelectedGenres } from './genre';
 

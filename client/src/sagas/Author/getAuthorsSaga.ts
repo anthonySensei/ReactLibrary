@@ -14,7 +14,7 @@ export function* getAuthorsSaga() {
     try {
         setLoadingService(true);
         const response = yield call(getAuthorsService);
-        const authors: Author[] = response.data.authors;
+        const authors: Author[] = response.data.data.authors;
         yield put({
             type: actionTypes.GET_AUTHORS_SUCCESS,
             authors

@@ -10,6 +10,8 @@ export default {
         'There are no books available in the department.',
     ISBN_EXIST: 'Book with this isbn exists in this department',
     DEPARTMENT_EXIST: 'Department with this name exists',
+    AUTHOR_EXIST: 'Author with this name and country exists',
+    AUTHOR_HAS_BOOK: 'Author cannot be deleted because he/she has had book',
     CANNOT_FIND_TOKEN: 'Cannot find token',
     CANNOT_FIND_BOOK_ID: 'Cannot find book id'
 };

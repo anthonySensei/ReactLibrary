@@ -90,6 +90,9 @@ export const Home = (props: HomePageProps) => {
         socket.on('departments', (data: any) => {
             onGetDepartments();
         });
+        socket.on('authors', (data: any) => {
+            onGetAuthors();
+        });
     }, []);
 
     useEffect(() => {
