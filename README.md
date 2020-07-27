@@ -8,5 +8,5 @@ Simple single-page application for managing student library. There are four type
 
 *Project Team Size*: 1 team member.
 
-*Tools and technologies*: TypeScript (Server, Client side), Node.js (Express.js), Passport.js, Multer, Socket.IO, MongoDB (Mongoose), Mocha.js, Chai.js, React, Redux,
-Redux-Form, Redux-Saga, React-Router, Scss, Material UI, Jest, Enzyme, GraphQL, Git.
+*Tools and technologies*: TypeScript (Server, Client side), Node.js (Express.js), Passport.js (passport-local, passport-jwt), Multer, Socket.IO, MongoDB (Mongoose),
+Mocha.js, Chai.js, React, Redux, Redux-Form, Redux-Saga, React-Router, Scss, Material UI, Jest, Enzyme, GraphQL, Git.
