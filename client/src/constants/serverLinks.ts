@@ -1,4 +1,7 @@
-export const SERVER_URL = 'http://localhost:3001/api/';
+export const SERVER_URL =
+    process.env.REACT_APP_SERVER_URL || 'http://localhost:3001';
+export const SERVER_API_URL = `${SERVER_URL}/api/`;
+
 export const GRAPHQL_URL = 'graphql';
 
 export const LOGIN_URL = 'login';
