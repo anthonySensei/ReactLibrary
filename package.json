@@ -39,7 +39,8 @@
         "passport-jwt": "*",
         "passport-local": "^1.0.0",
         "socket.io": "^2.3.0",
-        "uuid": "^3.4.0"
+        "uuid": "^3.4.0",
+        "typescript": "^3.9.7"
     },
     "author": "Anthony",
     "license": "ISC",
@@ -65,8 +66,7 @@
         "mocha": "^8.0.1",
         "nodemon": "^2.0.2",
         "prettier": "2.0.2",
-        "sinon": "^9.0.2",
-        "typescript": "^3.9.7"
+        "sinon": "^9.0.2"
     },
     "prettier": {
         "singleQuote": true,
