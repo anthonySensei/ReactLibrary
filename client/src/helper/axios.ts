@@ -4,7 +4,7 @@ import { TOKEN_START } from '../constants/tokenStart';
 import { SERVER_URL } from '../constants/serverLinks';
 
 const instance = axios.create({
-    baseURL: process.env.SERVER_URL || SERVER_URL
+    baseURL: process.env.REACT_APP_SERVER_URL || SERVER_URL
 });
 
 const token = localStorage.getItem('token');
