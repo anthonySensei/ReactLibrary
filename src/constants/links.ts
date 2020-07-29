@@ -7,34 +7,30 @@ export enum AuthUrls {
 }
 
 export enum BookUrls {
-    BASE = '/books',
+    BASE = '/api/books',
     DETAILS = '/details',
     MOVE = '/move'
 }
 
 export const AUTH_CLIENT_ACTIVATION_PAGE_URL = '/activation-page';
 
-export enum AuthorUrls {
-    BASE = '/authors'
-}
-
 export enum DepartmentUrls {
-    BASE = '/departments'
+    BASE = '/api/departments'
 }
 
 export enum GenreUrls {
-    BASE = '/genres'
+    BASE = '/api/genres'
 }
 
 export enum LoanUrls {
-    BASE = '/loans'
+    BASE = '/api/loans'
 }
 
 export enum OrderUrls {
-    BASE = '/orders'
+    BASE = '/api/orders'
 }
 
 export enum StudentUrl {
-    BASE = '/students',
+    BASE = '/api/students',
     ALL = '/all'
 }
