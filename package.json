@@ -32,6 +32,7 @@
         "mongoose": "^5.9.17",
         "morgan": "^1.10.0",
         "multer": "^1.4.2",
+        "ts-node": "^8.10.2",
         "nodemailer": "^6.4.2",
         "nodemailer-sendgrid-transport": "^0.2.0",
         "passport": "*",
@@ -65,7 +66,6 @@
         "nodemon": "^2.0.2",
         "prettier": "2.0.2",
         "sinon": "^9.0.2",
-        "ts-node": "^8.10.2",
         "typescript": "^3.9.7"
     },
     "prettier": {
