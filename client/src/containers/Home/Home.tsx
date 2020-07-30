@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getFormValues } from 'redux-form';
 import { Dispatch } from 'redux';
+
 import openSocket from 'socket.io-client';
 
 import {
@@ -17,7 +18,6 @@ import {
 import {
     Button,
     Card,
-    CircularProgress,
     Container,
     Divider,
     Drawer,
@@ -42,18 +42,17 @@ import {
     getFilterObjService
 } from '../../services/bookService';
 
-import { homePageStyles } from '../../constants/styles';
 import { FILTER_FORM } from '../../constants/reduxForms';
 import { SERVER_URL } from '../../constants/serverLinks';
 
 import './Home.scss';
+import LoadingPage from '../../components/LoadingPage/LoadingPage';
 
 export const Home = (props: HomePageProps) => {
     document.title = 'Home';
 
     const shortId = require('shortid');
 
-    const classes = homePageStyles();
     const history = useHistory();
     const [isOpenFilter, setIsOpenFilter] = useState(false);
 
@@ -139,69 +138,76 @@ export const Home = (props: HomePageProps) => {
     };
 
     return (
-        <Container>
-            <Drawer anchor={'left'} open={isOpenFilter}>
-                <FilterForm
-                    onToggleDrawer={toggleDrawer}
-                    departments={departments}
-                    authors={authors}
-                    genres={genres}
-                    onSubmit={filterBooks}
-                    filterObj={getFilterObj()}
-                    onPaginate={handlePagination}
-                    filter={formValues?.filter}
-                    onSetGenres={onSetSelectedGenres}
-                    selectedGenres={selectedGenres}
-                />
-            </Drawer>
-            <Card className={classes.pageTitle}>
-                <h2>Books catalog</h2>
-                <div className="filter-container">
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        startIcon={<FilterListIcon />}
-                        onClick={toggleDrawer(true)}
-                    >
-                        Filter
-                    </Button>
-                    <FormControl className={classes.formControl}>
-                        <InputLabel>Department</InputLabel>
-                        <Select value={department} onChange={handleChange}>
-                            <MenuItem value="all">
-                                <em>All</em>
-                            </MenuItem>
-                            <Divider />
-                            {departments.map((department: Department) => (
-                                <MenuItem
-                                    value={department._id}
-                                    key={shortId.generate()}
-                                >
-                                    {department.name}({department.address})
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </div>
-            </Card>
-            <Card className={classes.booksContainer}>
-                {isLoading ? (
-                    <CircularProgress />
-                ) : (
-                    <BooksList departmentId={department} books={books} />
-                )}
-            </Card>
-            {!isLoading &&
-                (paginationData.hasPreviousPage ||
-                    paginationData.hasNextPage) && (
-                    <Card className={classes.paginationContainer}>
-                        <PaginationContainer
-                            paginationData={paginationData}
-                            onHandlePagination={handlePagination}
+        <>
+            {isLoading ? (
+                <LoadingPage />
+            ) : (
+                <Container className="container">
+                    <Drawer anchor={'left'} open={isOpenFilter}>
+                        <FilterForm
+                            onToggleDrawer={toggleDrawer}
+                            departments={departments}
+                            authors={authors}
+                            genres={genres}
+                            onSubmit={filterBooks}
+                            filterObj={getFilterObj()}
+                            onPaginate={handlePagination}
+                            filter={formValues?.filter}
+                            onSetGenres={onSetSelectedGenres}
+                            selectedGenres={selectedGenres}
                         />
+                    </Drawer>
+                    <Card className="page-title">
+                        <h2 className="text-header">Books catalog</h2>
+                        <div className="filter-container">
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                startIcon={<FilterListIcon />}
+                                onClick={toggleDrawer(true)}
+                            >
+                                Filter
+                            </Button>
+                            <FormControl className="form-control">
+                                <InputLabel>Department</InputLabel>
+                                <Select
+                                    value={department}
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value="all">
+                                        <em>All</em>
+                                    </MenuItem>
+                                    <Divider />
+                                    {departments.map(
+                                        (department: Department) => (
+                                            <MenuItem
+                                                value={department._id}
+                                                key={shortId.generate()}
+                                            >
+                                                {department.name}(
+                                                {department.address})
+                                            </MenuItem>
+                                        )
+                                    )}
+                                </Select>
+                            </FormControl>
+                        </div>
                     </Card>
-                )}
-        </Container>
+                    <Card className="books-container">
+                        <BooksList departmentId={department} books={books} />
+                    </Card>
+                    {(paginationData.hasPreviousPage ||
+                        paginationData.hasNextPage) && (
+                        <Card className="pagination-container">
+                            <PaginationContainer
+                                paginationData={paginationData}
+                                onHandlePagination={handlePagination}
+                            />
+                        </Card>
+                    )}
+                </Container>
+            )}
+        </>
     );
 };
 

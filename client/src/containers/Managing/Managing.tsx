@@ -32,8 +32,10 @@ import {
     AccordionSummaryWithStyles,
     managingStyles
 } from '../../constants/styles';
-import openSocket from 'socket.io-client';
 import { SERVER_URL } from '../../constants/serverLinks';
+
+import openSocket from 'socket.io-client';
+
 
 const Managing = (props: ManagingPageProps) => {
     const classes = managingStyles();
@@ -120,6 +122,7 @@ const Managing = (props: ManagingPageProps) => {
                     <FormControlLabel
                         control={
                             <Switch
+                                color='primary'
                                 checked={isManaging}
                                 onChange={handleSwitchChange}
                             />
