@@ -1,0 +1,9 @@
+@import '../../../App';
+
+.book-card {
+    @include backgroundInherit;
+    max-width: 30%;
+}
+.book-location {
+    margin-top: 20px;
+}

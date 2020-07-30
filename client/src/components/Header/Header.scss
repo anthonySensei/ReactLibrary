@@ -1,17 +1,25 @@
-.navbar.main-navbar {
-    align-items: center;
+@import "../../App";
+
+.navbar {
+    display: flex;
+    padding: 5px;
     justify-content: space-between;
+    background-color: inherit;
+    border-bottom: 1px solid $main-color;
+    font-size: 1.7em;
     .header-block {
-        display: flex;
         .navbar-link {
             margin-right: 10px;
-            color: #fff;
+            color: $line-color;
             text-decoration: none;
             order: 1;
 
             &:hover {
                 cursor: pointer;
-                color: #ffa500;
+                border-bottom: 1px solid $line-color;
+            }
+            &.active {
+                color: $main-color;
             }
         }
     }

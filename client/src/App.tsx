@@ -12,12 +12,13 @@ import SnackbarComponent from './share/snackbar/Snackbar';
 import { handleSnackbarCloseService } from './services/snackbar';
 
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-import { blue, lightBlue } from '@material-ui/core/colors';
+import { deepOrange, orange } from '@material-ui/core/colors';
 
 const theme = createMuiTheme({
     palette: {
-        primary: blue,
-        secondary: lightBlue
+        primary: deepOrange,
+        secondary: orange,
+        type: 'dark'
     }
 });
 

@@ -12,14 +12,14 @@ import {
 import { LocationOn } from '@material-ui/icons';
 
 import { UserRoles } from '../../../constants/UserRoles';
-import { bookDetailsCardStyles } from '../../../constants/styles';
 
 import Book from '../../../interfaces/Book';
 import User from '../../../interfaces/User';
 import BookDetailsCardProps from '../../../interfaces/props/BookDetails/BookDetailsCardProps';
 
+import './BookDetailsCard.scss';
+
 const BookDetailsCard = (props: BookDetailsCardProps) => {
-    const classes = bookDetailsCardStyles();
     const {
         onSetOpenConfirmDialog,
         onSetOpenLoanDialog,
@@ -29,29 +29,31 @@ const BookDetailsCard = (props: BookDetailsCardProps) => {
     const user: User = props.user || {};
 
     return (
-        <Card className={classes.bookCard}>
+        <Card className="book-card">
             <CardMedia
                 component="img"
                 alt={book.title}
-                image={'https://images.pexels.com/photos/825947/pexels-photo-825947.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'}
+                image={
+                    'https://images.pexels.com/photos/825947/pexels-photo-825947.jpeg'
+                }
                 title={book.title}
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                     {book.title}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant="body2" color="primary" component="p">
                     It was written by {book.author.name}. Genres of book are{' '}
                     {book.genres}. {book.description}.
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant="body2" color="primary" component="p">
                     Quantity: {book.quantity}.
                 </Typography>
                 <Typography
                     variant="body2"
-                    color="textSecondary"
+                    color="primary"
                     component="p"
-                    className={classes.location}
+                    className="book-location"
                 >
                     <LocationOn />
                     {book.department.name}({book.department.address})

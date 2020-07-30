@@ -13,10 +13,11 @@ import Book from '../../../interfaces/Book';
 import BookListProps from '../../../interfaces/props/Home/BookListProps';
 
 import { ClientLinks } from '../../../constants/ClientLinks';
-import { bookListStyles } from '../../../constants/styles';
+
+import './BooksList.scss';
+import Info from '../../../share/textFields/Info';
 
 const BooksList = (props: BookListProps) => {
-    const classes = bookListStyles();
     const history = useHistory();
 
     const books: Book[] = props.books || [];
@@ -31,56 +32,42 @@ const BooksList = (props: BookListProps) => {
             {books.length > 0 ? (
                 <>
                     {books.map((book: Book) => (
-                        <Card
-                            className={classes.bookCard}
-                            key={shortId.generate()}
-                        >
+                        <Card className="book-card" key={shortId.generate()}>
                             <CardContent>
-                                <h2 className={classes.title}>{book.title}</h2>
+                                <h2 className="book-title">{book.title}</h2>
                                 <CardMedia
-                                    className={classes.image}
-                                    image={'https://images.pexels.com/photos/825947/pexels-photo-825947.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'}
+                                    className="image"
+                                    image={
+                                        'https://images.pexels.com/photos/825947/pexels-photo-825947.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+                                    }
                                     title={book.description}
                                 />
-                                <p className={classes.info}>
-                                    <span className="secondary-text">
-                                        Author:{' '}
-                                    </span>
-                                    {book.author.name}
-                                </p>
-                                <p className={classes.info}>
-                                    <span className="secondary-text">
-                                        Genre:{' '}
-                                    </span>
-                                    {book.genres}
-                                </p>
-                                <p className={classes.info}>
-                                    <span className="secondary-text">
-                                        Year:{' '}
-                                    </span>
-                                    {book.year}
-                                </p>
-                                <p className={classes.info}>
-                                    <span className="secondary-text">
-                                        Quantity:{' '}
-                                    </span>
-                                    {book.quantity}
-                                </p>
+                                <Info
+                                    header={'Author'}
+                                    value={book.author.name}
+                                />
+                                <Info
+                                    header={'Genre'}
+                                    value={book.genres.toString()}
+                                />
+                                <Info header={'Year'} value={book.year} />
+                                <Info
+                                    header={'Quantity'}
+                                    value={book.quantity}
+                                />
                                 {props.departmentId === 'all' && (
-                                    <p className={classes.info}>
-                                        <span className="secondary-text">
-                                            Department:{' '}
-                                        </span>
-                                        {book.department.name}(
-                                        {book.department.address})
-                                    </p>
+                                    <Info
+                                        header={'Department'}
+                                        value={`${book.department.name}(
+                                        ${book.department.address})`}
+                                    />
                                 )}
                             </CardContent>
                             <CardActions>
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    className={classes.button}
+                                    className="book-details-button"
                                     onClick={() => showBookDetails(book._id)}
                                 >
                                     Details

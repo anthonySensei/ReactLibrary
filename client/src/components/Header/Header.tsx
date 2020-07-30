@@ -1,62 +1,47 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import {Link, NavLink} from 'react-router-dom';
 
 import { ClientLinks } from '../../constants/ClientLinks';
+import { UserRoles } from '../../constants/UserRoles';
 
 import RouterProps from '../../interfaces/props/RouterProps';
 
 import './Header.scss';
-import { UserRoles } from '../../constants/UserRoles';
 
 const Header = (props: RouterProps) => {
     return (
-        <AppBar position="static">
-            <Toolbar className="navbar main-navbar">
-                <div className="header-block">
-                    <Typography variant="h6">
-                        <Link
-                            to={ClientLinks.HOME_PAGE}
-                            className="navbar-link"
-                        >
-                            Books
-                        </Link>
-                    </Typography>
-                    {props.userRole === UserRoles.MANAGER && (
-                        <Typography variant="h6">
-                            <Link
-                                to={ClientLinks.MANAGING_PAGE}
-                                className="navbar-link"
-                            >
-                                Managing
-                            </Link>
-                        </Typography>
-                    )}
-                </div>
-                <div className="header-block">
-                    {!props.isLoggedIn ? (
-                        <Typography variant="h6">
-                            <Link
-                                to={ClientLinks.LOGIN}
-                                className="navbar-link link-right"
-                            >
-                                Login
-                            </Link>
-                        </Typography>
-                    ) : (
-                        <Typography variant="h6">
-                            <Link
-                                to={ClientLinks.LOGOUT}
-                                className="navbar-link link-right"
-                            >
-                                Logout
-                            </Link>
-                        </Typography>
-                    )}
-                </div>
-            </Toolbar>
-        </AppBar>
+        <nav className="navbar">
+            <div className="header-block">
+                <NavLink exact={true} activeClassName='active' to={ClientLinks.HOME_PAGE} className="navbar-link">
+                    Books
+                </NavLink>
+                {props.userRole === UserRoles.MANAGER && (
+                    <NavLink
+                        to={ClientLinks.MANAGING_PAGE}
+                        className="navbar-link"
+                    >
+                        Managing
+                    </NavLink>
+                )}
+            </div>
+            <div className="header-block">
+                {!props.isLoggedIn ? (
+                    <NavLink
+                        to={ClientLinks.LOGIN}
+                        className="navbar-link"
+                    >
+                        Login
+                    </NavLink>
+                ) : (
+                    <NavLink
+                        to={ClientLinks.LOGOUT}
+                        className="navbar-link"
+                    >
+                        Logout
+                    </NavLink>
+                )}
+            </div>
+        </nav>
     );
 };
 

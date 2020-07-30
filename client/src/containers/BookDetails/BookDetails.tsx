@@ -2,10 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
-import { getBook, loanBook, moveBook, orderBook } from '../../redux/actions';
-import { getAllStudents, getDepartments } from '../../redux/actions';
+import {
+    getAllStudents,
+    getBook,
+    getDepartments,
+    loanBook,
+    moveBook,
+    orderBook
+} from '../../redux/actions';
 
-import { CircularProgress, Container } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 
 import BookDetailsCard from '../../components/Books/BookDetailsCard/BookDetailsCard';
 import MoveBookDialog from '../../components/Books/MoveBookDialog/MoveBookDialog';
@@ -19,6 +25,7 @@ import BookDetailsProps from '../../interfaces/props/BookDetails/BookDetailsProp
 import ConfirmDialog from '../../share/ConfirmDialog/ConfirmDialog';
 
 import { bookDetailsStyles } from '../../constants/styles';
+import LoadingPage from '../../components/LoadingPage/LoadingPage';
 
 export const BookDetails = (props: BookDetailsProps) => {
     const classes = bookDetailsStyles();
@@ -100,7 +107,7 @@ export const BookDetails = (props: BookDetailsProps) => {
     return (
         <Container className={classes.container}>
             {isLoading ? (
-                <CircularProgress />
+                <LoadingPage />
             ) : (
                 <>
                     <MoveBookDialog

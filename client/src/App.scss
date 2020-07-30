@@ -1,4 +1,12 @@
-$main-color: #2196f3;
+$main-color: #E64A19;
+$secondary-color: #F57C00;
+$line-color: #fff;
+
+@mixin backgroundInherit() {
+    background-color: inherit;
+    border: 1px solid $main-color;
+    color: $main-color;
+}
 
 .form-btn-container {
     display: flex;
@@ -21,7 +29,7 @@ $main-color: #2196f3;
 }
 
 .secondary-text {
-    font-weight: 200;
+    color: $line-color;
 }
 
 ::-webkit-scrollbar {
