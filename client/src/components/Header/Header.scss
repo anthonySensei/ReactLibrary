@@ -1,4 +1,4 @@
-@import "../../App";
+@import '../../App';
 
 .navbar {
     display: flex;
@@ -10,17 +10,24 @@
     .header-block {
         .navbar-link {
             margin-right: 10px;
-            color: $line-color;
+            color: $secondary-color;
             text-decoration: none;
             order: 1;
 
             &:hover {
                 cursor: pointer;
-                border-bottom: 1px solid $line-color;
+                border-bottom: 1px solid $main-color;
             }
             &.active {
                 color: $main-color;
             }
+            @media screen and (max-width: 426px) {
+                display: block;
+                text-align: center;
+            }
         }
+    }
+    @media screen and (max-width: 426px) {
+        display: block;
     }
 }

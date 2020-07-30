@@ -1,5 +1,5 @@
 $main-color: #fff;
-$line-color: #E64A19;
+$secondary-color: #E64A19;
 
 @mixin backgroundInherit() {
     background-color: inherit;
@@ -28,7 +28,7 @@ $line-color: #E64A19;
 }
 
 .secondary-text {
-    color: $line-color;
+    color: $secondary-color;
 }
 
 ::-webkit-scrollbar {

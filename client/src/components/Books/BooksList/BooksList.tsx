@@ -39,7 +39,7 @@ const BooksList = (props: BookListProps) => {
                                 <CardMedia
                                     className="image"
                                     image={
-                                        'https://images.pexels.com/photos/825947/pexels-photo-825947.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+                                        'https://images.pexels.com/photos/825947/pexels-photo-825947.jpeg'
                                     }
                                     title={book.description}
                                 />

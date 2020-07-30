@@ -20,4 +20,8 @@
     .book-details-button {
         width: 100%;
     }
+    @media screen and (max-width: 426px){
+        flex: 100%;
+        max-width: none;
+    }
 }

@@ -2,39 +2,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { createStyles, Theme, withStyles } from '@material-ui/core';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 
-export const filterFormStyles = makeStyles({
-    formControl: {
-        minWidth: '100%',
-        textAlign: 'left',
-        margin: '10px auto'
-    },
-    closeBtnPanel: {
-        backgroundColor: '#2196F3',
-        textAlign: 'right',
-        width: 250
-    },
-    closeBtn: {
-        color: '#fff'
-    },
-    capitalize: {
-        textTransform: 'capitalize'
-    },
-    uppercase: {
-        textTransform: 'uppercase'
-    },
-    container: {
-        maxWidth: 250
-    }
-});
-
-export const bookDetailsStyles = makeStyles({
-    container: {
-        display: 'flex',
-        justifyContent: 'center',
-        padding: '50px 0'
-    }
-});
-
 export const dialogStyles = makeStyles({
     input: {
         width: '92%',
@@ -87,14 +54,6 @@ export const managingStyles = makeStyles((theme: Theme) =>
         secondaryHeading: {
             fontSize: theme.typography.pxToRem(15),
             color: theme.palette.text.secondary
-        }
-    })
-);
-
-export const AccordionWithStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            backgroundColor: 'inherit'
         }
     })
 );

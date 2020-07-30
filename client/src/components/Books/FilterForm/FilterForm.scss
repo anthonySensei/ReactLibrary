@@ -1,0 +1,26 @@
+@import '../../../App';
+
+.filter-panel-container {
+    max-width: 250px;
+    .form-control {
+        min-width: 100%;
+        text-align: left;
+        margin: 10px auto;
+    }
+}
+
+.close-panel-button {
+    background-color: $main-color;
+    text-align: right;
+    width: 250px;
+    .close-btn {
+        color: $secondary-color;
+    }
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+.uppercase {
+  text-transform: uppercase;
+}

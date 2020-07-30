@@ -15,6 +15,9 @@
             width: 97%;
             margin: 0 auto 10px;
             justify-content: space-between;
+            @media screen and (max-width: 426px) {
+                flex-direction: column;
+            }
         }
         .form-control {
             min-width: 170px;
@@ -38,5 +41,3 @@
         @include backgroundInherit;
     }
 }
-
-

@@ -163,6 +163,7 @@ export const Home = (props: HomePageProps) => {
                             <Button
                                 variant="outlined"
                                 color="primary"
+                                className='form-control'
                                 startIcon={<FilterListIcon />}
                                 onClick={toggleDrawer(true)}
                             >
