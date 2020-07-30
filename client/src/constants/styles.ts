@@ -2,8 +2,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { createStyles, Theme, withStyles } from '@material-ui/core';
 import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
 
-const mainColor = '#E64A19';
-
 export const filterFormStyles = makeStyles({
     formControl: {
         minWidth: '100%',

@@ -122,7 +122,7 @@ const Managing = (props: ManagingPageProps) => {
                     <FormControlLabel
                         control={
                             <Switch
-                                color='primary'
+                                color='secondary'
                                 checked={isManaging}
                                 onChange={handleSwitchChange}
                             />

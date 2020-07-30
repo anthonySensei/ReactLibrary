@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import './App.scss';
 
 import Routers from './router/Routers';
 
@@ -12,12 +11,16 @@ import SnackbarComponent from './share/snackbar/Snackbar';
 import { handleSnackbarCloseService } from './services/snackbar';
 
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
-import { deepOrange, orange } from '@material-ui/core/colors';
+import { deepOrange } from '@material-ui/core/colors';
+
+import './App.scss';
 
 const theme = createMuiTheme({
     palette: {
-        primary: deepOrange,
-        secondary: orange,
+        primary: {
+            main: '#fff'
+        },
+        secondary: deepOrange,
         type: 'dark'
     }
 });
