@@ -14,8 +14,9 @@ import BookListProps from '../../../interfaces/props/Home/BookListProps';
 
 import { ClientLinks } from '../../../constants/ClientLinks';
 
-import './BooksList.scss';
 import Info from '../../../share/textFields/Info';
+
+import './BooksList.scss';
 
 const BooksList = (props: BookListProps) => {
     const history = useHistory();

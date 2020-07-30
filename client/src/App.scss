@@ -1,6 +1,5 @@
-$main-color: #E64A19;
-$secondary-color: #F57C00;
-$line-color: #fff;
+$main-color: #fff;
+$line-color: #E64A19;
 
 @mixin backgroundInherit() {
     background-color: inherit;
