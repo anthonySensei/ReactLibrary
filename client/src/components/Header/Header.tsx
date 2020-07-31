@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import { ClientLinks } from '../../constants/ClientLinks';
 import { UserRoles } from '../../constants/UserRoles';
@@ -10,7 +10,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 
 import './Header.scss';
-import {Divider} from "@material-ui/core";
 
 const Header = (props: RouterProps) => {
     const [isToggled, setIsToggled] = useState(false);
@@ -31,7 +30,11 @@ const Header = (props: RouterProps) => {
 
     return (
         <nav className="menu">
-            <Link to={ClientLinks.HOME_PAGE} className="menu__logo">
+            <Link
+                to={ClientLinks.HOME_PAGE}
+                className="menu__logo"
+                onClick={handleToggle}
+            >
                 Library
             </Link>
             <NavLink
@@ -39,20 +42,33 @@ const Header = (props: RouterProps) => {
                 activeClassName="active"
                 to={ClientLinks.HOME_PAGE}
                 className="menu__item"
+                onClick={handleToggle}
             >
                 Home
             </NavLink>
             {props.userRole === UserRoles.MANAGER && (
-                <NavLink to={ClientLinks.MANAGING_PAGE} className="menu__item">
+                <NavLink
+                    to={ClientLinks.MANAGING_PAGE}
+                    className="menu__item"
+                    onClick={handleToggle}
+                >
                     Managing
                 </NavLink>
             )}
             {!props.isLoggedIn ? (
-                <NavLink to={ClientLinks.LOGIN} className="menu__item">
+                <NavLink
+                    to={ClientLinks.LOGIN}
+                    className="menu__item"
+                    onClick={handleToggle}
+                >
                     Login
                 </NavLink>
             ) : (
-                <NavLink to={ClientLinks.LOGOUT} className="menu__item">
+                <NavLink
+                    to={ClientLinks.LOGOUT}
+                    className="menu__item"
+                    onClick={handleToggle}
+                >
                     Logout
                 </NavLink>
             )}

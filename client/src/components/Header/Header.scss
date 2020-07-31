@@ -40,7 +40,7 @@
     &__toggle {
         order: 1;
     }
-    @media all and (max-width: 600px) {
+    @media all and (min-width: 600px) {
         justify-content: center;
         &__logo {
             flex: 1;
@@ -51,7 +51,7 @@
             order: 2;
         }
     }
-    @media all and (max-width: 900px) {
+    @media all and (min-width: 900px) {
         &__item {
             display: block;
             width: auto;
