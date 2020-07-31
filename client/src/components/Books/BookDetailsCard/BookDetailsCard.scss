@@ -3,6 +3,12 @@
 .book-card {
     @include backgroundInherit;
     max-width: 30%;
+    @media screen and (max-width: 426px) {
+        max-width: 90%;
+    }
+    @media screen and (max-width: 769px) {
+        max-width: 60%;
+    }
 }
 .book-location {
     margin-top: 20px;

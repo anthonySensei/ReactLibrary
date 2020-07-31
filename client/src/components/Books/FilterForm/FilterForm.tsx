@@ -14,7 +14,6 @@ import { Autocomplete } from '@material-ui/lab';
 
 import { FILTER_FORM } from '../../../constants/reduxForms';
 import { BookFilters } from '../../../constants/BookFilters';
-import { filterFormStyles } from '../../../constants/styles';
 
 import renderedSelectField from '../../../share/renderedFields/select';
 import renderedTextField from '../../../share/renderedFields/input';
@@ -31,8 +30,9 @@ import {
     notEmptyFilterValue
 } from '../../../validation/fields';
 
+import './FilterForm.scss';
+
 let FilterForm: any = (props: FilterFormProps) => {
-    const classes = filterFormStyles();
     const { handleSubmit, reset, filter } = props;
     const { onPaginate, onSetGenres, onToggleDrawer } = props;
 
@@ -56,34 +56,28 @@ let FilterForm: any = (props: FilterFormProps) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className={classes.closeBtnPanel}>
+            <div className="close-panel-button">
                 <IconButton onClick={onToggleDrawer(false)}>
-                    <CloseIcon className={classes.closeBtn} />
+                    <CloseIcon className="close-btn" />
                 </IconButton>
             </div>
-            <Container className={classes.container}>
+            <Container className="filter-panel-container">
                 <Field
                     className={[
-                        classes.formControl,
-                        filter === BookFilters.ISBN
-                            ? classes.uppercase
-                            : classes.capitalize
+                        'form-control',
+                        filter === BookFilters.ISBN ? 'uppercase' : 'capitalize'
                     ].join(' ')}
                     component={renderedSelectField}
                     name="filter"
                     label="Filter"
                 >
-                    <MenuItem value="nothing">
-                        <em>Nothing</em>
-                    </MenuItem>
-                    <Divider />
                     {Object.values(BookFilters).map(filter => (
                         <MenuItem
                             key={shortId.generate()}
                             className={
                                 filter === BookFilters.ISBN
-                                    ? classes.uppercase
-                                    : classes.capitalize
+                                    ? 'uppercase'
+                                    : 'capitalize'
                             }
                             value={filter}
                         >
@@ -93,7 +87,7 @@ let FilterForm: any = (props: FilterFormProps) => {
                 </Field>
                 <Field
                     name="value"
-                    className={classes.formControl}
+                    className="form-control"
                     type="text"
                     label="Value"
                     validate={[notEmptyFilterValue]}
@@ -101,7 +95,7 @@ let FilterForm: any = (props: FilterFormProps) => {
                     component={renderedTextField}
                 />
                 <Field
-                    className={classes.formControl}
+                    className="form-control"
                     name="authorId"
                     label="Author"
                     disabled={filter === BookFilters.ISBN}
@@ -137,7 +131,7 @@ let FilterForm: any = (props: FilterFormProps) => {
                 />
                 <Field
                     name="fYear"
-                    className={classes.formControl}
+                    className="form-control"
                     type="number"
                     label="From year"
                     validate={[lessThanZero, higherThanToYear]}
@@ -146,7 +140,7 @@ let FilterForm: any = (props: FilterFormProps) => {
                 />
                 <Field
                     name="tYear"
-                    className={classes.formControl}
+                    className="form-control"
                     type="number"
                     label="To year"
                     validate={[lessThanZero]}
@@ -154,7 +148,7 @@ let FilterForm: any = (props: FilterFormProps) => {
                     component={renderedTextField}
                 />
                 <Field
-                    className={classes.formControl}
+                    className="form-control"
                     component={renderedSelectField}
                     name="departmentId"
                     label="Department"

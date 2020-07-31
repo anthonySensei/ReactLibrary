@@ -12,7 +12,6 @@ import Genre from '../../interfaces/Genre';
 
 export function* getGenresSaga() {
     try {
-        setLoadingService(true);
         const response = yield call(getGenresService);
         const genres: Genre[] = response.data.genres;
         yield put({

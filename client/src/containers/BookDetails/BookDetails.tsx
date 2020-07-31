@@ -16,6 +16,7 @@ import { Container } from '@material-ui/core';
 import BookDetailsCard from '../../components/Books/BookDetailsCard/BookDetailsCard';
 import MoveBookDialog from '../../components/Books/MoveBookDialog/MoveBookDialog';
 import LoanBookDialog from '../../components/Books/LoanBookDialog/LoanBookDialog';
+import LoadingPage from '../../components/LoadingPage/LoadingPage';
 
 import Book from '../../interfaces/Book';
 import Department from '../../interfaces/Department';
@@ -24,12 +25,9 @@ import BookDetailsProps from '../../interfaces/props/BookDetails/BookDetailsProp
 
 import ConfirmDialog from '../../share/ConfirmDialog/ConfirmDialog';
 
-import { bookDetailsStyles } from '../../constants/styles';
-import LoadingPage from '../../components/LoadingPage/LoadingPage';
+import './BookDetails.scss';
 
 export const BookDetails = (props: BookDetailsProps) => {
-    const classes = bookDetailsStyles();
-
     const [openMoveDialog, setOpenMoveDialog] = useState(false);
     const [openLoanDialog, setOpenLoanDialog] = useState(false);
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
@@ -105,7 +103,7 @@ export const BookDetails = (props: BookDetailsProps) => {
     };
 
     return (
-        <Container className={classes.container}>
+        <Container className="book-details-container">
             {isLoading ? (
                 <LoadingPage />
             ) : (

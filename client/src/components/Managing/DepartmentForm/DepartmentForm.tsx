@@ -4,7 +4,6 @@ import { Field, reduxForm } from 'redux-form';
 import { Button, Container, Divider } from '@material-ui/core';
 
 import { DEPARTMENT_FORM } from '../../../constants/reduxForms';
-import { departmentFormStyles } from '../../../constants/styles';
 
 import ManagingFormProps from '../../../interfaces/props/Managing/ManagingFormProps';
 
@@ -12,18 +11,19 @@ import renderedTextField from '../../../share/renderedFields/input';
 
 import { required } from '../../../validation/fields';
 
+import '../ManagingForms.scss';
+
 let DepartmentForm: any = (props: ManagingFormProps) => {
-    const classes = departmentFormStyles();
     const { handleSubmit, reset, invalid, pristine, submitting } = props;
 
     return (
-        <Container className={classes.root}>
+        <Container className="form-container">
             <h2>Adding</h2>
             <Divider />
             <form onSubmit={handleSubmit}>
                 <Field
                     name="name"
-                    className={classes.formField}
+                    className="form-field"
                     type="text"
                     label="Name"
                     validate={[required]}
@@ -31,15 +31,15 @@ let DepartmentForm: any = (props: ManagingFormProps) => {
                 />
                 <Field
                     name="address"
-                    className={classes.formField}
+                    className="form-field"
                     type="text"
                     label="Address"
                     validate={[required]}
                     component={renderedTextField}
                 />
-                <div className={classes.btnContainer}>
+                <div className="btn-container">
                     <Button
-                        className="form-btn"
+                        className="btn-container__form-btn"
                         type="submit"
                         variant="contained"
                         color="primary"
@@ -48,7 +48,7 @@ let DepartmentForm: any = (props: ManagingFormProps) => {
                         Add
                     </Button>
                     <Button
-                        className="form-btn"
+                        className="btn-container__form-btn"
                         type="button"
                         variant="outlined"
                         color="primary"

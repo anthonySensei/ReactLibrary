@@ -9,13 +9,10 @@ import { TextField } from '@material-ui/core';
 import Student from '../../../interfaces/Student';
 import { LoanBookDialogProps } from '../../../interfaces/props/BookDetails/LoanBookDialogProps';
 
-import { dialogStyles } from '../../../constants/styles';
-
-import '../../../App.scss';
+import '../Dialogs.scss';
 
 export const LoanBookDialog = (props: LoanBookDialogProps) => {
     const { onClose, open, students } = props;
-    const classes = dialogStyles();
     const [studentId, setStudentId] = useState('');
 
     const handleClose = () => {
@@ -33,7 +30,7 @@ export const LoanBookDialog = (props: LoanBookDialogProps) => {
                 Please input student id to loan book
             </DialogTitle>
             <Autocomplete
-                className={classes.input}
+                className='dialog-input'
                 options={students}
                 getOptionLabel={(student: Student) =>
                     `${student.name}(${student.studentId})`
