@@ -30,13 +30,12 @@ export function* moveBookSaga(payload: MoveBookSagaPayload) {
         });
         setLoadingService(false);
         yield handleSnackbarOpenService(
-            true,
             SnackbarTypes.SUCCESS,
             response.data.message
         );
     } catch (err) {
         const errorMessage = err.response ? err.response.data.message : 'Error';
         setLoadingService(false);
-        handleSnackbarOpenService(true, SnackbarTypes.ERROR, errorMessage);
+        handleSnackbarOpenService(SnackbarTypes.ERROR, errorMessage);
     }
 }

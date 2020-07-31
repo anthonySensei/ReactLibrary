@@ -26,7 +26,7 @@ export function* registrationSaga(payload: RegistrationSagePayload) {
         yield put({ type: actionTypes.SET_LOADING_INDICATOR, result: false });
     } catch (err) {
         const error = err.response ? err.response.data.message : 'Error';
-        handleSnackbarOpenService(true, SnackbarTypes.ERROR, error);
+        handleSnackbarOpenService(SnackbarTypes.ERROR, error);
         yield put({ type: actionTypes.SET_LOADING_INDICATOR, result: false });
     }
 }

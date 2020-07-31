@@ -46,7 +46,7 @@ export const orderBook = async (req: Request, res: Response) => {
                     department: book.department
                 });
                 await bookOrder.save();
-                await book.update({ quantity: book.quantity - 1 });
+                await book.updateOne({ quantity: book.quantity - 1 });
                 res.send({
                     message: successMessages.SUCCESSFULLY_ORDERED
                 });

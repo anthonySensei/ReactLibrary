@@ -96,7 +96,7 @@ export const postCreateUser = async (req: Request, res: Response) => {
                     user: user._id
                 });
                 await student.save();
-                if (process.env.NODE_ENV !== 'testing') {
+                if (process.env.NODE_ENV !== 'test') {
                     await sendMail(
                         email,
                         subjects.ACCOUNT_ACTIVATION,

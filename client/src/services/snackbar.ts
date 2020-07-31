@@ -2,10 +2,10 @@ import { store } from '../index';
 
 import { setOpenSnackbar } from '../redux/actions';
 
-export const handleSnackbarOpenService = (isOpen: boolean, type: string, message: string) => {
+export const handleSnackbarOpenService = (type: string, message: string) => {
     store.dispatch(
         setOpenSnackbar({
-            isOpen: isOpen,
+            isOpen: true,
             type: type,
             message: message
         })

@@ -16,7 +16,6 @@ export function* deleteAuthorSaga(payload: DeleteAuthorSagaPayload) {
         setLoadingService(true);
         const response = yield call(deleteAuthorService, payload.authorId);
         handleSnackbarOpenService(
-            true,
             SnackbarTypes.SUCCESS,
             response.data.data.deleteAuthor
         );
@@ -27,6 +26,6 @@ export function* deleteAuthorSaga(payload: DeleteAuthorSagaPayload) {
                 ? err.response.data.errors[0].message
                 : 'Error';
         setLoadingService(false);
-        handleSnackbarOpenService(true, SnackbarTypes.ERROR, errorMessage);
+        handleSnackbarOpenService( SnackbarTypes.ERROR, errorMessage);
     }
 }

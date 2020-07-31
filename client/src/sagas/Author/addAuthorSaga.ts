@@ -22,7 +22,6 @@ export function* addAuthorSaga(payload: AddAuthorSagaPayload) {
         const response = yield call(addAuthorService, payload.author);
         resetFormHandler(AUTHOR_FORM);
         handleSnackbarOpenService(
-            true,
             SnackbarTypes.SUCCESS,
             response.data.data.addAuthor
         );
@@ -33,6 +32,6 @@ export function* addAuthorSaga(payload: AddAuthorSagaPayload) {
                 ? err.response.data.errors[0].message
                 : 'Error';
         setLoadingService(false);
-        handleSnackbarOpenService(true, SnackbarTypes.ERROR, errorMessage);
+        handleSnackbarOpenService(SnackbarTypes.ERROR, errorMessage);
     }
 }

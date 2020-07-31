@@ -48,6 +48,13 @@ const reducer = (state = initialState, action: any) => {
             return updateObject(state, {
                 activationError: action.error
             });
+        case actionTypes.CLEAR_AUTH:
+            return updateObject(state, {
+                activationError: null,
+                loginError: null,
+                user: null,
+                message: null
+            });
         default:
             return state;
     }

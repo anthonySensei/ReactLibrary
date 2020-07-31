@@ -1,5 +1,7 @@
 import axios from '../helper/axios';
 
+import { store } from '../index';
+
 import {
     ACTIVATE_USER_URL,
     LOGIN_URL,
@@ -9,6 +11,7 @@ import {
 
 import RegistrationData from '../interfaces/formsData/RegistrationData';
 import LoginData from '../interfaces/formsData/LoginData';
+import { clearAuth } from '../redux/actions/auth';
 
 export const loginUserService = async (loginData: LoginData) => {
     return await axios.post(LOGIN_URL, loginData);
@@ -26,4 +29,8 @@ export const logoutUserService = async () => {
 
 export const activateUserService = async (activationToken: string) => {
     return await axios.post(ACTIVATE_USER_URL, { activationToken });
+};
+
+export const clearAuthService = () => {
+    store.dispatch(clearAuth());
 };

@@ -29,7 +29,7 @@ export const ActivationPage = (props: ActivationPageProps) => {
 
     if (message) {
         redirect = <Redirect to={ClientLinks.LOGIN} />;
-        handleSnackbarOpenService(true, SnackbarTypes.SUCCESS, message);
+        handleSnackbarOpenService(SnackbarTypes.SUCCESS, message);
     }
 
     let main = (
