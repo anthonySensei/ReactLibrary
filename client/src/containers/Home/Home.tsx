@@ -142,7 +142,7 @@ export const Home = (props: HomePageProps) => {
             {isLoading ? (
                 <LoadingPage />
             ) : (
-                <Container className="container">
+                <Container className="container" maxWidth={false}>
                     <Drawer anchor={'left'} open={isOpenFilter}>
                         <FilterForm
                             onToggleDrawer={toggleDrawer}

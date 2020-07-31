@@ -7,7 +7,6 @@ import { Button, Container, Divider, TextField } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 
 import { AUTHOR_FORM } from '../../../constants/reduxForms';
-import { departmentFormStyles } from '../../../constants/styles';
 import { SERVER_URL } from '../../../constants/serverLinks';
 
 import ManagingFormProps from '../../../interfaces/props/Managing/ManagingFormProps';
@@ -17,8 +16,9 @@ import renderedTextField from '../../../share/renderedFields/input';
 
 import { required } from '../../../validation/fields';
 
+import '../ManagingForms.scss';
+
 let AuthorForm: any = (props: ManagingFormProps) => {
-    const classes = departmentFormStyles();
     const { handleSubmit, reset, initialize, onDelete } = props;
     const { invalid, pristine, submitting, isManaging } = props;
 
@@ -40,13 +40,13 @@ let AuthorForm: any = (props: ManagingFormProps) => {
     }, []);
 
     return (
-        <Container className={classes.root}>
+        <Container className="form-container">
             <h2>{!isManaging ? 'Adding' : 'Managing'}</h2>
             <Divider />
             {isManaging && (
                 <>
                     <Autocomplete
-                        className={classes.autocomplete}
+                        className="form-container__autocomplete"
                         options={props.authors}
                         getOptionLabel={(author: Author) =>
                             `${author.name}(${author.country})`
@@ -65,7 +65,7 @@ let AuthorForm: any = (props: ManagingFormProps) => {
                         )}
                     />
                     <Button
-                        className={classes.w30}
+                        className="form-container__w30"
                         variant="contained"
                         color="default"
                         disabled={!author}
@@ -76,14 +76,13 @@ let AuthorForm: any = (props: ManagingFormProps) => {
                     >
                         Delete
                     </Button>
-                    <Divider className={classes.autocomplete} />
                 </>
             )}
 
             <form onSubmit={handleSubmit}>
                 <Field
                     name="name"
-                    className={classes.formField}
+                    className="form-field"
                     type="text"
                     label="Name"
                     validate={[required]}
@@ -91,15 +90,15 @@ let AuthorForm: any = (props: ManagingFormProps) => {
                 />
                 <Field
                     name="country"
-                    className={classes.formField}
+                    className="form-field"
                     type="text"
                     label="Country"
                     validate={[required]}
                     component={renderedTextField}
                 />
-                <div className={classes.btnContainer}>
+                <div className="btn-container">
                     <Button
-                        className="form-btn"
+                        className="btn-container__form-btn"
                         type="submit"
                         variant="contained"
                         color="primary"
@@ -110,7 +109,7 @@ let AuthorForm: any = (props: ManagingFormProps) => {
                         {!isManaging ? 'Add' : 'Edit'}
                     </Button>
                     <Button
-                        className="form-btn"
+                        className="btn-container__form-btn"
                         type="button"
                         variant="outlined"
                         color="primary"

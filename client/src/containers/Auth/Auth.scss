@@ -29,4 +29,13 @@
         color: $main-color;
         cursor: pointer;
     }
+    @media screen and (max-width: 426px) {
+        width: 95%;
+    }
+    @media screen and (max-width: 769px) {
+        width: 70%;
+    }
+    @media screen and (max-width: 1240px) {
+        width: 50%;
+    }
 }

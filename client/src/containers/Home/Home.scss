@@ -40,4 +40,7 @@
         padding: 10px;
         @include backgroundInherit;
     }
+    @media all and (min-width: 1981px) {
+        width: 90%;
+    }
 }

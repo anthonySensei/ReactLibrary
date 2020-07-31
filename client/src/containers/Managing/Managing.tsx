@@ -28,17 +28,14 @@ import Department from '../../interfaces/Department';
 import ManagingPageProps from '../../interfaces/props/Managing/ManagingPageProps';
 import Author from '../../interfaces/Author';
 
-import {
-    AccordionSummaryWithStyles,
-    managingStyles
-} from '../../constants/styles';
+import { AccordionSummaryWithStyles } from '../../constants/styles';
 import { SERVER_URL } from '../../constants/serverLinks';
 
 import openSocket from 'socket.io-client';
 
+import './Managing.scss';
 
 const Managing = (props: ManagingPageProps) => {
-    const classes = managingStyles();
     const { authors } = props;
     const { onAddAuthor, onDeleteAuthor, onGetAuthors, onUpdateAuthor } = props;
     const { onAddDepartment } = props;
@@ -82,16 +79,16 @@ const Managing = (props: ManagingPageProps) => {
     }, []);
 
     return (
-        <Container className={classes.root}>
+        <Container className="managing-container">
             <Accordion
                 expanded={expanded === 'department'}
                 onChange={handleAccordionChange('department')}
             >
                 <AccordionSummaryWithStyles expandIcon={<ExpandMoreIcon />}>
-                    <Typography className={classes.heading}>
+                    <Typography className="managing-container__heading">
                         Departments
                     </Typography>
-                    <Typography className={classes.secondaryHeading}>
+                    <Typography className="managing-container__secondary-heading">
                         Choose to manage departments
                     </Typography>
                 </AccordionSummaryWithStyles>
@@ -104,8 +101,10 @@ const Managing = (props: ManagingPageProps) => {
                 onChange={handleAccordionChange('author')}
             >
                 <AccordionSummaryWithStyles expandIcon={<ExpandMoreIcon />}>
-                    <Typography className={classes.heading}>Authors</Typography>
-                    <Typography className={classes.secondaryHeading}>
+                    <Typography className="managing-container__heading">
+                        Authors
+                    </Typography>
+                    <Typography className="managing-container__secondary-heading">
                         Choose to manage authors
                     </Typography>
                 </AccordionSummaryWithStyles>
@@ -122,7 +121,7 @@ const Managing = (props: ManagingPageProps) => {
                     <FormControlLabel
                         control={
                             <Switch
-                                color='secondary'
+                                color="secondary"
                                 checked={isManaging}
                                 onChange={handleSwitchChange}
                             />

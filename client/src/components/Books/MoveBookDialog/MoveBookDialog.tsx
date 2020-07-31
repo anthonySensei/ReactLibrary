@@ -13,16 +13,12 @@ import {
     TextField
 } from '@material-ui/core';
 
-import { dialogStyles } from '../../../constants/styles';
-
 import Department from '../../../interfaces/Department';
 import MoveBookDialogProps from '../../../interfaces/props/BookDetails/MoveBookDialogProps';
 
-import '../../../App.scss';
+import '../Dialogs.scss';
 
 export const MoveBookDialog = (props: MoveBookDialogProps) => {
-    const classes = dialogStyles();
-
     const {
         onClose,
         open,
@@ -63,7 +59,7 @@ export const MoveBookDialog = (props: MoveBookDialogProps) => {
             <DialogTitle id="confirm-dialog-title">
                 Please select department and quantity of book to move:
             </DialogTitle>
-            <FormControl className={classes.input}>
+            <FormControl className="dialog-input">
                 <InputLabel>Department</InputLabel>
                 <Select
                     value={departmentId}
@@ -87,7 +83,7 @@ export const MoveBookDialog = (props: MoveBookDialogProps) => {
             <TextField
                 required
                 label="Quantity"
-                className={classes.input}
+                className="dialog-input"
                 value={quantityToMove}
                 onChange={handleQuantityChange}
                 error={!!quantityError}

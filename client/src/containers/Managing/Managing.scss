@@ -1,0 +1,14 @@
+@import '../../App';
+
+.managing-container {
+    margin-top: 30px;
+    height: 100vh;
+    &__heading {
+        flex-basis: 33.33%;
+        flex-shrink: 0;
+        color: $secondary-color;
+    }
+    &__secondary-heading {
+        color: $main-color;
+    }
+}

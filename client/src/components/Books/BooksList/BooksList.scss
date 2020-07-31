@@ -24,4 +24,12 @@
         flex: 100%;
         max-width: none;
     }
+    @media screen and (max-width: 769px){
+        flex: 50%;
+        max-width: 35%;
+    }
+    @media screen and (min-width: 2560px){
+        flex: 10%;
+        max-width: 10%;
+    }
 }
