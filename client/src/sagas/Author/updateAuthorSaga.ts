@@ -3,7 +3,6 @@ import { call } from 'redux-saga/effects';
 import { setLoadingService } from '../../services/loadingIndicator';
 import { handleSnackbarOpenService } from '../../services/snackbar';
 import {
-    addAuthorService,
     updateAuthorService
 } from '../../services/authorService';
 
@@ -25,7 +24,6 @@ export function* updateAuthorSaga(payload: UpdateAuthorSagaPayload) {
         const response = yield call(updateAuthorService, payload.author);
         resetFormHandler(AUTHOR_FORM);
         handleSnackbarOpenService(
-            true,
             SnackbarTypes.SUCCESS,
             response.data.data.updateAuthor
         );
@@ -36,6 +34,6 @@ export function* updateAuthorSaga(payload: UpdateAuthorSagaPayload) {
                 ? err.response.data.errors[0].message
                 : 'Error';
         setLoadingService(false);
-        handleSnackbarOpenService(true, SnackbarTypes.ERROR, errorMessage);
+        handleSnackbarOpenService(SnackbarTypes.ERROR, errorMessage);
     }
 }

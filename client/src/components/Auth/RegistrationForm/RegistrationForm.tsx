@@ -17,9 +17,10 @@ import {
     required,
     retypePassword
 } from '../../../validation/fields';
-import { asyncStudentIdValidate } from '../../../validation/asyncValidation';
+import { asyncStudentRegistrationValidate } from '../../../validation/asyncValidation';
 
 import { handleSnackbarOpenService } from '../../../services/snackbar';
+import { clearAuthService } from '../../../services/authService';
 
 import RegistrationFormProps from '../../../interfaces/props/Auth/RegistrationFormProps';
 
@@ -29,7 +30,8 @@ let RegistrationForm: any = (props: RegistrationFormProps) => {
 
     if (message) {
         switchAuth(AuthTypes.LOGIN);
-        handleSnackbarOpenService(true, SnackbarTypes.SUCCESS, message);
+        handleSnackbarOpenService(SnackbarTypes.SUCCESS, message);
+        clearAuthService();
     }
 
     const getSteps = (): string[] => {
@@ -175,7 +177,7 @@ let RegistrationForm: any = (props: RegistrationFormProps) => {
 
 RegistrationForm = reduxForm({
     form: REGISTRATION_FORM,
-    asyncValidate: asyncStudentIdValidate
+    asyncValidate: asyncStudentRegistrationValidate
 })(RegistrationForm);
 
 export default RegistrationForm;

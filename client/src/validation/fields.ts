@@ -9,11 +9,13 @@ export const email = (value: string) =>
     value && !validation.EMAIL.test(value) ? 'Email is not valid' : undefined;
 
 export const id = (value: string) =>
-    value && !validation.ID.test(value) ? 'ID is not valid' : undefined;
+    value && !validation.ID.test(value)
+        ? 'ID is not valid. Student ID must start with 1-9 and contains 10 digits'
+        : undefined;
 
 export const password = (value: string) =>
     value && !validation.PASSWORD.test(value)
-        ? 'Password is not valid'
+        ? 'Password is not valid. Password must contain at least 1 lowercase and uppercase alphabetical character, 1 numeric character and one special character. Also it must be eight characters or longer'
         : undefined;
 
 export const lessThanZero = (value: string) =>

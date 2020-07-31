@@ -2,7 +2,7 @@ import axios from '../helper/axios';
 import { REGISTRATION_CHECK_URL } from '../constants/serverLinks';
 import RegistrationData from '../interfaces/formsData/RegistrationData';
 
-export const asyncStudentIdValidate = (values: RegistrationData) => {
+export const asyncStudentRegistrationValidate = (values: RegistrationData) => {
     return axios
         .post(REGISTRATION_CHECK_URL, {
             studentId: values.studentId,

@@ -3,7 +3,7 @@ import { TOKEN_START } from '../../constants/tokenStart';
 
 import User from '../../interfaces/User';
 import RegistrationData from '../../interfaces/formsData/RegistrationData';
-import LoginData from "../../interfaces/formsData/LoginData";
+import LoginData from '../../interfaces/formsData/LoginData';
 
 export const loginUser = (res: LoginData) => {
     return {
@@ -55,5 +55,11 @@ export const activateUser = (activationToken: string) => {
     return {
         type: actionTypes.ACTIVATE_USER,
         result: activationToken
+    };
+};
+
+export const clearAuth = () => {
+    return {
+        type: actionTypes.CLEAR_AUTH
     };
 };

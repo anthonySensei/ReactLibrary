@@ -21,6 +21,6 @@ export function* getDepartmentsSaga() {
     } catch (err) {
         const errorMessage = err.response ? err.response.data.message : 'Error';
         setLoadingService(false);
-        handleSnackbarOpenService(true, SnackbarTypes.ERROR, errorMessage);
+        handleSnackbarOpenService(SnackbarTypes.ERROR, errorMessage);
     }
 }

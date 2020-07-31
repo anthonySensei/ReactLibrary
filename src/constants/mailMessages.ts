@@ -14,7 +14,7 @@ export const generateActivationMessage = (registrationToken: string) => {
     return `'Hello. Please follow the link below to activate your account.
                 <br />
                 <a href="${process.env.REACT}${AUTH_CLIENT_ACTIVATION_PAGE_URL}?token=${registrationToken}">
-                    http://localhost:4200/activation-page?rtoken=${registrationToken}
+                    Activation page
                 </a>
                 ${messages.BEST_REGARDS}
             `;
