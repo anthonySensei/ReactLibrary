@@ -9,7 +9,7 @@ import passport from 'passport';
 import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
- 
+
 import authRoutes from './routes/auth';
 import bookRoutes from './routes/book';
 import departmentRoutes from './routes/department';
@@ -34,7 +34,6 @@ import {
     createMainManager
 } from './helper/createMainManager';
 import { connectDb } from './helper/db';
-
 
 import { graphqlHTTP } from 'express-graphql';
 import graphqlConfig from './config/graphql';
@@ -75,6 +74,9 @@ app.use('images', express.static(path.join(__dirname, 'images')));
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
+    app.get('*', (req, res) => {
+        res.sendFile('client/build/index.html');
+    });
 }
 
 app.use('/api/graphql', graphqlHTTP(graphqlConfig));
