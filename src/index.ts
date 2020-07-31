@@ -9,7 +9,7 @@ import passport from 'passport';
 import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
- 
+
 import authRoutes from './routes/auth';
 import bookRoutes from './routes/book';
 import departmentRoutes from './routes/department';
@@ -86,6 +86,10 @@ app.use(GenreUrls.BASE, genreRoutes);
 app.use(LoanUrls.BASE, loanRoutes);
 app.use(OrderUrls.BASE, orderRoutes);
 app.use(StudentUrl.BASE, studentRoutes);
+
+app.get('*', (req,res) =>{
+    res.sendFile(path.join(__dirname+'/../client/build/index.html'));
+});
 
 connectDb()
     .then(async () => {
