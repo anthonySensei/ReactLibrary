@@ -1,12 +1,14 @@
+@import '../../App';
+
 .activation-page-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .activation-section{
-    text-align: center;
-    display: block;
-    width: 400px;
-  }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    @include backgroundInherit;
+    .activation-section {
+        text-align: center;
+        display: block;
+        width: 400px;
+    }
 }
-
-

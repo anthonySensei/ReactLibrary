@@ -13,5 +13,6 @@ export default {
     AUTHOR_EXIST: 'Author with this name and country exists',
     AUTHOR_HAS_BOOK: 'Author cannot be deleted because he/she has had book',
     CANNOT_FIND_TOKEN: 'Cannot find token',
+    INVALID_TOKEN: 'Invalid token',
     CANNOT_FIND_BOOK_ID: 'Cannot find book id'
 };
