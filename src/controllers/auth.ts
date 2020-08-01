@@ -120,13 +120,15 @@ export const postCheckActivationToken = async (req: Request, res: Response) => {
         return responseErrorHandle(res, 400, errorMessages.CANNOT_FIND_TOKEN);
 
     try {
-        await User.findOneAndUpdate(
+        const isUpdated = !!(await User.findOneAndUpdate(
             { activationToken },
             {
                 active: true,
                 activationToken: ''
             }
-        );
+        ));
+        if (!isUpdated)
+            return responseErrorHandle(res, 500, errorMessages.INVALID_TOKEN);
         res.send({ message: successMessages.SUCCESSFULLY_ACTIVATED });
     } catch (err) {
         return responseErrorHandle(
