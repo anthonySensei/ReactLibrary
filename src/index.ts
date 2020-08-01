@@ -10,34 +10,15 @@ import helmet from 'helmet';
 import compression from 'compression';
 import morgan from 'morgan';
 
-import authRoutes from './routes/auth';
-import bookRoutes from './routes/book';
-import departmentRoutes from './routes/department';
-import genreRoutes from './routes/genre';
-import orderRoutes from './routes/order';
-import loanRoutes from './routes/loan';
-import studentRoutes from './routes/student';
+import useRoutes from './routes/routes';
 
 import User from './models/user';
-
-import {
-    BookUrls,
-    DepartmentUrls,
-    GenreUrls,
-    LoanUrls,
-    OrderUrls,
-    StudentUrl
-} from './constants/links';
 
 import {
     createMainDepartment,
     createMainManager
 } from './helper/createMainManager';
 import { connectDb } from './helper/db';
-
-
-import { graphqlHTTP } from 'express-graphql';
-import graphqlConfig from './config/graphql';
 
 import passportConfig from './config/passport';
 import socket from './config/socket';
@@ -77,19 +58,7 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
 }
 
-app.use('/api/graphql', graphqlHTTP(graphqlConfig));
-
-app.use('/api', authRoutes);
-app.use(BookUrls.BASE, bookRoutes);
-app.use(DepartmentUrls.BASE, departmentRoutes);
-app.use(GenreUrls.BASE, genreRoutes);
-app.use(LoanUrls.BASE, loanRoutes);
-app.use(OrderUrls.BASE, orderRoutes);
-app.use(StudentUrl.BASE, studentRoutes);
-
-app.get('*', (req,res) =>{
-    res.sendFile(path.join(__dirname+'/../client/build/index.html'));
-});
+useRoutes(app);
 
 connectDb()
     .then(async () => {

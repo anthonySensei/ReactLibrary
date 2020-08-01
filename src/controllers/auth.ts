@@ -58,7 +58,7 @@ export const postCreateUser = async (req: Request, res: Response) => {
         ? cryptPassword(req.body.password)
         : '';
     if (!email || !password || !studentId || !name)
-        return responseErrorHandle(res, 400, errorMessages.EMPTY_FIELDS);
+        return responseErrorHandle(res, 500, errorMessages.EMPTY_FIELDS);
     try {
         const isNotUniqueStudentId: boolean = !!(await Student.findOne({
             studentId
@@ -66,7 +66,7 @@ export const postCreateUser = async (req: Request, res: Response) => {
         if (isNotUniqueStudentId) {
             return responseErrorHandle(
                 res,
-                400,
+                500,
                 errorMessages.STUDENT_ID_ALREADY_IN_USE
             );
         } else {
@@ -75,7 +75,7 @@ export const postCreateUser = async (req: Request, res: Response) => {
             if (isNotUniqueEmail) {
                 return responseErrorHandle(
                     res,
-                    400,
+                    500,
                     errorMessages.EMAIL_ADDRESS_ALREADY_IN_USE
                 );
             } else {
@@ -109,7 +109,7 @@ export const postCreateUser = async (req: Request, res: Response) => {
             }
         }
     } catch (err) {
-        responseErrorHandle(res, 400, errorMessages.SOMETHING_WENT_WRONG);
+        responseErrorHandle(res, 500, errorMessages.SOMETHING_WENT_WRONG);
     }
 };
 
