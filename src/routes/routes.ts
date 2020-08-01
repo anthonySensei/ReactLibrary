@@ -37,8 +37,4 @@ export default (app: Express) => {
     app.use(LoanUrls.BASE, loanRoutes);
     app.use(OrderUrls.BASE, orderRoutes);
     app.use(StudentUrl.BASE, studentRoutes);
-
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname + '/../client/build/index.html'));
-    });
 };
