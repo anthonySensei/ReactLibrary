@@ -12,4 +12,5 @@ Simple single-page application for managing student library. There are four type
 Mocha.js, Chai.js, React, Redux, Redux-Form, Redux-Saga, React-Router, Scss, Material UI, Jest, Enzyme, GraphQL, Swagger, Git.
 
 *Site*: https://reactstudentlibrary.herokuapp.com/
-"Swagger": https://reactstudentlibrary.herokuapp.com/api-docs/
+
+*Swagger*: https://reactstudentlibrary.herokuapp.com/api-docs/
