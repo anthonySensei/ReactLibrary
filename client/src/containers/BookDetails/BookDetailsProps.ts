@@ -1,9 +1,9 @@
 import { RouteComponentProps } from 'react-router-dom';
 
-import Book from '../../Book';
-import Department from '../../Department';
-import Student from '../../Student';
-import User from '../../User';
+import Book from '../../interfaces/Book';
+import Department from '../../interfaces/Department';
+import Student from '../../interfaces/Student';
+import User from '../../interfaces/User';
 
 export default interface BookDetailsProps extends RouteComponentProps<{}> {
     book: Book;

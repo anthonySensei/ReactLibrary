@@ -1,4 +1,4 @@
-import Department from '../../Department';
+import Department from '../../../interfaces/Department';
 
 export default interface MoveBookDialogProps {
     open: boolean;

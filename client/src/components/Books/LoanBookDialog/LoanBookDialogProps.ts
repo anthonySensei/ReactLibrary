@@ -1,4 +1,4 @@
-import Student from "../../Student";
+import Student from "../../../interfaces/Student";
 
 export interface LoanBookDialogProps {
     open: boolean;
