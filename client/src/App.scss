@@ -1,11 +1,49 @@
 $main-color: #fff;
+$main-dark-color: #424242;
 $secondary-color: #E64A19;
 $danger-color: #ff3023;
+$success-color: #0AAC00;
 
 @mixin backgroundInherit() {
     background-color: inherit;
     border: 1px solid $main-color;
     color: $main-color;
+}
+
+.card.form {
+    display: block;
+    width: 35%;
+    margin: 15% auto;
+    text-align: center;
+    .form-field {
+        display: block;
+        width: 70%;
+        margin: 5px auto;
+        div {
+            width: 100%;
+        }
+    }
+    .form-btn-container {
+        width: 75%;
+        margin: 0 auto;
+        .form-btn {
+            width: 44%;
+        }
+    }
+    .form-btn {
+        display: block;
+        width: 30%;
+        margin: 10px auto 10px;
+    }
+    @media screen and (max-width: 426px) {
+        width: 95%;
+    }
+    @media screen and (min-width: 427px) and (max-width: 1024px) {
+        width: 70%;
+    }
+    @media screen and (min-width: 1025px) and (max-width: 1240px) {
+        width: 50%;
+    }
 }
 
 .form-btn-container {

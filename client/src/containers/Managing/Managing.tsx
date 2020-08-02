@@ -25,7 +25,7 @@ import DepartmentForm from '../../components/Managing/DepartmentForm/DepartmentF
 import AuthorForm from '../../components/Managing/AuthorForm/AuthorForm';
 
 import Department from '../../interfaces/Department';
-import ManagingPageProps from '../../interfaces/props/Managing/ManagingPageProps';
+import ManagingPageProps from './ManagingPageProps';
 import Author from '../../interfaces/Author';
 
 import { AccordionSummaryWithStyles } from '../../constants/styles';

@@ -21,7 +21,7 @@ import LoadingPage from '../../components/LoadingPage/LoadingPage';
 import Book from '../../interfaces/Book';
 import Department from '../../interfaces/Department';
 import Student from '../../interfaces/Student';
-import BookDetailsProps from '../../interfaces/props/BookDetails/BookDetailsProps';
+import BookDetailsProps from './BookDetailsProps';
 
 import ConfirmDialog from '../../share/ConfirmDialog/ConfirmDialog';
 

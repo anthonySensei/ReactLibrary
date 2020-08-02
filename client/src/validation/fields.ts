@@ -13,13 +13,18 @@ export const id = (value: string) =>
         ? 'ID is not valid. Student ID must start with 1-9 and contains 10 digits'
         : undefined;
 
+export const isbn = (value: string) =>
+    value && !validation.ISBN.test(value)
+        ? 'ISBN is not valid. ISBN must contain 10 or 13 digits'
+        : undefined;
+
 export const password = (value: string) =>
     value && !validation.PASSWORD.test(value)
         ? 'Password is not valid. Password must contain at least 1 lowercase and uppercase alphabetical character, 1 numeric character and one special character. Also it must be eight characters or longer'
         : undefined;
 
 export const lessThanZero = (value: string) =>
-    !value || +value > 1 ? undefined : 'Year must be bigger than 0';
+    !value || +value > 0 ? undefined : 'Year must be bigger than 0';
 
 export const retypePassword = (retypePassword: string) => {
     const password = store.getState()?.form?.registrationForm?.values?.password;

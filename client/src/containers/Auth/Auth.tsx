@@ -12,7 +12,7 @@ import RegistrationForm from '../../components/Auth/RegistrationForm/Registratio
 
 import LoginData from '../../interfaces/formsData/LoginData';
 import RegistrationData from '../../interfaces/formsData/RegistrationData';
-import AuthProps from '../../interfaces/props/Auth/AuthProps';
+import AuthProps from './AuthProps';
 
 import { ClientLinks } from '../../constants/ClientLinks';
 import { AuthTypes } from '../../constants/AuthTypes';
@@ -72,7 +72,7 @@ export const Auth = (props: AuthProps) => {
     }
 
     return (
-        <Card className="card auth-form">
+        <Card className="card form">
             {authRedirect}
             {authPage}
         </Card>

@@ -1,18 +1,19 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 
-import renderedTextField from '../../share/renderedFields/input';
-import renderedSelectField from '../../share/renderedFields/select';
+import renderedTextField from '../../../share/renderedFields/input';
+import renderedSelectField from '../../../share/renderedFields/select';
 import AddBookFormProps from './AddBookFormProps';
 
-import { ADD_BOOK_FORM } from '../../constants/reduxForms';
+import { ADD_BOOK_FORM } from '../../../constants/reduxForms';
 
 import { Button, Divider, Step, StepLabel, Stepper } from '@material-ui/core';
 
-import { isbn, lessThanZero, required } from '../../validation/fields';
+import { isbn, lessThanZero, required } from '../../../validation/fields';
 
 let AddBookForm: any = (props: AddBookFormProps) => {
-    const { handleSubmit, invalid } = props;
+    const { handleSubmit, invalid, onOpenChooseImageDialog } = props;
+    const { image } = props;
 
     const getSteps = (): string[] => {
         return ['Main', 'Secondary', 'Finish'];
@@ -44,13 +45,13 @@ let AddBookForm: any = (props: AddBookFormProps) => {
                 validate={[required, lessThanZero]}
                 component={renderedTextField}
             />
-            {/*<Field*/}
-            {/*    name="departmentId"*/}
-            {/*    className="form-field"*/}
-            {/*    label="Department"*/}
-            {/*    validate={[required]}*/}
-            {/*    component={renderedSelectField}*/}
-            {/*/>*/}
+            <Field
+                name="departmentId"
+                className="form-field"
+                label="Department"
+                validate={[required]}
+                component={renderedSelectField}
+            />
         </>
     );
 
@@ -64,13 +65,13 @@ let AddBookForm: any = (props: AddBookFormProps) => {
                 validate={[required]}
                 component={renderedTextField}
             />
-            {/*<Field*/}
-            {/*    name="authorId"*/}
-            {/*    className="form-field"*/}
-            {/*    label="Author"*/}
-            {/*    validate={[required]}*/}
-            {/*    component={renderedSelectField}*/}
-            {/*/>*/}
+            <Field
+                name="authorId"
+                className="form-field"
+                label="Author"
+                validate={[required]}
+                component={renderedSelectField}
+            />
             <Field
                 name="language"
                 className="form-field"
@@ -84,14 +85,13 @@ let AddBookForm: any = (props: AddBookFormProps) => {
 
     const step3 = (
         <>
-            {/*<Field*/}
-            {/*    name="image"*/}
-            {/*    className="form-field"*/}
-            {/*    type="file"*/}
-            {/*    label="Image"*/}
-            {/*    validate={[required]}*/}
-            {/*    component={renderedTextField}*/}
-            {/*/>*/}
+            <Button
+                color="secondary"
+                variant="outlined"
+                onClick={onOpenChooseImageDialog}
+            >
+                Choose image
+            </Button>
         </>
     );
 
@@ -147,9 +147,9 @@ let AddBookForm: any = (props: AddBookFormProps) => {
                             type="submit"
                             variant="contained"
                             color="primary"
-                            disabled={invalid}
+                            disabled={invalid || !image}
                         >
-                            Create
+                            Add
                         </Button>
                     ) : (
                         <Button

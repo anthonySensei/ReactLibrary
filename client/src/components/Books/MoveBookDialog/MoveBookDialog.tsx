@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 
 import Department from '../../../interfaces/Department';
-import MoveBookDialogProps from '../../../interfaces/props/BookDetails/MoveBookDialogProps';
+import MoveBookDialogProps from './MoveBookDialogProps';
 
 import '../Dialogs.scss';
 

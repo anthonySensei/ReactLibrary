@@ -7,7 +7,7 @@ import { Autocomplete } from '@material-ui/lab';
 import { TextField } from '@material-ui/core';
 
 import Student from '../../../interfaces/Student';
-import { LoanBookDialogProps } from '../../../interfaces/props/BookDetails/LoanBookDialogProps';
+import { LoanBookDialogProps } from './LoanBookDialogProps';
 
 import '../Dialogs.scss';
 

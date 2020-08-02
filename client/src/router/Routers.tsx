@@ -11,10 +11,11 @@ import LoadingPage from '../components/LoadingPage/LoadingPage';
 
 import Managing from '../containers/Managing/Managing';
 
-import RouterProps from '../interfaces/props/RouterProps';
+import RouterProps from './RouterProps';
 
 const Home = lazy(() => import('../containers/Home/Home'));
 const Auth = lazy(() => import('../containers/Auth/Auth'));
+const AddBook = lazy(() => import('../containers/AddBook/AddBook'));
 const BookDetails = lazy(() => import('../containers/BookDetails/BookDetails'));
 const ActivationPage = lazy(() =>
     import('../containers/ActivationPage/ActivationPage')
@@ -51,6 +52,13 @@ const Routers = (props: RouterProps) => {
                             <Route
                                 path={ClientLinks.MANAGING_PAGE}
                                 component={Managing}
+                            />
+                        )}
+                        {(props.userRole === UserRoles.MANAGER ||
+                            props.userRole === UserRoles.LIBRARIAN) && (
+                            <Route
+                                path={ClientLinks.ADD_BOOK_PAGE}
+                                component={AddBook}
                             />
                         )}
                     </Switch>

@@ -4,5 +4,6 @@ export enum ClientLinks {
     LOGIN = '/login',
     LOGOUT = '/logout',
     BOOK_DETAILS = '/book',
-    ACTIVATION_PAGE = '/activation-page'
+    ACTIVATION_PAGE = '/activation-page',
+    ADD_BOOK_PAGE = '/add-book',
 }

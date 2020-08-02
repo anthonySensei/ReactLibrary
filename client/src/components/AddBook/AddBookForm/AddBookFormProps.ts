@@ -1,3 +1,6 @@
-import FormProps from '../../interfaces/props/FormProps';
+import FormProps from '../../../interfaces/props/FormProps';
 
-export default interface AddBookFormProps extends FormProps {}
+export default interface AddBookFormProps extends FormProps {
+    image: string;
+    onOpenChooseImageDialog: () => void;
+}

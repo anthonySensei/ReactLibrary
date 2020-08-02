@@ -22,7 +22,7 @@ import Department from '../../../interfaces/Department';
 import Author from '../../../interfaces/Author';
 import Genre from '../../../interfaces/Genre';
 import BooksFilter from '../../../interfaces/BooksFilter';
-import FilterFormProps from '../../../interfaces/props/Home/FilterFormProps';
+import FilterFormProps from './FilterFormProps';
 
 import {
     higherThanToYear,

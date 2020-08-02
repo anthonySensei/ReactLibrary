@@ -5,7 +5,7 @@ import { Button, Container, Divider } from '@material-ui/core';
 
 import { DEPARTMENT_FORM } from '../../../constants/reduxForms';
 
-import ManagingFormProps from '../../../interfaces/props/Managing/ManagingFormProps';
+import ManagingFormProps from '../ManagingFormProps';
 
 import renderedTextField from '../../../share/renderedFields/input';
 
