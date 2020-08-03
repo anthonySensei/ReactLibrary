@@ -7,6 +7,8 @@ import errorMessages from '../constants/errorMessages';
 
 import { responseErrorHandle } from '../helper/responseHandle';
 import { Request, Response } from 'express';
+import Student from '../models/student';
+import User from '../models/user';
 
 const ITEMS_PER_PAGE: number = 8;
 
@@ -167,6 +169,25 @@ export const getBook = async (req: Request, res: Response) => {
     }
 };
 
+export const addBook = async (req: Request, res: Response) => {
+    const book: IBook = { ...req.body };
+    const genres = book.genres.map((genre: IGenre) => {
+        return { genre: genre._id };
+    });
+    book.genres = genres as any;
+    try {
+        const isNotUnique = !!(await Book.findOne({ isbn: book.isbn }));
+        if (isNotUnique)
+            return responseErrorHandle(res, 500, errorMessages.ISBN_EXIST);
+        else {
+            await Book.create(book);
+            res.send({ message: successMessages.BOOK_SUCCESSFULLY_ADDED });
+        }
+    } catch (err) {
+        responseErrorHandle(res, 500, errorMessages.SOMETHING_WENT_WRONG);
+    }
+};
+
 export const moveBook = async (req: Request, res: Response) => {
     const departmentId: string = req.body.departmentId;
     const quantity: number = +req.body.quantity;
@@ -214,6 +235,23 @@ export const moveBook = async (req: Request, res: Response) => {
         return res.send({
             message: successMessages.BOOK_SUCCESSFULLY_MOVED
         });
+    } catch (err) {
+        return responseErrorHandle(
+            res,
+            500,
+            errorMessages.SOMETHING_WENT_WRONG
+        );
+    }
+};
+
+export const checkBookAdding = async (req: Request, res: Response) => {
+    const { department, isbn } = req.body;
+    try {
+        const isNotUnique: boolean = !!(await Book.findOne({
+            department,
+            isbn
+        }));
+        res.send({ isNotUnique });
     } catch (err) {
         return responseErrorHandle(
             res,

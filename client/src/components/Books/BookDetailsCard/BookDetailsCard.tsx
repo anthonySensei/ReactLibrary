@@ -15,7 +15,7 @@ import { UserRoles } from '../../../constants/UserRoles';
 
 import Book from '../../../interfaces/Book';
 import User from '../../../interfaces/User';
-import BookDetailsCardProps from '../../../interfaces/props/BookDetails/BookDetailsCardProps';
+import BookDetailsCardProps from './BookDetailsCardProps';
 
 import './BookDetailsCard.scss';
 

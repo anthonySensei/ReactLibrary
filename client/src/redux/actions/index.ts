@@ -7,7 +7,14 @@ export {
     activateUser
 } from './auth';
 
-export { getBooks, getBook, moveBook, loanBook, orderBook } from './book';
+export {
+    getBooks,
+    getBook,
+    moveBook,
+    loanBook,
+    orderBook,
+    addBook
+} from './book';
 
 export { setOpenSnackbar } from './snackbar';
 

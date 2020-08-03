@@ -1,4 +1,4 @@
-import Book from '../../Book';
+import Book from '../../../interfaces/Book';
 
 export default interface BookListProps {
     books: Book[];

@@ -27,12 +27,14 @@ import {
     Select
 } from '@material-ui/core';
 import FilterListIcon from '@material-ui/icons/FilterList';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 import BooksList from '../../components/Books/BooksList/BooksList';
 import FilterForm from '../../components/Books/FilterForm/FilterForm';
 import PaginationContainer from '../../components/Books/PaginationContainer/PaginationContainer';
+import LoadingPage from '../../components/LoadingPage/LoadingPage';
 
-import HomePageProps from '../../interfaces/props/Home/HomePageProps';
+import HomePageProps from './HomePageProps';
 import Department from '../../interfaces/Department';
 import BooksFilter from '../../interfaces/BooksFilter';
 import Genre from '../../interfaces/Genre';
@@ -44,9 +46,10 @@ import {
 
 import { FILTER_FORM } from '../../constants/reduxForms';
 import { SERVER_URL } from '../../constants/serverLinks';
+import { ClientLinks } from '../../constants/ClientLinks';
+import { UserRoles } from '../../constants/UserRoles';
 
 import './Home.scss';
-import LoadingPage from '../../components/LoadingPage/LoadingPage';
 
 export const Home = (props: HomePageProps) => {
     document.title = 'Home';
@@ -160,15 +163,33 @@ export const Home = (props: HomePageProps) => {
                     <Card className="page-title">
                         <h2 className="text-header">Books catalog</h2>
                         <div className="filter-container">
-                            <Button
-                                variant="outlined"
-                                color="primary"
-                                className='form-control'
-                                startIcon={<FilterListIcon />}
-                                onClick={toggleDrawer(true)}
-                            >
-                                Filter
-                            </Button>
+                            <div className="btn-container">
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    className="form-control"
+                                    startIcon={<FilterListIcon />}
+                                    onClick={toggleDrawer(true)}
+                                >
+                                    Filter
+                                </Button>
+                                {(props.userRole === UserRoles.MANAGER ||
+                                    props.userRole === UserRoles.LIBRARIAN) && (
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        className="form-control"
+                                        startIcon={<AddCircleIcon />}
+                                        onClick={() =>
+                                            history.push(
+                                                ClientLinks.ADD_BOOK_PAGE
+                                            )
+                                        }
+                                    >
+                                        Add book
+                                    </Button>
+                                )}
+                            </div>
                             <FormControl className="form-control">
                                 <InputLabel>Department</InputLabel>
                                 <Select
@@ -221,7 +242,8 @@ const mapStateToProps = (state: any) => ({
     department: state.department.department,
     departments: state.department.departments,
     selectedGenres: state.genre.selectedGenres,
-    formValues: getFormValues(FILTER_FORM)(state)
+    formValues: getFormValues(FILTER_FORM)(state),
+    userRole: state.auth.user?.role
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {

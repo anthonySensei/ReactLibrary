@@ -1,6 +1,12 @@
 import axios from '../helper/axios';
-import { REGISTRATION_CHECK_URL } from '../constants/serverLinks';
+
+import {
+    BOOK_CHECK_URL,
+    REGISTRATION_CHECK_URL
+} from '../constants/serverLinks';
+
 import RegistrationData from '../interfaces/formsData/RegistrationData';
+import Book from '../interfaces/Book';
 
 export const asyncStudentRegistrationValidate = (values: RegistrationData) => {
     return axios
@@ -18,5 +24,20 @@ export const asyncStudentRegistrationValidate = (values: RegistrationData) => {
                 throw { studentId: 'Student ID is taken' };
             else if (response.data.isNotUniqueEmail)
                 throw { email: 'Email is taken' };
+        });
+};
+
+export const asyncBookAddingValidate = (book: Book) => {
+    return axios
+        .post(BOOK_CHECK_URL, {
+            department: book.department,
+            isbn: book.isbn
+        })
+        .then(response => {
+            if (response.data.isNotUnique)
+                throw {
+                    isbn: 'Book with this isbn exists in this department',
+                    department: ' '
+                };
         });
 };

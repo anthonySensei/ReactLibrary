@@ -9,7 +9,7 @@ import { Autocomplete } from '@material-ui/lab';
 import { AUTHOR_FORM } from '../../../constants/reduxForms';
 import { SERVER_URL } from '../../../constants/serverLinks';
 
-import ManagingFormProps from '../../../interfaces/props/Managing/ManagingFormProps';
+import ManagingFormProps from '../ManagingFormProps';
 import Author from '../../../interfaces/Author';
 
 import renderedTextField from '../../../share/renderedFields/input';

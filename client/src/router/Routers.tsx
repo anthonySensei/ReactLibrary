@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { ClientLinks } from '../constants/ClientLinks';
@@ -11,10 +11,13 @@ import LoadingPage from '../components/LoadingPage/LoadingPage';
 
 import Managing from '../containers/Managing/Managing';
 
-import RouterProps from '../interfaces/props/RouterProps';
+import RouterProps from './RouterProps';
+
+import history from '../helper/history';
 
 const Home = lazy(() => import('../containers/Home/Home'));
 const Auth = lazy(() => import('../containers/Auth/Auth'));
+const AddBook = lazy(() => import('../containers/AddBook/AddBook'));
 const BookDetails = lazy(() => import('../containers/BookDetails/BookDetails'));
 const ActivationPage = lazy(() =>
     import('../containers/ActivationPage/ActivationPage')
@@ -23,7 +26,7 @@ const ActivationPage = lazy(() =>
 const Routers = (props: RouterProps) => {
     return (
         <>
-            <Router>
+            <Router history={history}>
                 <Header {...props} />
                 <Suspense fallback={<LoadingPage />}>
                     <Switch>
@@ -51,6 +54,13 @@ const Routers = (props: RouterProps) => {
                             <Route
                                 path={ClientLinks.MANAGING_PAGE}
                                 component={Managing}
+                            />
+                        )}
+                        {(props.userRole === UserRoles.MANAGER ||
+                            props.userRole === UserRoles.LIBRARIAN) && (
+                            <Route
+                                path={ClientLinks.ADD_BOOK_PAGE}
+                                component={AddBook}
                             />
                         )}
                     </Switch>

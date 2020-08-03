@@ -5,7 +5,7 @@ import { Dispatch } from 'redux';
 
 import { logout } from '../../../redux/actions';
 
-import LogoutProps from '../../../interfaces/props/Auth/LogoutProps';
+import LogoutProps from './LogoutProps';
 
 
 export const Logout = (props: LogoutProps) => {

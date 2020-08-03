@@ -22,10 +22,10 @@ import Department from '../../../interfaces/Department';
 import Author from '../../../interfaces/Author';
 import Genre from '../../../interfaces/Genre';
 import BooksFilter from '../../../interfaces/BooksFilter';
-import FilterFormProps from '../../../interfaces/props/Home/FilterFormProps';
+import FilterFormProps from './FilterFormProps';
 
 import {
-    higherThanToYear,
+    biggerThanToYear,
     lessThanZero,
     notEmptyFilterValue
 } from '../../../validation/fields';
@@ -134,7 +134,7 @@ let FilterForm: any = (props: FilterFormProps) => {
                     className="form-control"
                     type="number"
                     label="From year"
-                    validate={[lessThanZero, higherThanToYear]}
+                    validate={[lessThanZero, biggerThanToYear]}
                     disabled={filter === BookFilters.ISBN}
                     component={renderedTextField}
                 />

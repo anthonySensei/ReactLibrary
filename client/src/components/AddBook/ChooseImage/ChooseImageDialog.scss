@@ -1,0 +1,59 @@
+@import '../../../App';
+
+@mixin uploadedBtn($main-color, $secondary-color) {
+    color: $main-color;
+    padding: 0;
+    line-height: 40px;
+    width: 300px;
+    margin: auto;
+    display: block;
+    border: 2px solid $main-color;
+    &:hover,
+    &:active {
+        background-color: $main-color;
+        color: $secondary-color;
+    }
+}
+
+.dialog-container {
+    padding: 10px 20px;
+    .cropper {
+        margin-top: 10px;
+        border: 5px solid $secondary-color;
+        padding: 10px;
+    }
+    .dialog-btn-container {
+        display: flex;
+        justify-content: left;
+        &__dialog-btn {
+            margin: 20px 10px 0 0;
+            width: 20%;
+        }
+    }
+    .upload-block {
+        &__upload_btn {
+            @include uploadedBtn($main-color, $main-dark-color);
+            &_uploaded {
+                @include uploadedBtn($success-color, $main-color);
+            }
+            &__icon {
+                margin: 0 10px -12px 0;
+            }
+        }
+        &__input-file {
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            position: absolute;
+            z-index: -1;
+            & + .label {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                padding: 0 10px;
+                cursor: pointer;
+            }
+        }
+    }
+}

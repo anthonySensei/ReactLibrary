@@ -6,7 +6,7 @@ import * as actionTypes from '../../redux/actions/actionTypes';
 import { logoutSaga } from './logoutSaga';
 import { checkAuthStateSaga } from './checkAuthStateSaga';
 import { checkAuthTimeoutSaga } from './checkAuthTimeoutSaga';
-import { registrationSaga } from './registrationSage';
+import { registrationSaga } from './registrationSaga';
 import { activateUserSaga } from './activateUserSaga';
 
 export default function* watchUserAuthentication() {

@@ -8,7 +8,7 @@ import renderedTextField from '../../../share/renderedFields/input';
 import { LOGIN_FORM } from '../../../constants/reduxForms';
 import { AuthTypes } from '../../../constants/AuthTypes';
 
-import LoginFormProps from '../../../interfaces/props/Auth/LoginFormProps';
+import LoginFormProps from './LoginFormProps';
 
 import { email, required } from '../../../validation/fields';
 

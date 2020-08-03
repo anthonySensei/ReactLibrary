@@ -118,7 +118,7 @@ router.get(AuthUrls.LOGOUT, getLogout);
  *    parameters:
  *      - name: checkUniquenessData
  *        description: Object of fields which must be unique
- *        in: query
+ *        in: body
  *        required: true
  *        type: string
  *        schema:

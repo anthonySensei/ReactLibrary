@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { ClientLinks } from '../../constants/ClientLinks';
 import { UserRoles } from '../../constants/UserRoles';
 
-import RouterProps from '../../interfaces/props/RouterProps';
+import RouterProps from '../../router/RouterProps';
 
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';

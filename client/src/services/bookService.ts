@@ -32,6 +32,10 @@ export const getBookService = async (bookId: string | null) => {
     });
 };
 
+export const addBookService = async (book: Book) => {
+    return await axios.post(BOOKS_URL, book);
+};
+
 export const moveBookService = async (
     book: Book,
     departmentId: string,

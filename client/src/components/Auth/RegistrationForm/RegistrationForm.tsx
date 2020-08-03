@@ -22,7 +22,7 @@ import { asyncStudentRegistrationValidate } from '../../../validation/asyncValid
 import { handleSnackbarOpenService } from '../../../services/snackbar';
 import { clearAuthService } from '../../../services/authService';
 
-import RegistrationFormProps from '../../../interfaces/props/Auth/RegistrationFormProps';
+import RegistrationFormProps from './RegistrationFormProps';
 
 let RegistrationForm: any = (props: RegistrationFormProps) => {
     const { handleSubmit, switchAuth } = props;

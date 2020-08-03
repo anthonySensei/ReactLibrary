@@ -1,5 +1,5 @@
-import Book from '../../Book';
-import User from '../../User';
+import Book from '../../../interfaces/Book';
+import User from '../../../interfaces/User';
 
 export default interface BookDetailsCardProps {
     book: Book;

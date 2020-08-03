@@ -1,13 +1,14 @@
 import { RouteComponentProps } from 'react-router-dom';
 
-import Department from '../../Department';
-import Genre from '../../Genre';
-import BooksFilter from '../../BooksFilter';
-import Book from "../../Book";
-import Author from "../../Author";
-import MainPagination from "../../MainPagination";
+import Department from '../../interfaces/Department';
+import Genre from '../../interfaces/Genre';
+import BooksFilter from '../../interfaces/BooksFilter';
+import Book from "../../interfaces/Book";
+import Author from "../../interfaces/Author";
+import MainPagination from "../../interfaces/MainPagination";
 
 export default interface HomePageProps extends RouteComponentProps<{}> {
+    userRole: string;
     books: Book[];
     genres: Genre[];
     authors: Author[];

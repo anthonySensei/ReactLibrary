@@ -6,7 +6,8 @@ export default {
     ACCOUNT_SUCCESSFULLY_CREATED:
         'Account has been successfully created. Please confirm email to activate account',
     DEPARTMENT_SUCCESSFULLY_CREATED: 'Department has been successfully created',
-    AUTHOR_SUCCESSFULLY_CREATED: 'Author has been successfully created',
+    AUTHOR_SUCCESSFULLY_ADDED: 'Author has been successfully added',
+    BOOK_SUCCESSFULLY_ADDED: 'Book has been successfully added',
     AUTHOR_SUCCESSFULLY_UPDATED: 'Author has been successfully updated',
     AUTHOR_SUCCESSFULLY_DELETED: 'Author has been successfully deleted',
     BOOK_SUCCESSFULLY_MOVED:
