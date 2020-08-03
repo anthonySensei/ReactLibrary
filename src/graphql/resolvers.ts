@@ -26,7 +26,7 @@ export default {
             socket.getIO().emit('authors', {
                 action: 'create'
             });
-            return successMessages.AUTHOR_SUCCESSFULLY_CREATED;
+            return successMessages.AUTHOR_SUCCESSFULLY_ADDED;
         } catch (err) {
             throw new Error(err.message);
         }

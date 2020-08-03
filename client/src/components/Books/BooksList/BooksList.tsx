@@ -17,6 +17,7 @@ import { ClientLinks } from '../../../constants/ClientLinks';
 import Info from '../../../share/textFields/Info';
 
 import './BooksList.scss';
+import { StaticImages } from '../../../constants/StaticImages';
 
 const BooksList = (props: BookListProps) => {
     const history = useHistory();
@@ -39,7 +40,9 @@ const BooksList = (props: BookListProps) => {
                                 <CardMedia
                                     className="image"
                                     image={
-                                        'https://images.pexels.com/photos/825947/pexels-photo-825947.jpeg'
+                                        book.image
+                                            ? book.image
+                                            : StaticImages.BOOK
                                     }
                                     title={book.description}
                                 />

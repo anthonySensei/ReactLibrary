@@ -1,7 +1,6 @@
 import { config } from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
-import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
@@ -22,7 +21,6 @@ import { connectDb } from './helper/db';
 
 import passportConfig from './config/passport';
 import socket from './config/socket';
-import multerOption from './config/multer';
 import cors from './config/cors';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -50,9 +48,7 @@ app.use(morgan('combined', { stream: accessLogStream }));
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(multer(multerOption).single('image'));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('images', express.static(path.join(__dirname, 'images')));
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));

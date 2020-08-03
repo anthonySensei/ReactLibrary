@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { ClientLinks } from '../constants/ClientLinks';
@@ -13,6 +13,8 @@ import Managing from '../containers/Managing/Managing';
 
 import RouterProps from './RouterProps';
 
+import history from '../helper/history';
+
 const Home = lazy(() => import('../containers/Home/Home'));
 const Auth = lazy(() => import('../containers/Auth/Auth'));
 const AddBook = lazy(() => import('../containers/AddBook/AddBook'));
@@ -24,7 +26,7 @@ const ActivationPage = lazy(() =>
 const Routers = (props: RouterProps) => {
     return (
         <>
-            <Router>
+            <Router history={history}>
                 <Header {...props} />
                 <Suspense fallback={<LoadingPage />}>
                     <Switch>

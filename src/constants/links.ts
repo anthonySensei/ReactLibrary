@@ -9,7 +9,8 @@ export enum AuthUrls {
 export enum BookUrls {
     BASE = '/api/books',
     DETAILS = '/details',
-    MOVE = '/move'
+    MOVE = '/move',
+    CHECK = '/check'
 }
 
 export const AUTH_CLIENT_ACTIVATION_PAGE_URL = '/activation-page';

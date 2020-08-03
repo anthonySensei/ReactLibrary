@@ -46,9 +46,10 @@ import {
 
 import { FILTER_FORM } from '../../constants/reduxForms';
 import { SERVER_URL } from '../../constants/serverLinks';
+import { ClientLinks } from '../../constants/ClientLinks';
+import { UserRoles } from '../../constants/UserRoles';
 
 import './Home.scss';
-import { ClientLinks } from '../../constants/ClientLinks';
 
 export const Home = (props: HomePageProps) => {
     document.title = 'Home';
@@ -172,17 +173,22 @@ export const Home = (props: HomePageProps) => {
                                 >
                                     Filter
                                 </Button>
-                                <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    className="form-control"
-                                    startIcon={<AddCircleIcon />}
-                                    onClick={() =>
-                                        history.push(ClientLinks.ADD_BOOK_PAGE)
-                                    }
-                                >
-                                    Add book
-                                </Button>
+                                {(props.userRole === UserRoles.MANAGER ||
+                                    props.userRole === UserRoles.LIBRARIAN) && (
+                                    <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        className="form-control"
+                                        startIcon={<AddCircleIcon />}
+                                        onClick={() =>
+                                            history.push(
+                                                ClientLinks.ADD_BOOK_PAGE
+                                            )
+                                        }
+                                    >
+                                        Add book
+                                    </Button>
+                                )}
                             </div>
                             <FormControl className="form-control">
                                 <InputLabel>Department</InputLabel>
@@ -236,7 +242,8 @@ const mapStateToProps = (state: any) => ({
     department: state.department.department,
     departments: state.department.departments,
     selectedGenres: state.genre.selectedGenres,
-    formValues: getFormValues(FILTER_FORM)(state)
+    formValues: getFormValues(FILTER_FORM)(state),
+    userRole: state.auth.user?.role
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => {

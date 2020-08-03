@@ -8,6 +8,7 @@ import Author from "../../interfaces/Author";
 import MainPagination from "../../interfaces/MainPagination";
 
 export default interface HomePageProps extends RouteComponentProps<{}> {
+    userRole: string;
     books: Book[];
     genres: Genre[];
     authors: Author[];

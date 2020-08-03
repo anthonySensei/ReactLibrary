@@ -55,3 +55,10 @@ export const orderBook = (studentId: string, bookId: string) => {
         bookId
     };
 };
+
+export const addBook = (book: Book) => {
+    return {
+        type: actionTypes.ADD_BOOK,
+        book
+    };
+};

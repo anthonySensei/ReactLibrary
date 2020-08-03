@@ -3,6 +3,7 @@ import Department from './Department';
 import Author from "./Author";
 
 export default interface Book {
+    isbn: string;
     title: string;
     description: string;
     image: string;

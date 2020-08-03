@@ -14,6 +14,7 @@ export const ACTIVATE_USER_ERROR = 'ACTIVATE_USER_ERROR';
 export const CLEAR_AUTH = 'CLEAR_AUTH';
 
 export const GET_BOOKS = 'GET_BOOKS';
+export const ADD_BOOK = 'ADD_BOOK';
 export const GET_BOOKS_SUCCESS = 'GET_BOOKS_SUCCESS';
 export const GET_BOOK = 'GET_BOOK';
 export const GET_BOOK_SUCCESS = 'GET_BOOK_SUCCESS';

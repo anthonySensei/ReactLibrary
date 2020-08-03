@@ -6,7 +6,8 @@ import { getBooksSaga } from './getBooksSaga';
 import { getBookSaga } from './getBookSaga';
 import { moveBookSaga } from './moveBookSaga';
 import { loanBookSaga } from './loanBookSaga';
-import {orderBookSaga} from "./orderBookSaga";
+import { orderBookSaga } from './orderBookSaga';
+import { addBookSaga } from './addBookSaga';
 
 export default function* watchBooks() {
     yield takeEvery(actionTypes.GET_BOOKS, getBooksSaga);
@@ -14,4 +15,5 @@ export default function* watchBooks() {
     yield takeLatest(actionTypes.MOVE_BOOK, moveBookSaga);
     yield takeLatest(actionTypes.LOAN_BOOK, loanBookSaga);
     yield takeLatest(actionTypes.ORDER_BOOK, orderBookSaga);
+    yield takeLatest(actionTypes.ADD_BOOK, addBookSaga);
 }

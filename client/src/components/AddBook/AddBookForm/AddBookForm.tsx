@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { Field, reduxForm } from 'redux-form';
 
 import renderedTextField from '../../../share/renderedFields/input';
@@ -7,12 +7,35 @@ import AddBookFormProps from './AddBookFormProps';
 
 import { ADD_BOOK_FORM } from '../../../constants/reduxForms';
 
-import { Button, Divider, Step, StepLabel, Stepper } from '@material-ui/core';
+import {
+    Button,
+    Divider,
+    MenuItem,
+    Step,
+    StepLabel,
+    Stepper,
+    TextField
+} from '@material-ui/core';
+import { Autocomplete } from '@material-ui/lab';
 
-import { isbn, lessThanZero, required } from '../../../validation/fields';
+import {
+    biggerThanCurrentYear,
+    departmentRequired,
+    isbn,
+    lessThanZero,
+    required
+} from '../../../validation/fields';
+import { asyncBookAddingValidate } from '../../../validation/asyncValidation';
+
+import Department from '../../../interfaces/Department';
+import Author from '../../../interfaces/Author';
+import Genre from '../../../interfaces/Genre';
 
 let AddBookForm: any = (props: AddBookFormProps) => {
+    const shortId = require('shortid');
+
     const { handleSubmit, invalid, onOpenChooseImageDialog } = props;
+    const { authors, departments, genres, onSetGenres } = props;
     const { image } = props;
 
     const getSteps = (): string[] => {
@@ -26,7 +49,7 @@ let AddBookForm: any = (props: AddBookFormProps) => {
                 className="form-field"
                 type="text"
                 label="ISBN"
-                validate={[required, isbn]}
+                validate={[required, isbn, departmentRequired]}
                 component={renderedTextField}
             />
             <Field
@@ -46,12 +69,19 @@ let AddBookForm: any = (props: AddBookFormProps) => {
                 component={renderedTextField}
             />
             <Field
-                name="departmentId"
+                name="department"
                 className="form-field"
                 label="Department"
                 validate={[required]}
                 component={renderedSelectField}
-            />
+            >
+                <MenuItem>-</MenuItem>
+                {departments.map((department: Department) => (
+                    <MenuItem key={shortId.generate()} value={department._id}>
+                        {department.name}({department.address})
+                    </MenuItem>
+                ))}
+            </Field>
         </>
     );
 
@@ -66,11 +96,36 @@ let AddBookForm: any = (props: AddBookFormProps) => {
                 component={renderedTextField}
             />
             <Field
-                name="authorId"
+                name="author"
                 className="form-field"
                 label="Author"
                 validate={[required]}
                 component={renderedSelectField}
+            >
+                <MenuItem>-</MenuItem>
+                {authors.map((author: Author) => (
+                    <MenuItem key={shortId.generate()} value={author._id}>
+                        {author.name}({author.country})
+                    </MenuItem>
+                ))}
+            </Field>
+            <Autocomplete
+                multiple
+                className="autocomplete"
+                options={genres}
+                value={props.selectedGenres}
+                getOptionLabel={(genre: Genre) => genre.name}
+                onChange={(e: ChangeEvent<{}>, values: Genre[]) => {
+                    onSetGenres(values);
+                }}
+                renderInput={params => (
+                    <TextField
+                        {...params}
+                        variant="standard"
+                        label="Genres"
+                        placeholder="Genres"
+                    />
+                )}
             />
             <Field
                 name="language"
@@ -80,12 +135,21 @@ let AddBookForm: any = (props: AddBookFormProps) => {
                 validate={[required]}
                 component={renderedTextField}
             />
+            <Field
+                name="year"
+                className="form-field"
+                type="number"
+                label="Year"
+                validate={[required, lessThanZero, biggerThanCurrentYear]}
+                component={renderedTextField}
+            />
         </>
     );
 
     const step3 = (
         <>
             <Button
+                type="button"
                 color="secondary"
                 variant="outlined"
                 onClick={onOpenChooseImageDialog}
@@ -134,6 +198,7 @@ let AddBookForm: any = (props: AddBookFormProps) => {
                 {getStepContent(activeStep)}
                 <div className="form-btn-container">
                     <Button
+                        type="button"
                         disabled={activeStep === 0}
                         onClick={handleBack}
                         variant="outlined"
@@ -153,6 +218,7 @@ let AddBookForm: any = (props: AddBookFormProps) => {
                         </Button>
                     ) : (
                         <Button
+                            type="button"
                             variant="outlined"
                             className="form-btn"
                             color="primary"
@@ -169,7 +235,8 @@ let AddBookForm: any = (props: AddBookFormProps) => {
 };
 
 AddBookForm = reduxForm({
-    form: ADD_BOOK_FORM
+    form: ADD_BOOK_FORM,
+    asyncValidate: asyncBookAddingValidate
 })(AddBookForm);
 
 export default AddBookForm;

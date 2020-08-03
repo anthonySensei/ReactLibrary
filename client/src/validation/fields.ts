@@ -18,6 +18,13 @@ export const isbn = (value: string) =>
         ? 'ISBN is not valid. ISBN must contain 10 or 13 digits'
         : undefined;
 
+export const departmentRequired = () => {
+    const department = store.getState()?.form?.addBookForm?.values?.department;
+    return department
+        ? undefined
+        : 'Department is not selected. Please choose department';
+};
+
 export const password = (value: string) =>
     value && !validation.PASSWORD.test(value)
         ? 'Password is not valid. Password must contain at least 1 lowercase and uppercase alphabetical character, 1 numeric character and one special character. Also it must be eight characters or longer'
@@ -33,7 +40,7 @@ export const retypePassword = (retypePassword: string) => {
         : undefined;
 };
 
-export const higherThanToYear = (value: string): string | undefined => {
+export const biggerThanToYear = (value: string): string | undefined => {
     const tYearValue = store.getState()?.form?.filterForm?.values?.tYear;
     if (tYearValue)
         return tYearValue >= value
@@ -41,6 +48,11 @@ export const higherThanToYear = (value: string): string | undefined => {
             : 'From year must be less than to year';
     else return undefined;
 };
+
+export const biggerThanCurrentYear = (value: string) =>
+    +value <= new Date().getFullYear()
+        ? undefined
+        : 'Year cannot be bigger than current year';
 
 export const notEmptyFilterValue = (value: string): string | undefined => {
     const filter = store.getState()?.form?.filterForm?.values?.filter;
