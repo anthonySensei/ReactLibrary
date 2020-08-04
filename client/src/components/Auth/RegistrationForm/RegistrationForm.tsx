@@ -19,7 +19,7 @@ import {
 } from '../../../validation/fields';
 import { asyncStudentRegistrationValidate } from '../../../validation/asyncValidation';
 
-import { handleSnackbarOpenService } from '../../../services/snackbar';
+import { handleSnackbarOpenService } from '../../../services/snackbarService';
 import { clearAuthService } from '../../../services/authService';
 
 import RegistrationFormProps from './RegistrationFormProps';

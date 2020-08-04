@@ -1,6 +1,6 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../../helper/updateObj';
-import { handleSnackbarCloseService } from '../../services/snackbar';
+import { handleSnackbarCloseService } from '../../services/snackbarService';
 
 const initialState = {
     isSnackbarOpen: false,

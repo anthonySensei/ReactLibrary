@@ -1,6 +1,7 @@
 import axios from '../helper/axios';
 
 import {
+    BOOKS_ALL_URL,
     BOOK_DETAILS_URL,
     BOOK_MOVE_URL,
     BOOKS_URL,
@@ -22,6 +23,10 @@ export const getBooksService = async (
             page
         }
     });
+};
+
+export const getAllBooksService = async () => {
+    return await axios.get(BOOKS_ALL_URL);
 };
 
 export const getBookService = async (bookId: string | null) => {

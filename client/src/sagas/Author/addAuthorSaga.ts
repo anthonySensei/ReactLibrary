@@ -1,7 +1,7 @@
 import { call } from 'redux-saga/effects';
 
-import { setLoadingService } from '../../services/loadingIndicator';
-import { handleSnackbarOpenService } from '../../services/snackbar';
+import { setLoadingService } from '../../services/loadingIndicatorService';
+import { handleSnackbarOpenService } from '../../services/snackbarService';
 import { addAuthorService } from '../../services/authorService';
 
 import { SnackbarTypes } from '../../constants/snackbarTypes';

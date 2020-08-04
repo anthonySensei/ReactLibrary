@@ -1,27 +1,29 @@
 import { call, put } from 'redux-saga/effects';
+
 import * as actionTypes from '../../redux/actions/actionTypes';
 
-import Book from '../../interfaces/Book';
-
-import { getBookService } from '../../services/bookService';
 import { setLoadingService } from '../../services/loadingIndicatorService';
 import { handleSnackbarOpenService } from '../../services/snackbarService';
+import { getStatisticService } from '../../services/loanService';
 
 import { SnackbarTypes } from '../../constants/snackbarTypes';
 
-interface GetBookSagaPayload {
+interface GetStatisticSagaPayload {
     type: string;
-    bookId: string | null;
+    model: string;
+    value: string;
 }
 
-export function* getBookSaga(payload: GetBookSagaPayload) {
+export function* getStatisticSaga(payload: GetStatisticSagaPayload) {
     try {
-        setLoadingService(true);
-        const response = yield call(getBookService, payload.bookId);
-        const book: Book = response.data.book;
+        const response = yield call(
+            getStatisticService,
+            payload.model,
+            payload.value
+        );
         yield put({
-            type: actionTypes.GET_BOOK_SUCCESS,
-            book
+            type: actionTypes.GET_STATISTIC_SUCCESS,
+            statistic: response.data.statistic
         });
         setLoadingService(false);
     } catch (err) {

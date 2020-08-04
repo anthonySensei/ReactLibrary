@@ -10,7 +10,7 @@ import { SnackbarTypes } from '../../constants/snackbarTypes';
 
 import { CircularProgress } from '@material-ui/core';
 
-import { handleSnackbarOpenService } from '../../services/snackbar';
+import { handleSnackbarOpenService } from '../../services/snackbarService';
 
 import ActivationPageProps from './ActivationPageProps';
 

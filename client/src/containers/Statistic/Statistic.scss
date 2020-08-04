@@ -1,0 +1,10 @@
+.container {
+    &__card {
+        width: 60%;
+        margin: 5% auto 1%;
+        text-align: center;
+        &__chart {
+            margin: 5% auto;
+        }
+    }
+}

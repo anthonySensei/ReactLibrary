@@ -9,6 +9,7 @@ import department from './department';
 import author from './author';
 import genre from './genre';
 import student from './student';
+import loan from './loan';
 
 const rootReducer = combineReducers({
     auth,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     loading,
     snackbar,
     department,
+    loan,
     author,
     genre,
     student,

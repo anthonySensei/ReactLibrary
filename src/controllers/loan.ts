@@ -55,3 +55,45 @@ export const loanBook = async (req: Request, res: Response) => {
         responseErrorHandle(res, 500, errorMessages.SOMETHING_WENT_WRONG);
     }
 };
+
+export const getStatistic = async (req: Request, res: Response) => {
+    const { model, value } = req.query;
+    let condition = {};
+    if (model === 'book') {
+        condition = { book: value };
+    }
+    try {
+        const loans = await Loan.find({
+            ...condition,
+            loan_time: {
+                $gte: new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
+            }
+        })
+            .sort({ loan_time: 1 })
+            .populate('book');
+        const shortLoans = loans.map(loan => {
+            return {
+                date: new Date(loan.loan_time.setHours(0, 0, 0, 0)),
+                book: `${loan.book.title}(${loan.book.isbn})`,
+                quantity: 1
+            };
+        });
+        const statistic: any[] = [];
+        shortLoans.forEach(shLoan => {
+            if (statistic.length <= 0) statistic.push(shLoan);
+            else {
+                const index = statistic.findIndex(statistic => {
+                    return statistic.date.getTime() === shLoan.date.getTime();
+                });
+                if (index !== -1) statistic[index].quantity += 1;
+                else statistic.push(shLoan);
+            }
+        });
+        statistic.forEach(stat => {
+            stat.date = stat.date.toLocaleDateString();
+        });
+        res.send({ message: successMessages.SUCCESSFULLY_FETCHED, statistic });
+    } catch (err) {
+        responseErrorHandle(res, 500, errorMessages.SOMETHING_WENT_WRONG);
+    }
+};

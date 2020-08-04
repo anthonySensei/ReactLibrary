@@ -18,6 +18,7 @@ import User from '../../../interfaces/User';
 import BookDetailsCardProps from './BookDetailsCardProps';
 
 import './BookDetailsCard.scss';
+import { StaticImages } from '../../../constants/StaticImages';
 
 const BookDetailsCard = (props: BookDetailsCardProps) => {
     const {
@@ -33,9 +34,7 @@ const BookDetailsCard = (props: BookDetailsCardProps) => {
             <CardMedia
                 component="img"
                 alt={book.title}
-                image={
-                    'https://images.pexels.com/photos/825947/pexels-photo-825947.jpeg'
-                }
+                image={book.image ? book.image : StaticImages.BOOK}
                 title={book.title}
             />
             <CardContent>

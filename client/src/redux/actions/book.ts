@@ -15,6 +15,12 @@ export const getBooks = (
     };
 };
 
+export const getAllBooks = () => {
+    return {
+        type: actionTypes.GET_ALL_BOOKS
+    };
+};
+
 export const getBook = (bookId: string | null) => {
     return {
         type: actionTypes.GET_BOOK,

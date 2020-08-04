@@ -131,6 +131,29 @@ export const getBooks = async (req: Request, res: Response) => {
     }
 };
 
+export const getAllBooks = async (req: Request, res: Response) => {
+    try {
+        const books: IBook[] = await Book.find().populate('author');
+        const allBooks = books.map((book: IBook) => {
+            return {
+                _id: book._id,
+                title: book.title,
+                author: { name: book.author.name }
+            };
+        });
+        return res.send({
+            books: allBooks,
+            message: successMessages.SUCCESSFULLY_FETCHED
+        });
+    } catch (err) {
+        return responseErrorHandle(
+            res,
+            500,
+            errorMessages.SOMETHING_WENT_WRONG
+        );
+    }
+};
+
 export const getBook = async (req: Request, res: Response) => {
     const bookId: string = req.query.bookId as string;
 
