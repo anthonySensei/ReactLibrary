@@ -11,6 +11,7 @@ import {
     BookUrls,
     DepartmentUrls,
     GenreUrls,
+    LibrarianUrl,
     LoanUrls,
     OrderUrls,
     StudentUrl
@@ -23,7 +24,7 @@ import genreRoutes from './genre';
 import loanRoutes from './loan';
 import orderRoutes from './order';
 import studentRoutes from './student';
-import path from 'path';
+import librarianRoutes from './librarian';
 
 export default (app: Express) => {
     const swaggerSpec = swaggerJSDoc(swaggerOptions);
@@ -37,4 +38,5 @@ export default (app: Express) => {
     app.use(LoanUrls.BASE, loanRoutes);
     app.use(OrderUrls.BASE, orderRoutes);
     app.use(StudentUrl.BASE, studentRoutes);
+    app.use(LibrarianUrl.BASE, librarianRoutes);
 };

@@ -3,25 +3,20 @@ import * as actionTypes from '../../redux/actions/actionTypes';
 
 import Book from '../../interfaces/Book';
 
-import { getBookService } from '../../services/bookService';
+import { getAllBooksService } from '../../services/bookService';
 import { setLoadingService } from '../../services/loadingIndicatorService';
 import { handleSnackbarOpenService } from '../../services/snackbarService';
 
 import { SnackbarTypes } from '../../constants/snackbarTypes';
 
-interface GetBookSagaPayload {
-    type: string;
-    bookId: string | null;
-}
-
-export function* getBookSaga(payload: GetBookSagaPayload) {
+export function* getAllBooksSaga() {
     try {
         setLoadingService(true);
-        const response = yield call(getBookService, payload.bookId);
-        const book: Book = response.data.book;
+        const response = yield call(getAllBooksService);
+        const books: Book[] = response.data.books;
         yield put({
-            type: actionTypes.GET_BOOK_SUCCESS,
-            book
+            type: actionTypes.GET_ALL_BOOKS_SUCCESS,
+            books
         });
         setLoadingService(false);
     } catch (err) {

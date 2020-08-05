@@ -8,7 +8,7 @@ import { checkState } from './redux/actions';
 
 import SnackbarComponent from './share/snackbar/Snackbar';
 
-import { handleSnackbarCloseService } from './services/snackbar';
+import { handleSnackbarCloseService } from './services/snackbarService';
 
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { deepOrange } from '@material-ui/core/colors';

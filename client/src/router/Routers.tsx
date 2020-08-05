@@ -16,6 +16,7 @@ import RouterProps from './RouterProps';
 import history from '../helper/history';
 
 const Home = lazy(() => import('../containers/Home/Home'));
+const Statistic = lazy(() => import('../containers/Statistic/Statistic'));
 const Auth = lazy(() => import('../containers/Auth/Auth'));
 const AddBook = lazy(() => import('../containers/AddBook/AddBook'));
 const BookDetails = lazy(() => import('../containers/BookDetails/BookDetails'));
@@ -43,6 +44,10 @@ const Routers = (props: RouterProps) => {
                         <Route
                             path={ClientLinks.ACTIVATION_PAGE}
                             component={ActivationPage}
+                        />
+                        <Route
+                            path={ClientLinks.STATISTIC_PAGE}
+                            component={Statistic}
                         />
                         {props.isLoggedIn && (
                             <Route

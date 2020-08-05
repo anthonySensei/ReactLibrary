@@ -6,4 +6,5 @@ export enum ClientLinks {
     BOOK_DETAILS = '/book',
     ACTIVATION_PAGE = '/activation-page',
     ADD_BOOK_PAGE = '/add-book',
+    STATISTIC_PAGE = '/statistic',
 }

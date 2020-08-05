@@ -2,8 +2,8 @@ import { call, put } from 'redux-saga/effects';
 
 import * as actionTypes from '../../redux/actions/actionTypes';
 
-import { setLoadingService } from '../../services/loadingIndicator';
-import { handleSnackbarOpenService } from '../../services/snackbar';
+import { setLoadingService } from '../../services/loadingIndicatorService';
+import { handleSnackbarOpenService } from '../../services/snackbarService';
 import { getAllStudentsService } from '../../services/studentService';
 
 import { SnackbarTypes } from '../../constants/snackbarTypes';

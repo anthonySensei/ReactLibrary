@@ -46,6 +46,14 @@ const Header = (props: RouterProps) => {
             >
                 Home
             </NavLink>
+            <NavLink
+                activeClassName="active"
+                to={ClientLinks.STATISTIC_PAGE}
+                className="menu__item"
+                onClick={handleToggle}
+            >
+                Statistic
+            </NavLink>
             {props.userRole === UserRoles.MANAGER && (
                 <NavLink
                     to={ClientLinks.MANAGING_PAGE}

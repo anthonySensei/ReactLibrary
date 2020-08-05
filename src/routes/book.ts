@@ -6,7 +6,8 @@ import {
     getBooks,
     moveBook,
     addBook,
-    checkBookAdding
+    checkBookAdding,
+    getAllBooks
 } from '../controllers/book';
 
 import { BookUrls } from '../constants/links';
@@ -58,6 +59,8 @@ const router = express.Router();
  */
 
 router.get('', getBooks);
+
+router.get(BookUrls.ALL, getAllBooks);
 
 /**
  * @swagger

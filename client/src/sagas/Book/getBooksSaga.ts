@@ -6,8 +6,8 @@ import MainPagination from '../../interfaces/MainPagination';
 import BooksFilter from '../../interfaces/BooksFilter';
 
 import { getBooksService } from '../../services/bookService';
-import { setLoadingService } from '../../services/loadingIndicator';
-import { handleSnackbarOpenService } from '../../services/snackbar';
+import { setLoadingService } from '../../services/loadingIndicatorService';
+import { handleSnackbarOpenService } from '../../services/snackbarService';
 
 import { SnackbarTypes } from '../../constants/snackbarTypes';
 

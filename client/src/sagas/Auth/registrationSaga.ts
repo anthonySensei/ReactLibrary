@@ -2,7 +2,7 @@ import { call, put } from 'redux-saga/effects';
 import * as actionTypes from '../../redux/actions/actionTypes';
 
 import { registrationService } from '../../services/authService';
-import { handleSnackbarOpenService } from '../../services/snackbar';
+import { handleSnackbarOpenService } from '../../services/snackbarService';
 
 import { SnackbarTypes } from '../../constants/snackbarTypes';
 

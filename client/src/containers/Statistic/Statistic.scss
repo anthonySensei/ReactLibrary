@@ -1,0 +1,33 @@
+@import '../../App';
+
+.container {
+    &__card {
+        width: 60%;
+        padding: 20px;
+        margin: 5% auto 1%;
+        text-align: center;
+        &__chart {
+            margin: 5% auto;
+        }
+        &__accordion {
+            &__heading {
+                color: $main-color;
+            }
+            &__secondary-heading {
+                flex-basis: 33.33%;
+                flex-shrink: 0;
+                color: $secondary-color;
+            }
+            &__autocomplete,
+            &__form-control {
+                text-align: left;
+                margin-right: 10px;
+                width: 33%;
+            }
+            &__button {
+                margin-right: 10px;
+                width: 15%;
+            }
+        }
+    }
+}

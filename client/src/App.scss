@@ -75,6 +75,10 @@ $success-color: #0aac00;
     color: $secondary-color;
 }
 
+.capitalize {
+    text-transform: capitalize;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
 }

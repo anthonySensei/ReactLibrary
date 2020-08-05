@@ -1,7 +1,8 @@
 import express from 'express';
 import passport from 'passport';
 
-import { loanBook } from '../controllers/loan';
+import { getStatistic, loanBook } from '../controllers/loan';
+import { LoanUrls } from '../constants/links';
 
 const router = express.Router();
 
@@ -33,5 +34,7 @@ const router = express.Router();
  */
 
 router.post('', passport.authenticate('jwt', { session: false }), loanBook);
+
+router.get(LoanUrls.STATISTIC, getStatistic);
 
 export default router;

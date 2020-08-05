@@ -13,8 +13,13 @@ export {
     moveBook,
     loanBook,
     orderBook,
-    addBook
+    addBook,
+    getAllBooks
 } from './book';
+
+export { getStatistic } from './loan';
+
+export { getAllLibrarians } from './librarian';
 
 export { setOpenSnackbar } from './snackbar';
 
