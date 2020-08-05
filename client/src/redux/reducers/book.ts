@@ -3,6 +3,7 @@ import { updateObject } from '../../helper/updateObj';
 
 const initialState = {
     books: [],
+    allBooks: [],
     book: null,
     paginationData: {}
 };
@@ -16,7 +17,7 @@ const reducer = (state = initialState, action: any) => {
             });
         case actionTypes.GET_ALL_BOOKS_SUCCESS:
             return updateObject(state, {
-                books: action.books
+                allBooks: action.books
             });
         case actionTypes.GET_BOOK_SUCCESS:
             return updateObject(state, {

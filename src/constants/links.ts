@@ -37,3 +37,8 @@ export enum StudentUrl {
     BASE = '/api/students',
     ALL = '/all'
 }
+
+export enum LibrarianUrl {
+    BASE = '/api/librarians',
+    ALL = '/all'
+}

@@ -10,6 +10,7 @@ import author from './author';
 import genre from './genre';
 import student from './student';
 import loan from './loan';
+import librarian from './librarian';
 
 const rootReducer = combineReducers({
     auth,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
     snackbar,
     department,
     loan,
+    librarian,
     author,
     genre,
     student,

@@ -18,6 +18,9 @@ export const BOOK_MOVE_URL = `${BOOKS_URL}/move`;
 export const LOANS_URL = 'loans';
 export const LOANS_STATISTIC_URL = `${LOANS_URL}/statistic`;
 
+export const LIBRARIANS_URL = 'librarians';
+export const LIBRARIANS_ALL_URL = `${LIBRARIANS_URL}/all`;
+
 export const ORDERS_URL = 'orders';
 
 export const DEPARTMENTS_URL = 'departments';
