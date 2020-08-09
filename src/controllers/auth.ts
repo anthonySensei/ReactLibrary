@@ -12,11 +12,15 @@ import successMessages from '../constants/successMessages';
 import roles from '../constants/roles';
 
 import { responseErrorHandle } from '../helper/responseHandle';
-import { cryptPassword } from '../helper/generatePassword';
 import { sendMail } from '../helper/mailSender';
 import { generateActivationMessage, subjects } from '../constants/mailMessages';
 
+import mainConfig from '../config';
+
 const sessionDuration: number = 3600 * 12;
+
+const serverConfig = mainConfig(process.env.NODE_ENV || 'development');
+const log = serverConfig!.log();
 
 export const postLoginUser = (req: Request, res: Response) => {
     passport.authenticate('local', async (err: string, user: IUser) => {
@@ -51,12 +55,8 @@ export const getLogout = (req: Request, res: Response) => {
 };
 
 export const postCreateUser = async (req: Request, res: Response) => {
-    const studentId: string = req.body.studentId;
-    const email: string = req.body.email;
-    const name: string = req.body.name;
-    const password: string = req.body.password
-        ? cryptPassword(req.body.password)
-        : '';
+    const { studentId, email, name, password } = req.body;
+
     if (!email || !password || !studentId || !name)
         return responseErrorHandle(res, 500, errorMessages.EMPTY_FIELDS);
     try {
@@ -109,6 +109,7 @@ export const postCreateUser = async (req: Request, res: Response) => {
             }
         }
     } catch (err) {
+        log.fatal(err);
         responseErrorHandle(res, 500, errorMessages.SOMETHING_WENT_WRONG);
     }
 };
@@ -129,8 +130,10 @@ export const postCheckActivationToken = async (req: Request, res: Response) => {
         ));
         if (!isUpdated)
             return responseErrorHandle(res, 500, errorMessages.INVALID_TOKEN);
+
         res.send({ message: successMessages.SUCCESSFULLY_ACTIVATED });
     } catch (err) {
+        log.fatal(err);
         return responseErrorHandle(
             res,
             400,
@@ -140,13 +143,14 @@ export const postCheckActivationToken = async (req: Request, res: Response) => {
 };
 
 export const checkStudentRegistration = async (req: Request, res: Response) => {
-    const studentId: string = req.body.studentId;
-    const email: string = req.body.email;
+    const { studentId, email } = req.body;
+
     try {
         const isNotUniqueId: boolean = !!(await Student.findOne({ studentId }));
         const isNotUniqueEmail: boolean = !!(await User.findOne({ email }));
         res.send({ isNotUniqueId, isNotUniqueEmail });
     } catch (err) {
+        log.fatal(err);
         return responseErrorHandle(
             res,
             500,

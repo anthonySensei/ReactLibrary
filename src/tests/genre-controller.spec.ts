@@ -8,7 +8,7 @@ import { getGenres } from '../controllers/genre';
 import successMessages from '../constants/successMessages';
 import test from '../constants/test';
 
-import { connectDb } from '../helper/db';
+import { connectTestDb, logError } from './helper/config';
 
 describe('Genre controller', () => {
     const res: any = {
@@ -21,20 +21,32 @@ describe('Genre controller', () => {
     };
 
     before(async () => {
-        await connectDb();
-        const genre: IGenre = new Genre(test.genre);
-        await genre.save();
+        try {
+            await connectTestDb();
+            const genre: IGenre = new Genre(test.genre);
+            await genre.save();
+        } catch (err) {
+            logError(err);
+        }
     });
 
     it('should send genres without errors', async () => {
-        await getGenres({} as Request, res);
-        chai.expect(res.message).to.be.equal(
-            successMessages.SUCCESSFULLY_FETCHED
-        );
-        chai.expect(res.genres.length).not.to.be.equal(0);
+        try {
+            await getGenres({} as Request, res);
+            chai.expect(res.message).to.be.equal(
+                successMessages.SUCCESSFULLY_FETCHED
+            );
+            chai.expect(res.genres.length).not.to.be.equal(0);
+        } catch (err) {
+            logError(err);
+        }
     });
 
     after(async () => {
-        await Genre.deleteMany({});
+        try {
+            await Genre.deleteMany({});
+        } catch (err) {
+            logError(err);
+        }
     });
 });

@@ -15,7 +15,7 @@ import errorMessages from '../constants/errorMessages';
 import successMessages from '../constants/successMessages';
 import test from '../constants/test';
 
-import { connectDb } from '../helper/db';
+import { connectTestDb, logError } from './helper/config';
 
 describe('Auth controller', () => {
     const res: any = {
@@ -33,11 +33,15 @@ describe('Auth controller', () => {
     };
 
     before(async () => {
-        await connectDb();
-        const user: IUser = new User(test.user);
-        await user.save();
-        const student: IStudent = new Student(test.student);
-        await student.save();
+        try {
+            await connectTestDb();
+            const user: IUser = new User(test.user);
+            await user.save();
+            const student: IStudent = new Student(test.student);
+            await student.save();
+        } catch (err) {
+            logError(err);
+        }
     });
 
     describe('Registration', () => {
@@ -50,34 +54,52 @@ describe('Auth controller', () => {
 
         it('should throw an error if email or password or studentId or name are empty', async () => {
             const errorRequest = { body: {} };
-            await postCreateUser(errorRequest as Request, res);
-            chai.expect(res.statusCode).to.be.equal(400);
-            chai.expect(res.message).to.be.equal(errorMessages.EMPTY_FIELDS);
+            try {
+                await postCreateUser(errorRequest as Request, res);
+                chai.expect(res.statusCode).to.be.equal(400);
+                chai.expect(res.message).to.be.equal(
+                    errorMessages.EMPTY_FIELDS
+                );
+            } catch (err) {
+                logError(err);
+            }
         });
 
         it('should throw an error if student have already existed with received studentId', async () => {
-            await postCreateUser({ body } as Request, res);
-            chai.expect(res.statusCode).to.be.equal(400);
-            chai.expect(res.message).to.be.equal(
-                errorMessages.STUDENT_ID_ALREADY_IN_USE
-            );
+            try {
+                await postCreateUser({ body } as Request, res);
+                chai.expect(res.statusCode).to.be.equal(400);
+                chai.expect(res.message).to.be.equal(
+                    errorMessages.STUDENT_ID_ALREADY_IN_USE
+                );
+            } catch (err) {
+                logError(err);
+            }
         });
 
         it('should throw an error if student have already existed with received email', async () => {
             const errorRequest = {
                 body: { ...body, studentId: '123456543' }
             };
-            await postCreateUser(errorRequest as Request, res);
-            chai.expect(res.statusCode).to.be.equal(400);
-            chai.expect(res.message).to.be.equal(
-                errorMessages.EMAIL_ADDRESS_ALREADY_IN_USE
-            );
+            try {
+                await postCreateUser(errorRequest as Request, res);
+                chai.expect(res.statusCode).to.be.equal(400);
+                chai.expect(res.message).to.be.equal(
+                    errorMessages.EMAIL_ADDRESS_ALREADY_IN_USE
+                );
+            } catch (err) {
+                logError(err);
+            }
         });
 
         it('should check if email or student ID are unique', async () => {
-            await checkStudentRegistration({ body } as Request, res);
-            chai.expect(res.data.isNotUniqueId).to.be.equal(true);
-            chai.expect(res.data.isNotUniqueEmail).to.be.equal(true);
+            try {
+                await checkStudentRegistration({ body } as Request, res);
+                chai.expect(res.data.isNotUniqueId).to.be.equal(true);
+                chai.expect(res.data.isNotUniqueEmail).to.be.equal(true);
+            } catch (err) {
+                logError(err);
+            }
         });
 
         it('should send successful message if account is created successfully', async () => {
@@ -88,10 +110,14 @@ describe('Auth controller', () => {
                     email: 'tests@tests.com'
                 }
             };
-            await postCreateUser(successRequest as Request, res);
-            chai.expect(res.message).to.be.equal(
-                successMessages.ACCOUNT_SUCCESSFULLY_CREATED
-            );
+            try {
+                await postCreateUser(successRequest as Request, res);
+                chai.expect(res.message).to.be.equal(
+                    successMessages.ACCOUNT_SUCCESSFULLY_CREATED
+                );
+            } catch (err) {
+                logError(err);
+            }
         });
     });
 
@@ -107,16 +133,25 @@ describe('Auth controller', () => {
                 active: true,
                 activationToken: 'activation_token'
             });
-            await user.save();
+            try {
+                await user.save();
+            } catch (err) {
+                logError(err);
+            }
         });
 
         it('should throw an error if activation token is empty', async () => {
             const errorRequest = { body: {} };
-            await postCheckActivationToken(errorRequest as Request, res);
-            chai.expect(res.statusCode).to.be.equal(400);
-            chai.expect(res.message).to.be.equal(
-                errorMessages.CANNOT_FIND_TOKEN
-            );
+
+            try {
+                await postCheckActivationToken(errorRequest as Request, res);
+                chai.expect(res.statusCode).to.be.equal(400);
+                chai.expect(res.message).to.be.equal(
+                    errorMessages.CANNOT_FIND_TOKEN
+                );
+            } catch (err) {
+                logError(err);
+            }
         });
 
         it('should throw an error if cannot find user with received token', async () => {
@@ -126,23 +161,35 @@ describe('Auth controller', () => {
                     activationToken: 'my_activation_token'
                 }
             };
-            await postCheckActivationToken(errorRequest as Request, res);
-            chai.expect(res.statusCode).to.be.equal(400);
-            chai.expect(res.message).to.be.equal(
-                errorMessages.SOMETHING_WENT_WRONG
-            );
+            try {
+                await postCheckActivationToken(errorRequest as Request, res);
+                chai.expect(res.statusCode).to.be.equal(400);
+                chai.expect(res.message).to.be.equal(
+                    errorMessages.SOMETHING_WENT_WRONG
+                );
+            } catch (err) {
+                logError(err);
+            }
         });
 
         it('should send successful message if account is activated successfully', async () => {
-            await postCheckActivationToken({ body } as Request, res);
-            chai.expect(res.message).to.be.equal(
-                successMessages.SUCCESSFULLY_ACTIVATED
-            );
+            try {
+                await postCheckActivationToken({ body } as Request, res);
+                chai.expect(res.message).to.be.equal(
+                    successMessages.SUCCESSFULLY_ACTIVATED
+                );
+            } catch (err) {
+                logError(err);
+            }
         });
     });
 
     after(async () => {
-        await User.deleteMany({});
-        await Student.deleteMany({});
+        try {
+            await User.deleteMany({});
+            await Student.deleteMany({});
+        } catch (err) {
+            logError(err);
+        }
     });
 });

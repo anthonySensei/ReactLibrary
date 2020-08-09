@@ -1,3 +1,5 @@
+import { Request, Response } from 'express';
+
 import Book, { IBook } from '../models/book';
 import Genre, { IGenre } from '../models/genre';
 
@@ -6,11 +8,13 @@ import successMessages from '../constants/successMessages';
 import errorMessages from '../constants/errorMessages';
 
 import { responseErrorHandle } from '../helper/responseHandle';
-import { Request, Response } from 'express';
-import Student from '../models/student';
-import User from '../models/user';
+
+import mainConfig from '../config';
 
 const ITEMS_PER_PAGE: number = 8;
+
+const serverConfig = mainConfig(process.env.NODE_ENV || 'development');
+const log = serverConfig!.log();
 
 const getCondition = (
     filterName: string,
@@ -71,23 +75,19 @@ const getCondition = (
 
 export const getBooks = async (req: Request, res: Response) => {
     const page: number = +req.query.page! || 1;
-    const filterName: string = req.query.filter as string;
-    const filterValue: string = req.query.value as string;
-    const authorId: string = req.query.authorId as string;
-    const fromYear: number = +req.query.fYear!;
-    const toYear: number = +req.query.tYear!;
-    const departmentId: string = req.query.departmentId as string;
+    const { filterName, filterValue, fromYear, toYear } = req.query;
+    const { authorId, departmentId } = req.query;
     const genres: string[] = req.query.genres
         ? JSON.parse(req.query.genres as string)
         : [];
 
     const condition = getCondition(
-        filterName,
-        filterValue,
-        authorId,
-        fromYear,
-        toYear,
-        departmentId,
+        filterName as string,
+        filterValue as string,
+        authorId as string,
+        +fromYear!,
+        +toYear!,
+        departmentId as string,
         genres
     );
 
@@ -123,6 +123,7 @@ export const getBooks = async (req: Request, res: Response) => {
             }
         });
     } catch (err) {
+        log.fatal(err);
         return responseErrorHandle(
             res,
             500,
@@ -146,6 +147,7 @@ export const getAllBooks = async (req: Request, res: Response) => {
             message: successMessages.SUCCESSFULLY_FETCHED
         });
     } catch (err) {
+        log.fatal(err);
         return responseErrorHandle(
             res,
             500,
@@ -184,6 +186,7 @@ export const getBook = async (req: Request, res: Response) => {
             });
         }
     } catch (err) {
+        log.fatal(err);
         return responseErrorHandle(
             res,
             500,
@@ -207,14 +210,13 @@ export const addBook = async (req: Request, res: Response) => {
             res.send({ message: successMessages.BOOK_SUCCESSFULLY_ADDED });
         }
     } catch (err) {
+        log.fatal(err);
         responseErrorHandle(res, 500, errorMessages.SOMETHING_WENT_WRONG);
     }
 };
 
 export const moveBook = async (req: Request, res: Response) => {
-    const departmentId: string = req.body.departmentId;
-    const quantity: number = +req.body.quantity;
-    const book: any = req.body.book;
+    const { departmentId, quantity, book } = req.body;
     const bookGenres: string[] = book.genres.split(', ');
     const genresInDb: IGenre[] = await Genre.find({
         name: { $in: bookGenres }
@@ -259,6 +261,7 @@ export const moveBook = async (req: Request, res: Response) => {
             message: successMessages.BOOK_SUCCESSFULLY_MOVED
         });
     } catch (err) {
+        log.fatal(err);
         return responseErrorHandle(
             res,
             500,
@@ -276,6 +279,7 @@ export const checkBookAdding = async (req: Request, res: Response) => {
         }));
         res.send({ isNotUnique });
     } catch (err) {
+        log.fatal(err);
         return responseErrorHandle(
             res,
             500,

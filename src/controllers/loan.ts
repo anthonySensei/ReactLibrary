@@ -8,13 +8,14 @@ import { responseErrorHandle } from '../helper/responseHandle';
 
 import errorMessages from '../constants/errorMessages';
 import successMessages from '../constants/successMessages';
-import librarian from '../models/librarian';
+
+import mainConfig from '../config';
+
+const serverConfig = mainConfig(process.env.NODE_ENV || 'development');
+const log = serverConfig!.log();
 
 export const loanBook = async (req: Request, res: Response) => {
-    const studentId: string = req.body.studentId;
-    const librarianId: string = req.body.librarianId;
-    const bookId: string = req.body.bookId;
-    const time: string = req.body.time;
+    const { studentId, librarianId, bookId, time } = req.body;
 
     if (!studentId || !librarianId || !bookId || !time)
         return responseErrorHandle(
@@ -53,17 +54,21 @@ export const loanBook = async (req: Request, res: Response) => {
             }
         }
     } catch (err) {
+        log.fatal(err);
         responseErrorHandle(res, 500, errorMessages.SOMETHING_WENT_WRONG);
     }
 };
 
 export const getStatistic = async (req: Request, res: Response) => {
     const { model, value } = req.query;
+
     let condition = {};
+
     if (model === 'book') condition = { book: value };
     else if (model === 'department') condition = { department: value };
     else if (model === 'librarian') condition = { librarian: value };
     else if (model === 'student') condition = { student: value };
+
     try {
         const loans = await Loan.find({
             ...condition,
@@ -96,6 +101,7 @@ export const getStatistic = async (req: Request, res: Response) => {
         });
         res.send({ message: successMessages.SUCCESSFULLY_FETCHED, statistic });
     } catch (err) {
+        log.fatal(err);
         responseErrorHandle(res, 500, errorMessages.SOMETHING_WENT_WRONG);
     }
 };
