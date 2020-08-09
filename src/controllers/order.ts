@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+
 import Order from '../models/order';
 import Student, { IStudent } from '../models/student';
 import Book, { IBook } from '../models/book';
@@ -8,10 +9,13 @@ import { responseErrorHandle } from '../helper/responseHandle';
 import errorMessages from '../constants/errorMessages';
 import successMessages from '../constants/successMessages';
 
+import mainConfig from '../config';
+
+const serverConfig = mainConfig(process.env.NODE_ENV || 'development');
+const log = serverConfig!.log();
+
 export const orderBook = async (req: Request, res: Response) => {
-    const studentId: string = req.body.studentId;
-    const bookId: string = req.body.bookId;
-    const time: string = req.body.time;
+    const { studentId, bookId, time } = req.body;
 
     if (!studentId || !bookId || !time)
         return responseErrorHandle(
@@ -53,6 +57,7 @@ export const orderBook = async (req: Request, res: Response) => {
             }
         }
     } catch (err) {
+        log.fatal(err);
         responseErrorHandle(res, 500, errorMessages.SOMETHING_WENT_WRONG);
     }
 };

@@ -8,7 +8,7 @@ import { getDepartments } from '../controllers/department';
 import successMessages from '../constants/successMessages';
 import test from '../constants/test';
 
-import { connectDb } from '../helper/db';
+import { connectTestDb, logError } from './helper/config';
 
 describe('Department controller', () => {
     const res: any = {
@@ -21,20 +21,32 @@ describe('Department controller', () => {
     };
 
     before(async () => {
-        await connectDb();
-        const department: IDepartment = new Department(test.department);
-        await department.save();
+        try {
+            await connectTestDb();
+            const department: IDepartment = new Department(test.department);
+            await department.save();
+        } catch (err) {
+            logError(err);
+        }
     });
 
     it('should send departments without errors', async () => {
-        await getDepartments({} as Request, res);
-        chai.expect(res.message).to.be.equal(
-            successMessages.SUCCESSFULLY_FETCHED
-        );
-        chai.expect(res.departments.length).not.to.be.equal(0);
+        try {
+            await getDepartments({} as Request, res);
+            chai.expect(res.message).to.be.equal(
+                successMessages.SUCCESSFULLY_FETCHED
+            );
+            chai.expect(res.departments.length).not.to.be.equal(0);
+        } catch (err) {
+            logError(err);
+        }
     });
 
     after(async () => {
-        await Department.deleteMany({});
+        try {
+            await Department.deleteMany({});
+        } catch (err) {
+            logError(err);
+        }
     });
 });

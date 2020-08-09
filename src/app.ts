@@ -1,5 +1,5 @@
 import { config } from 'dotenv';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
 import fs from 'fs';
@@ -23,9 +23,14 @@ import passportConfig from './config/passport';
 import socket from './config/socket';
 import cors from './config/cors';
 
+import mainConfig from './config/index';
+
 if (process.env.NODE_ENV !== 'production') {
     config();
 }
+
+const serverConfig = mainConfig(process.env.NODE_ENV || 'development');
+const log = serverConfig!.log();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -56,18 +61,23 @@ if (process.env.NODE_ENV === 'production') {
 
 useRoutes(app);
 
-app.get('*', (req, res) => {
+app.get('*', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname + '/../client/build/index.html'));
 });
 
-connectDb()
+connectDb(serverConfig!.database)
     .then(async () => {
         try {
+            log.info('Connected to database');
             await createMainDepartment();
             await createMainManager();
             const server = app.listen(port);
             const io = socket.init(server);
-            io.on('connection', () => {});
-        } catch (err) {}
+            io.on('connection', () => {
+                log.info('Connected to client');
+            });
+        } catch (err) {
+            log.fatal('Something went wrong');
+        }
     })
-    .catch();
+    .catch(err => log.fatal(err));

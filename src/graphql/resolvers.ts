@@ -2,15 +2,20 @@ import Author, { IAuthor } from '../models/author';
 import Book from '../models/book';
 
 import errorMessages from '../constants/errorMessages';
+import successMessages from '../constants/successMessages';
 
 import socket from '../config/socket';
-import successMessages from '../constants/successMessages';
+import mainConfig from '../config';
+
+const serverConfig = mainConfig(process.env.NODE_ENV || 'development');
+const log = serverConfig!.log();
 
 export default {
     authors: async () => {
         try {
             return await Author.find();
         } catch (err) {
+            log.fatal(err);
             return [];
         }
     },
@@ -28,6 +33,7 @@ export default {
             });
             return successMessages.AUTHOR_SUCCESSFULLY_ADDED;
         } catch (err) {
+            log.fatal(err);
             throw new Error(err.message);
         }
     },
@@ -45,6 +51,7 @@ export default {
             });
             return successMessages.AUTHOR_SUCCESSFULLY_UPDATED;
         } catch (err) {
+            log.fatal(err);
             throw new Error(err.message);
         }
     },
@@ -58,6 +65,7 @@ export default {
             });
             return successMessages.AUTHOR_SUCCESSFULLY_DELETED;
         } catch (err) {
+            log.fatal(err);
             throw new Error(err.message);
         }
     }

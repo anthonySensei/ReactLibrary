@@ -1,7 +1,6 @@
 import User, { IUser } from '../models/user';
 import roles from '../constants/roles';
 
-import { cryptPassword } from './generatePassword';
 import Department, { IDepartment } from '../models/department';
 
 export const createMainManager = async () => {
@@ -11,7 +10,7 @@ export const createMainManager = async () => {
     if (!manager) {
         const newManager: IUser = new User({
             email: process.env.MANAGER_EMAIL,
-            password: cryptPassword(process.env.MANAGER_PASSWORD as string),
+            password: process.env.MANAGER_PASSWORD,
             role: roles.MANAGER,
             active: true
         });

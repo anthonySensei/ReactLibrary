@@ -8,6 +8,10 @@ import errorMessages from '../constants/errorMessages';
 import successMessages from '../constants/successMessages';
 
 import socket from '../config/socket';
+import mainConfig from '../config';
+
+const serverConfig = mainConfig(process.env.NODE_ENV || 'development');
+const log = serverConfig!.log();
 
 export const getDepartments = async (req: Request, res: Response) => {
     try {
@@ -16,6 +20,7 @@ export const getDepartments = async (req: Request, res: Response) => {
             message: successMessages.SUCCESSFULLY_FETCHED
         });
     } catch (err) {
+        log.fatal(err);
         responseErrorHandle(res, 500, errorMessages.CANNOT_FETCH);
     }
 };
@@ -40,6 +45,7 @@ export const addDepartment = async (req: Request, res: Response) => {
             message: successMessages.DEPARTMENT_SUCCESSFULLY_CREATED
         });
     } catch (err) {
+        log.fatal(err);
         responseErrorHandle(res, 500, errorMessages.SOMETHING_WENT_WRONG);
     }
 };
